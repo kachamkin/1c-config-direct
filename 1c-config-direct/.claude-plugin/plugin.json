@@ -1,5 +1,8 @@
 {
   "name": "1c-config-direct",
   "version": "1.0.0",
-  "description": "Скилл: читает тексты модулей, состав объектов, реквизиты и их типы прямо из хранилища конфигурации 1С — без конфигуратора и без XML-выгрузки"
+  "description": "Скилл: читает тексты модулей, состав объектов, реквизиты и их типы прямо из хранилища конфигурации 1С — без конфигуратора и без XML-выгрузки",
+  "author": { "name": "kachamkin", "url": "https://github.com/kachamkin" },
+  "repository": "https://github.com/kachamkin/1c-config-direct",
+  "keywords": ["1c", "1c-enterprise", "bas", "bsl", "configuration"]
 }
