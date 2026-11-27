@@ -1,7 +1,7 @@
 # Metadata of a 1C configuration read straight from its storage files (Config table rows or a .cf container):
 # object tree and names, module texts, typed fields. All tables below are platform constants found empirically
 # (26.11.2026, УТ 2.3 and УТ 3.1, platform 8.3.27) and cross-checked against XML dumps of the same configurations.
-import os, re, collections
+import os, re, json, collections
 from v8cfg import Source, text, parse_brace, unq, inflate, is_container, container_entries, GUID_RE
 
 G = GUID_RE
@@ -474,3 +474,102 @@ def export_path(mod):
     if mod.kind == 'FormModule':
         return os.path.join(*(parts + ['Ext', 'Form', 'Module.bsl']))
     return os.path.join(*(parts + ['Ext', mod.kind + '.bsl']))
+
+
+# ---------------------------------------------------------------------------------------------------- object properties
+# Positions of object properties are learned against XML dumps by learn_props.py, per class and per format version
+# of the object description (one configuration can hold objects saved by several platform generations).
+_PROPS = None
+MDREF = '157fa490-4ce9-11d4-9415-008048da11f9'      # serialized "reference to a metadata object"
+FIELD_KIND = {'Attribute': 'Attributes', 'Dimension': 'Dimensions', 'Resource': 'Resources', 'AddressingAttribute': 'AddressingAttributes'}
+SKIP_PROPS = {'Name'}
+
+
+def prop_tables():
+    global _PROPS
+    if _PROPS is None:
+        p = os.environ.get('CFGREAD_PROPS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'props_tables.json')
+        _PROPS = json.load(open(p, encoding='utf-8')) if os.path.isfile(p) else {}
+    return _PROPS
+
+
+def _md_ref(node, names):
+    if isinstance(node, list) and len(node) >= 3 and node[0] == '"#"' and node[1] == MDREF and isinstance(node[2], list) and len(node[2]) > 1:
+        return names.get(node[2][1], node[2][1])
+    return None
+
+
+def _decode(d, tree, path, names):
+    if d['kind'] == 'method':
+        base = tuple(path[:-1])
+        u = at(tree, base)
+        m = at(tree, base[:-1] + (base[-1] + 1,))
+        if not isinstance(u, str) or not isinstance(m, str):
+            return None, False
+        return ('' if u == '00000000-0000-0000-0000-000000000000' else '%s.%s' % (names.get(u, u), unq(m))), True
+    node = at(tree, path)
+    if node is None:
+        return None, False
+    if d['kind'] == 'list':
+        if not (isinstance(node, list) and len(node) >= 2 and node[1].isdigit()):
+            return None, False
+        return [names.get(x[2][1], x[2][1]) for x in node[2:] if isinstance(x, list) and len(x) >= 3 and x[1] == MDREF], True
+    if d['kind'] == 'ref':
+        if isinstance(node, list):
+            r = _md_ref(node, names)
+            return (r, True) if r is not None else (None, False)
+        return ('' if node == '00000000-0000-0000-0000-000000000000' else names.get(node, node)), True
+    if isinstance(node, list):
+        return None, False
+    c = d['codec']
+    if c is None:
+        return node, True
+    if c == 'str':
+        return unq(node), True
+    if c == 'prefix':
+        return unq(node).split('_')[0], True
+    return (c[node], True) if node in c else ('?' + node, True)
+
+
+def _ref_names(self):
+    if getattr(self, '_names', None) is None:
+        names = {u: it.path for u, it in self.items.items()}
+        for f in self.fields():
+            kind = FIELD_KIND.get(f.kind)
+            if kind:
+                names[f.uuid] = ('%s.TabularSections.%s.Attributes.%s' % (f.obj, f.path, f.name)) if f.path else '%s.%s.%s' % (f.obj, kind, f.name)
+        self._names = names
+    return self._names
+
+
+def _properties(self, it, tree):
+    """[(property, value, how)] for a top-level object; how: 'version' (position learned for this format version)
+    or 'assumed' (version not seen in learning, but every learned version keeps the property at the same place)"""
+    tab = prop_tables().get(it.cls, {})
+    ver = tree[1][0] if isinstance(tree[1], list) and tree[1] and isinstance(tree[1][0], str) else 'x'
+    names = self.ref_names()
+    out = []
+    for prop, d in sorted(tab.items()):
+        if prop in SKIP_PROPS:
+            continue
+        path, how = d['paths'].get(ver), 'version'
+        if path is None:
+            # a version never seen in learning: use the common place only if every learned version agrees on it;
+            # versions where learning saw that place fail are refused outright
+            if ver in d.get('refused_versions', ()) or len({tuple(p) for p in d['paths'].values()}) != 1:
+                continue
+            path, how = d['default_path'], 'assumed'
+        value, ok = _decode(d, tree, path, names)
+        if ok:
+            out.append((prop, value, how))
+    return out
+
+
+Configuration.ref_names = _ref_names
+Configuration.properties = _properties
+
+
+def show_value(v):
+    if isinstance(v, list):
+        return ', '.join(v)
+    return '' if v is None else str(v)

@@ -1,0 +1,10212 @@
+{
+ "AccountingRegisters": {
+  "ChartOfAccounts": {
+   "checked": 4,
+   "codec": null,
+   "default_path": [
+    1,
+    18
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     18
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 4,
+   "codec": null,
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "AccumulationRegisters": {
+  "DataLockControlMode": {
+   "checked": 354,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    18
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     18
+    ],
+    "26": [
+     1,
+     18
+    ],
+    "28": [
+     1,
+     18
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 354,
+   "codec": null,
+   "default_path": [
+    1,
+    14
+   ],
+   "kind": "ref",
+   "paths": {
+    "14": [
+     1,
+     14
+    ],
+    "26": [
+     1,
+     14
+    ],
+    "28": [
+     1,
+     14
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "EnableTotalsSplitting": {
+   "checked": 354,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     20
+    ],
+    "26": [
+     1,
+     20
+    ],
+    "28": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FullTextSearch": {
+   "checked": 354,
+   "codec": {
+    "0": "DontUse",
+    "1": "Use"
+   },
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     19
+    ],
+    "26": [
+     1,
+     19
+    ],
+    "28": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 354,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     17
+    ],
+    "26": [
+     1,
+     17
+    ],
+    "28": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 354,
+   "codec": "str",
+   "default_path": [
+    1,
+    13,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "26": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "28": [
+     1,
+     13,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RegisterType": {
+   "checked": 354,
+   "codec": {
+    "0": "Balance",
+    "1": "Turnovers"
+   },
+   "default_path": [
+    1,
+    15
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     15
+    ],
+    "26": [
+     1,
+     15
+    ],
+    "28": [
+     1,
+     15
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 353,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    16
+   ],
+   "kind": "scalar",
+   "paths": {
+    "26": [
+     1,
+     16
+    ],
+    "28": [
+     1,
+     16
+    ]
+   },
+   "refused_versions": [
+    "14"
+   ],
+   "wrong": 0
+  }
+ },
+ "BusinessProcesses": {
+  "BasedOn": {
+   "checked": 14,
+   "codec": null,
+   "default_path": [
+    1,
+    15
+   ],
+   "kind": "list",
+   "paths": {
+    "25": [
+     1,
+     15
+    ],
+    "29": [
+     1,
+     15
+    ],
+    "30": [
+     1,
+     15
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ChoiceHistoryOnInput": {
+   "checked": 11,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    45
+   ],
+   "kind": "scalar",
+   "paths": {
+    "29": [
+     1,
+     45
+    ],
+    "30": [
+     1,
+     45
+    ]
+   },
+   "refused_versions": [
+    "25"
+   ],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 14,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "scalar",
+   "paths": {
+    "25": [
+     1,
+     28
+    ],
+    "29": [
+     1,
+     28
+    ],
+    "30": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 14,
+   "codec": null,
+   "default_path": [
+    1,
+    24
+   ],
+   "kind": "ref",
+   "paths": {
+    "25": [
+     1,
+     24
+    ],
+    "29": [
+     1,
+     24
+    ],
+    "30": [
+     1,
+     24
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 14,
+   "codec": null,
+   "default_path": [
+    1,
+    23
+   ],
+   "kind": "ref",
+   "paths": {
+    "25": [
+     1,
+     23
+    ],
+    "29": [
+     1,
+     23
+    ],
+    "30": [
+     1,
+     23
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 14,
+   "codec": null,
+   "default_path": [
+    1,
+    22
+   ],
+   "kind": "ref",
+   "paths": {
+    "25": [
+     1,
+     22
+    ],
+    "29": [
+     1,
+     22
+    ],
+    "30": [
+     1,
+     22
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 14,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    26
+   ],
+   "kind": "scalar",
+   "paths": {
+    "25": [
+     1,
+     26
+    ],
+    "29": [
+     1,
+     26
+    ],
+    "30": [
+     1,
+     26
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "NumberAllowedLength": {
+   "checked": 14,
+   "codec": {
+    "0": "Fixed",
+    "1": "Variable"
+   },
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "scalar",
+   "paths": {
+    "25": [
+     1,
+     28
+    ],
+    "29": [
+     1,
+     28
+    ],
+    "30": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Task": {
+   "checked": 14,
+   "codec": null,
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "ref",
+   "paths": {
+    "25": [
+     1,
+     25
+    ],
+    "29": [
+     1,
+     25
+    ],
+    "30": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 14,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "25": [
+     1,
+     2
+    ],
+    "29": [
+     1,
+     2
+    ],
+    "30": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "CalculationRegisters": {
+  "ActionPeriod": {
+   "checked": 9,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "scalar",
+   "paths": {
+    "21": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ChartOfCalculationTypes": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    22
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     22
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 9,
+   "codec": "str",
+   "default_path": [
+    1,
+    15,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "21": [
+     1,
+     15,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    23
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     23
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 9,
+   "codec": "str",
+   "default_path": [
+    1,
+    15,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "21": [
+     1,
+     15,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Schedule": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ScheduleDate": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    21
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     21
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ScheduleValue": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "ref",
+   "paths": {
+    "21": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Catalogs": {
+  "Autonumbering": {
+   "checked": 1161,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    15
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     15
+    ],
+    "30": [
+     1,
+     15
+    ],
+    "45": [
+     1,
+     15
+    ],
+    "46": [
+     1,
+     15
+    ],
+    "47": [
+     1,
+     15
+    ],
+    "52": [
+     1,
+     15
+    ],
+    "53": [
+     1,
+     15
+    ],
+    "54": [
+     1,
+     15
+    ],
+    "55": [
+     1,
+     15
+    ],
+    "56": [
+     1,
+     15
+    ],
+    "57": [
+     1,
+     15
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "AuxiliaryChoiceForm": {
+   "checked": 1130,
+   "codec": null,
+   "default_path": [
+    1,
+    29
+   ],
+   "kind": "ref",
+   "paths": {
+    "45": [
+     1,
+     29
+    ],
+    "46": [
+     1,
+     29
+    ],
+    "47": [
+     1,
+     29
+    ],
+    "52": [
+     1,
+     29
+    ],
+    "53": [
+     1,
+     29
+    ],
+    "54": [
+     1,
+     29
+    ],
+    "55": [
+     1,
+     29
+    ],
+    "56": [
+     1,
+     29
+    ],
+    "57": [
+     1,
+     29
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "AuxiliaryListForm": {
+   "checked": 1130,
+   "codec": null,
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "ref",
+   "paths": {
+    "45": [
+     1,
+     28
+    ],
+    "46": [
+     1,
+     28
+    ],
+    "47": [
+     1,
+     28
+    ],
+    "52": [
+     1,
+     28
+    ],
+    "53": [
+     1,
+     28
+    ],
+    "54": [
+     1,
+     28
+    ],
+    "55": [
+     1,
+     28
+    ],
+    "56": [
+     1,
+     28
+    ],
+    "57": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "AuxiliaryObjectForm": {
+   "checked": 1130,
+   "codec": null,
+   "default_path": [
+    1,
+    26
+   ],
+   "kind": "ref",
+   "paths": {
+    "45": [
+     1,
+     26
+    ],
+    "46": [
+     1,
+     26
+    ],
+    "47": [
+     1,
+     26
+    ],
+    "52": [
+     1,
+     26
+    ],
+    "53": [
+     1,
+     26
+    ],
+    "54": [
+     1,
+     26
+    ],
+    "55": [
+     1,
+     26
+    ],
+    "56": [
+     1,
+     26
+    ],
+    "57": [
+     1,
+     26
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "BasedOn": {
+   "checked": 1130,
+   "codec": null,
+   "default_path": [
+    1,
+    32
+   ],
+   "kind": "list",
+   "paths": {
+    "45": [
+     1,
+     32
+    ],
+    "46": [
+     1,
+     32
+    ],
+    "47": [
+     1,
+     32
+    ],
+    "52": [
+     1,
+     32
+    ],
+    "53": [
+     1,
+     32
+    ],
+    "54": [
+     1,
+     32
+    ],
+    "55": [
+     1,
+     32
+    ],
+    "56": [
+     1,
+     32
+    ],
+    "57": [
+     1,
+     32
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "CheckUnique": {
+   "checked": 1161,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    14
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     14
+    ],
+    "30": [
+     1,
+     14
+    ],
+    "45": [
+     1,
+     14
+    ],
+    "46": [
+     1,
+     14
+    ],
+    "47": [
+     1,
+     14
+    ],
+    "52": [
+     1,
+     14
+    ],
+    "53": [
+     1,
+     14
+    ],
+    "54": [
+     1,
+     14
+    ],
+    "55": [
+     1,
+     14
+    ],
+    "56": [
+     1,
+     14
+    ],
+    "57": [
+     1,
+     14
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ChoiceHistoryOnInput": {
+   "checked": 940,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    57
+   ],
+   "kind": "scalar",
+   "paths": {
+    "52": [
+     1,
+     57
+    ],
+    "53": [
+     1,
+     57
+    ],
+    "54": [
+     1,
+     57
+    ],
+    "55": [
+     1,
+     57
+    ],
+    "56": [
+     1,
+     57
+    ],
+    "57": [
+     1,
+     57
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30",
+    "45",
+    "46",
+    "47"
+   ],
+   "wrong": 0
+  },
+  "ChoiceMode": {
+   "checked": 1130,
+   "codec": {
+    "0": "FromForm",
+    "1": "QuickChoice",
+    "2": "BothWays"
+   },
+   "default_path": [
+    1,
+    40
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     40
+    ],
+    "46": [
+     1,
+     40
+    ],
+    "47": [
+     1,
+     40
+    ],
+    "52": [
+     1,
+     40
+    ],
+    "53": [
+     1,
+     40
+    ],
+    "54": [
+     1,
+     40
+    ],
+    "55": [
+     1,
+     40
+    ],
+    "56": [
+     1,
+     40
+    ],
+    "57": [
+     1,
+     40
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "CodeAllowedLength": {
+   "checked": 1130,
+   "codec": {
+    "0": "Fixed",
+    "1": "Variable"
+   },
+   "default_path": [
+    1,
+    51
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     51
+    ],
+    "46": [
+     1,
+     51
+    ],
+    "47": [
+     1,
+     51
+    ],
+    "52": [
+     1,
+     51
+    ],
+    "53": [
+     1,
+     51
+    ],
+    "54": [
+     1,
+     51
+    ],
+    "55": [
+     1,
+     51
+    ],
+    "56": [
+     1,
+     51
+    ],
+    "57": [
+     1,
+     51
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "CodeLength": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     17
+    ],
+    "30": [
+     1,
+     17
+    ],
+    "45": [
+     1,
+     17
+    ],
+    "46": [
+     1,
+     17
+    ],
+    "47": [
+     1,
+     17
+    ],
+    "52": [
+     1,
+     17
+    ],
+    "53": [
+     1,
+     17
+    ],
+    "54": [
+     1,
+     17
+    ],
+    "55": [
+     1,
+     17
+    ],
+    "56": [
+     1,
+     17
+    ],
+    "57": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CodeSeries": {
+   "checked": 1161,
+   "codec": {
+    "0": "WholeCatalog",
+    "1": "WithinSubordination",
+    "2": "WithinOwnerSubordination"
+   },
+   "default_path": [
+    1,
+    16
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     16
+    ],
+    "30": [
+     1,
+     16
+    ],
+    "45": [
+     1,
+     16
+    ],
+    "46": [
+     1,
+     16
+    ],
+    "47": [
+     1,
+     16
+    ],
+    "52": [
+     1,
+     16
+    ],
+    "53": [
+     1,
+     16
+    ],
+    "54": [
+     1,
+     16
+    ],
+    "55": [
+     1,
+     16
+    ],
+    "56": [
+     1,
+     16
+    ],
+    "57": [
+     1,
+     16
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CodeType": {
+   "checked": 1161,
+   "codec": {
+    "0": "Number",
+    "1": "String"
+   },
+   "default_path": [
+    1,
+    18
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     18
+    ],
+    "30": [
+     1,
+     18
+    ],
+    "45": [
+     1,
+     18
+    ],
+    "46": [
+     1,
+     18
+    ],
+    "47": [
+     1,
+     18
+    ],
+    "52": [
+     1,
+     18
+    ],
+    "53": [
+     1,
+     18
+    ],
+    "54": [
+     1,
+     18
+    ],
+    "55": [
+     1,
+     18
+    ],
+    "56": [
+     1,
+     18
+    ],
+    "57": [
+     1,
+     18
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 1161,
+   "codec": "str",
+   "default_path": [
+    1,
+    9,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "30": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "45": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "46": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "47": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "52": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "53": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "54": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "55": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "56": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "57": [
+     1,
+     9,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CreateOnInput": {
+   "checked": 1130,
+   "codec": {
+    "0": "Use",
+    "1": "DontUse",
+    "2": "Use"
+   },
+   "default_path": [
+    1,
+    53
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     41
+    ],
+    "46": [
+     1,
+     41
+    ],
+    "47": [
+     1,
+     41
+    ],
+    "52": [
+     1,
+     53
+    ],
+    "53": [
+     1,
+     53
+    ],
+    "54": [
+     1,
+     53
+    ],
+    "55": [
+     1,
+     53
+    ],
+    "56": [
+     1,
+     53
+    ],
+    "57": [
+     1,
+     53
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 1130,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    43
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     43
+    ],
+    "46": [
+     1,
+     43
+    ],
+    "47": [
+     1,
+     43
+    ],
+    "52": [
+     1,
+     43
+    ],
+    "53": [
+     1,
+     43
+    ],
+    "54": [
+     1,
+     43
+    ],
+    "55": [
+     1,
+     43
+    ],
+    "56": [
+     1,
+     43
+    ],
+    "57": [
+     1,
+     43
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    24
+   ],
+   "kind": "ref",
+   "paths": {
+    "22": [
+     1,
+     24
+    ],
+    "30": [
+     1,
+     24
+    ],
+    "45": [
+     1,
+     24
+    ],
+    "46": [
+     1,
+     24
+    ],
+    "47": [
+     1,
+     24
+    ],
+    "52": [
+     1,
+     24
+    ],
+    "53": [
+     1,
+     24
+    ],
+    "54": [
+     1,
+     24
+    ],
+    "55": [
+     1,
+     24
+    ],
+    "56": [
+     1,
+     24
+    ],
+    "57": [
+     1,
+     24
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultFolderChoiceForm": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "ref",
+   "paths": {
+    "22": [
+     1,
+     25
+    ],
+    "30": [
+     1,
+     25
+    ],
+    "45": [
+     1,
+     25
+    ],
+    "46": [
+     1,
+     25
+    ],
+    "47": [
+     1,
+     25
+    ],
+    "52": [
+     1,
+     25
+    ],
+    "53": [
+     1,
+     25
+    ],
+    "54": [
+     1,
+     25
+    ],
+    "55": [
+     1,
+     25
+    ],
+    "56": [
+     1,
+     25
+    ],
+    "57": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultFolderForm": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    22
+   ],
+   "kind": "ref",
+   "paths": {
+    "22": [
+     1,
+     22
+    ],
+    "30": [
+     1,
+     22
+    ],
+    "45": [
+     1,
+     22
+    ],
+    "46": [
+     1,
+     22
+    ],
+    "47": [
+     1,
+     22
+    ],
+    "52": [
+     1,
+     22
+    ],
+    "53": [
+     1,
+     22
+    ],
+    "54": [
+     1,
+     22
+    ],
+    "55": [
+     1,
+     22
+    ],
+    "56": [
+     1,
+     22
+    ],
+    "57": [
+     1,
+     22
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    23
+   ],
+   "kind": "ref",
+   "paths": {
+    "22": [
+     1,
+     23
+    ],
+    "30": [
+     1,
+     23
+    ],
+    "45": [
+     1,
+     23
+    ],
+    "46": [
+     1,
+     23
+    ],
+    "47": [
+     1,
+     23
+    ],
+    "52": [
+     1,
+     23
+    ],
+    "53": [
+     1,
+     23
+    ],
+    "54": [
+     1,
+     23
+    ],
+    "55": [
+     1,
+     23
+    ],
+    "56": [
+     1,
+     23
+    ],
+    "57": [
+     1,
+     23
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    21
+   ],
+   "kind": "ref",
+   "paths": {
+    "22": [
+     1,
+     21
+    ],
+    "30": [
+     1,
+     21
+    ],
+    "45": [
+     1,
+     21
+    ],
+    "46": [
+     1,
+     21
+    ],
+    "47": [
+     1,
+     21
+    ],
+    "52": [
+     1,
+     21
+    ],
+    "53": [
+     1,
+     21
+    ],
+    "54": [
+     1,
+     21
+    ],
+    "55": [
+     1,
+     21
+    ],
+    "56": [
+     1,
+     21
+    ],
+    "57": [
+     1,
+     21
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultPresentation": {
+   "checked": 1161,
+   "codec": {
+    "0": "AsCode",
+    "1": "AsDescription"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     20
+    ],
+    "30": [
+     1,
+     20
+    ],
+    "45": [
+     1,
+     20
+    ],
+    "46": [
+     1,
+     20
+    ],
+    "47": [
+     1,
+     20
+    ],
+    "52": [
+     1,
+     20
+    ],
+    "53": [
+     1,
+     20
+    ],
+    "54": [
+     1,
+     20
+    ],
+    "55": [
+     1,
+     20
+    ],
+    "56": [
+     1,
+     20
+    ],
+    "57": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DescriptionLength": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     19
+    ],
+    "30": [
+     1,
+     19
+    ],
+    "45": [
+     1,
+     19
+    ],
+    "46": [
+     1,
+     19
+    ],
+    "47": [
+     1,
+     19
+    ],
+    "52": [
+     1,
+     19
+    ],
+    "53": [
+     1,
+     19
+    ],
+    "54": [
+     1,
+     19
+    ],
+    "55": [
+     1,
+     19
+    ],
+    "56": [
+     1,
+     19
+    ],
+    "57": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "EditType": {
+   "checked": 1161,
+   "codec": {
+    "0": "InList",
+    "1": "InDialog",
+    "2": "BothWays"
+   },
+   "default_path": [
+    1,
+    11
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     11
+    ],
+    "30": [
+     1,
+     11
+    ],
+    "45": [
+     1,
+     11
+    ],
+    "46": [
+     1,
+     11
+    ],
+    "47": [
+     1,
+     11
+    ],
+    "52": [
+     1,
+     11
+    ],
+    "53": [
+     1,
+     11
+    ],
+    "54": [
+     1,
+     11
+    ],
+    "55": [
+     1,
+     11
+    ],
+    "56": [
+     1,
+     11
+    ],
+    "57": [
+     1,
+     11
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FoldersOnTop": {
+   "checked": 1161,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    13
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     13
+    ],
+    "30": [
+     1,
+     13
+    ],
+    "45": [
+     1,
+     13
+    ],
+    "46": [
+     1,
+     13
+    ],
+    "47": [
+     1,
+     13
+    ],
+    "52": [
+     1,
+     13
+    ],
+    "53": [
+     1,
+     13
+    ],
+    "54": [
+     1,
+     13
+    ],
+    "55": [
+     1,
+     13
+    ],
+    "56": [
+     1,
+     13
+    ],
+    "57": [
+     1,
+     13
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FullTextSearch": {
+   "checked": 1130,
+   "codec": {
+    "0": "DontUse",
+    "1": "Use"
+   },
+   "default_path": [
+    1,
+    44
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     44
+    ],
+    "46": [
+     1,
+     44
+    ],
+    "47": [
+     1,
+     44
+    ],
+    "52": [
+     1,
+     44
+    ],
+    "53": [
+     1,
+     44
+    ],
+    "54": [
+     1,
+     44
+    ],
+    "55": [
+     1,
+     44
+    ],
+    "56": [
+     1,
+     44
+    ],
+    "57": [
+     1,
+     44
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "FullTextSearchOnInputByString": {
+   "checked": 940,
+   "codec": {
+    "1": "Use",
+    "2": "DontUse"
+   },
+   "default_path": [
+    1,
+    56,
+    1
+   ],
+   "kind": "scalar",
+   "paths": {
+    "52": [
+     1,
+     56,
+     1
+    ],
+    "53": [
+     1,
+     56,
+     1
+    ],
+    "54": [
+     1,
+     56,
+     1
+    ],
+    "55": [
+     1,
+     56,
+     1
+    ],
+    "56": [
+     1,
+     56,
+     1
+    ],
+    "57": [
+     1,
+     56,
+     1
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30",
+    "45",
+    "46",
+    "47"
+   ],
+   "wrong": 0
+  },
+  "Hierarchical": {
+   "checked": 1159,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    37
+   ],
+   "kind": "scalar",
+   "paths": {
+    "30": [
+     1,
+     32
+    ],
+    "45": [
+     1,
+     37
+    ],
+    "46": [
+     1,
+     37
+    ],
+    "47": [
+     1,
+     37
+    ],
+    "52": [
+     1,
+     37
+    ],
+    "53": [
+     1,
+     37
+    ],
+    "54": [
+     1,
+     37
+    ],
+    "55": [
+     1,
+     37
+    ],
+    "56": [
+     1,
+     37
+    ],
+    "57": [
+     1,
+     37
+    ]
+   },
+   "refused_versions": [
+    "22"
+   ],
+   "wrong": 0
+  },
+  "HierarchyType": {
+   "checked": 1159,
+   "codec": {
+    "0": "HierarchyFoldersAndItems",
+    "1": "HierarchyOfItems"
+   },
+   "default_path": [
+    1,
+    36
+   ],
+   "kind": "scalar",
+   "paths": {
+    "30": [
+     1,
+     31
+    ],
+    "45": [
+     1,
+     36
+    ],
+    "46": [
+     1,
+     36
+    ],
+    "47": [
+     1,
+     36
+    ],
+    "52": [
+     1,
+     36
+    ],
+    "53": [
+     1,
+     36
+    ],
+    "54": [
+     1,
+     36
+    ],
+    "55": [
+     1,
+     36
+    ],
+    "56": [
+     1,
+     36
+    ],
+    "57": [
+     1,
+     36
+    ]
+   },
+   "refused_versions": [
+    "22"
+   ],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 1159,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    33
+   ],
+   "kind": "scalar",
+   "paths": {
+    "30": [
+     1,
+     28
+    ],
+    "45": [
+     1,
+     33
+    ],
+    "46": [
+     1,
+     33
+    ],
+    "47": [
+     1,
+     33
+    ],
+    "52": [
+     1,
+     33
+    ],
+    "53": [
+     1,
+     33
+    ],
+    "54": [
+     1,
+     33
+    ],
+    "55": [
+     1,
+     33
+    ],
+    "56": [
+     1,
+     33
+    ],
+    "57": [
+     1,
+     33
+    ]
+   },
+   "refused_versions": [
+    "22"
+   ],
+   "wrong": 0
+  },
+  "LevelCount": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    10
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     10
+    ],
+    "30": [
+     1,
+     10
+    ],
+    "45": [
+     1,
+     10
+    ],
+    "46": [
+     1,
+     10
+    ],
+    "47": [
+     1,
+     10
+    ],
+    "52": [
+     1,
+     10
+    ],
+    "53": [
+     1,
+     10
+    ],
+    "54": [
+     1,
+     10
+    ],
+    "55": [
+     1,
+     10
+    ],
+    "56": [
+     1,
+     10
+    ],
+    "57": [
+     1,
+     10
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "LimitLevelCount": {
+   "checked": 1130,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    38
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     38
+    ],
+    "46": [
+     1,
+     38
+    ],
+    "47": [
+     1,
+     38
+    ],
+    "52": [
+     1,
+     38
+    ],
+    "53": [
+     1,
+     38
+    ],
+    "54": [
+     1,
+     38
+    ],
+    "55": [
+     1,
+     38
+    ],
+    "56": [
+     1,
+     38
+    ],
+    "57": [
+     1,
+     38
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 1161,
+   "codec": "str",
+   "default_path": [
+    1,
+    9,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "22": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "30": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "45": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "46": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "47": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "52": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "53": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "54": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "55": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "56": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "57": [
+     1,
+     9,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Owners": {
+   "checked": 1161,
+   "codec": null,
+   "default_path": [
+    1,
+    12
+   ],
+   "kind": "list",
+   "paths": {
+    "22": [
+     1,
+     12
+    ],
+    "30": [
+     1,
+     12
+    ],
+    "45": [
+     1,
+     12
+    ],
+    "46": [
+     1,
+     12
+    ],
+    "47": [
+     1,
+     12
+    ],
+    "52": [
+     1,
+     12
+    ],
+    "53": [
+     1,
+     12
+    ],
+    "54": [
+     1,
+     12
+    ],
+    "55": [
+     1,
+     12
+    ],
+    "56": [
+     1,
+     12
+    ],
+    "57": [
+     1,
+     12
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "PredefinedDataUpdate": {
+   "checked": 940,
+   "codec": {
+    "0": "Auto",
+    "1": "AutoUpdate",
+    "2": "DontAutoUpdate"
+   },
+   "default_path": [
+    1,
+    55
+   ],
+   "kind": "scalar",
+   "paths": {
+    "52": [
+     1,
+     55
+    ],
+    "53": [
+     1,
+     55
+    ],
+    "54": [
+     1,
+     55
+    ],
+    "55": [
+     1,
+     55
+    ],
+    "56": [
+     1,
+     55
+    ],
+    "57": [
+     1,
+     55
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30",
+    "45",
+    "46",
+    "47"
+   ],
+   "wrong": 0
+  },
+  "QuickChoice": {
+   "checked": 1130,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    41
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     41
+    ],
+    "46": [
+     1,
+     41
+    ],
+    "47": [
+     1,
+     41
+    ],
+    "52": [
+     1,
+     41
+    ],
+    "53": [
+     1,
+     41
+    ],
+    "54": [
+     1,
+     41
+    ],
+    "55": [
+     1,
+     41
+    ],
+    "56": [
+     1,
+     41
+    ],
+    "57": [
+     1,
+     41
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "SearchStringModeOnInputByString": {
+   "checked": 940,
+   "codec": {
+    "1": "Begin",
+    "2": "AnyPart"
+   },
+   "default_path": [
+    1,
+    56,
+    0
+   ],
+   "kind": "scalar",
+   "paths": {
+    "52": [
+     1,
+     56,
+     0
+    ],
+    "53": [
+     1,
+     56,
+     0
+    ],
+    "54": [
+     1,
+     56,
+     0
+    ],
+    "55": [
+     1,
+     56,
+     0
+    ],
+    "56": [
+     1,
+     56,
+     0
+    ],
+    "57": [
+     1,
+     56,
+     0
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30",
+    "45",
+    "46",
+    "47"
+   ],
+   "wrong": 0
+  },
+  "SubordinationUse": {
+   "checked": 1130,
+   "codec": {
+    "0": "ToItems",
+    "1": "ToFolders"
+   },
+   "default_path": [
+    1,
+    39
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     39
+    ],
+    "46": [
+     1,
+     39
+    ],
+    "47": [
+     1,
+     39
+    ],
+    "52": [
+     1,
+     39
+    ],
+    "53": [
+     1,
+     39
+    ],
+    "54": [
+     1,
+     39
+    ],
+    "55": [
+     1,
+     39
+    ],
+    "56": [
+     1,
+     39
+    ],
+    "57": [
+     1,
+     39
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 1130,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    31
+   ],
+   "kind": "scalar",
+   "paths": {
+    "45": [
+     1,
+     31
+    ],
+    "46": [
+     1,
+     31
+    ],
+    "47": [
+     1,
+     31
+    ],
+    "52": [
+     1,
+     31
+    ],
+    "53": [
+     1,
+     31
+    ],
+    "54": [
+     1,
+     31
+    ],
+    "55": [
+     1,
+     31
+    ],
+    "56": [
+     1,
+     31
+    ],
+    "57": [
+     1,
+     31
+    ]
+   },
+   "refused_versions": [
+    "22",
+    "30"
+   ],
+   "wrong": 0
+  }
+ },
+ "ChartsOfAccounts": {
+  "DefaultChoiceForm": {
+   "checked": 4,
+   "codec": null,
+   "default_path": [
+    1,
+    30
+   ],
+   "kind": "ref",
+   "paths": {
+    "30": [
+     1,
+     30
+    ],
+    "31": [
+     1,
+     30
+    ],
+    "32": [
+     1,
+     30
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 4,
+   "codec": null,
+   "default_path": [
+    1,
+    29
+   ],
+   "kind": "ref",
+   "paths": {
+    "30": [
+     1,
+     29
+    ],
+    "31": [
+     1,
+     29
+    ],
+    "32": [
+     1,
+     29
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 4,
+   "codec": null,
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "ref",
+   "paths": {
+    "30": [
+     1,
+     28
+    ],
+    "31": [
+     1,
+     28
+    ],
+    "32": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ExtDimensionTypes": {
+   "checked": 4,
+   "codec": null,
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "ref",
+   "paths": {
+    "30": [
+     1,
+     19
+    ],
+    "31": [
+     1,
+     19
+    ],
+    "32": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "ChartsOfCalculationTypes": {
+  "ActionPeriodUse": {
+   "checked": 9,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    29
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     29
+    ],
+    "33": [
+     1,
+     29
+    ],
+    "34": [
+     1,
+     29
+    ],
+    "35": [
+     1,
+     29
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "BaseCalculationTypes": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "list",
+   "paths": {
+    "28": [
+     1,
+     28
+    ],
+    "33": [
+     1,
+     28
+    ],
+    "34": [
+     1,
+     28
+    ],
+    "35": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CodeLength": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     25
+    ],
+    "33": [
+     1,
+     25
+    ],
+    "34": [
+     1,
+     25
+    ],
+    "35": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    34
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     34
+    ],
+    "33": [
+     1,
+     34
+    ],
+    "34": [
+     1,
+     34
+    ],
+    "35": [
+     1,
+     34
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    33
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     33
+    ],
+    "33": [
+     1,
+     33
+    ],
+    "34": [
+     1,
+     33
+    ],
+    "35": [
+     1,
+     33
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    32
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     32
+    ],
+    "33": [
+     1,
+     32
+    ],
+    "34": [
+     1,
+     32
+    ],
+    "35": [
+     1,
+     32
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DependenceOnCalculationTypes": {
+   "checked": 9,
+   "codec": {
+    "1": "OnActionPeriod",
+    "2": "OnRegistrationPeriod"
+   },
+   "default_path": [
+    1,
+    27
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     27
+    ],
+    "33": [
+     1,
+     27
+    ],
+    "34": [
+     1,
+     27
+    ],
+    "35": [
+     1,
+     27
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DescriptionLength": {
+   "checked": 9,
+   "codec": {
+    "10": "40",
+    "5": "100"
+   },
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     25
+    ],
+    "33": [
+     1,
+     25
+    ],
+    "34": [
+     1,
+     25
+    ],
+    "35": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 9,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    37
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     37
+    ],
+    "33": [
+     1,
+     37
+    ],
+    "34": [
+     1,
+     37
+    ],
+    "35": [
+     1,
+     37
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "ChartsOfCharacteristicTypes": {
+  "Autonumbering": {
+   "checked": 44,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    22
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     22
+    ],
+    "26": [
+     1,
+     22
+    ],
+    "27": [
+     1,
+     22
+    ],
+    "32": [
+     1,
+     22
+    ],
+    "33": [
+     1,
+     22
+    ],
+    "34": [
+     1,
+     22
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CharacteristicExtValues": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     17
+    ],
+    "26": [
+     1,
+     17
+    ],
+    "27": [
+     1,
+     17
+    ],
+    "32": [
+     1,
+     17
+    ],
+    "33": [
+     1,
+     17
+    ],
+    "34": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CheckUnique": {
+   "checked": 43,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    34
+   ],
+   "kind": "scalar",
+   "paths": {
+    "26": [
+     1,
+     34
+    ],
+    "27": [
+     1,
+     34
+    ],
+    "32": [
+     1,
+     34
+    ],
+    "33": [
+     1,
+     34
+    ],
+    "34": [
+     1,
+     34
+    ]
+   },
+   "refused_versions": [
+    "11"
+   ],
+   "wrong": 0
+  },
+  "ChoiceHistoryOnInput": {
+   "checked": 35,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    55
+   ],
+   "kind": "scalar",
+   "paths": {
+    "32": [
+     1,
+     55
+    ],
+    "33": [
+     1,
+     55
+    ],
+    "34": [
+     1,
+     55
+    ]
+   },
+   "refused_versions": [
+    "11",
+    "26",
+    "27"
+   ],
+   "wrong": 0
+  },
+  "CodeAllowedLength": {
+   "checked": 43,
+   "codec": {
+    "0": "Fixed",
+    "1": "Variable"
+   },
+   "default_path": [
+    1,
+    49
+   ],
+   "kind": "scalar",
+   "paths": {
+    "26": [
+     1,
+     49
+    ],
+    "27": [
+     1,
+     49
+    ],
+    "32": [
+     1,
+     49
+    ],
+    "33": [
+     1,
+     49
+    ],
+    "34": [
+     1,
+     49
+    ]
+   },
+   "refused_versions": [
+    "11"
+   ],
+   "wrong": 0
+  },
+  "CodeLength": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    21
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     21
+    ],
+    "26": [
+     1,
+     21
+    ],
+    "27": [
+     1,
+     21
+    ],
+    "32": [
+     1,
+     21
+    ],
+    "33": [
+     1,
+     21
+    ],
+    "34": [
+     1,
+     21
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CodeSeries": {
+   "checked": 44,
+   "codec": {
+    "0": "WholeCharacteristicKind",
+    "1": "WithinSubordination"
+   },
+   "default_path": [
+    1,
+    35
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     35
+    ],
+    "26": [
+     1,
+     35
+    ],
+    "27": [
+     1,
+     35
+    ],
+    "32": [
+     1,
+     35
+    ],
+    "33": [
+     1,
+     35
+    ],
+    "34": [
+     1,
+     35
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 44,
+   "codec": "str",
+   "default_path": [
+    1,
+    13,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     13,
+     1,
+     4
+    ],
+    "26": [
+     1,
+     13,
+     1,
+     4
+    ],
+    "27": [
+     1,
+     13,
+     1,
+     4
+    ],
+    "32": [
+     1,
+     13,
+     1,
+     4
+    ],
+    "33": [
+     1,
+     13,
+     1,
+     4
+    ],
+    "34": [
+     1,
+     13,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 43,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    36
+   ],
+   "kind": "scalar",
+   "paths": {
+    "26": [
+     1,
+     36
+    ],
+    "27": [
+     1,
+     36
+    ],
+    "32": [
+     1,
+     36
+    ],
+    "33": [
+     1,
+     36
+    ],
+    "34": [
+     1,
+     36
+    ]
+   },
+   "refused_versions": [
+    "11"
+   ],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    29
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     29
+    ],
+    "26": [
+     1,
+     29
+    ],
+    "27": [
+     1,
+     29
+    ],
+    "32": [
+     1,
+     29
+    ],
+    "33": [
+     1,
+     29
+    ],
+    "34": [
+     1,
+     29
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultFolderChoiceForm": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    30
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     30
+    ],
+    "26": [
+     1,
+     30
+    ],
+    "27": [
+     1,
+     30
+    ],
+    "32": [
+     1,
+     30
+    ],
+    "33": [
+     1,
+     30
+    ],
+    "34": [
+     1,
+     30
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultFolderForm": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    27
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     27
+    ],
+    "26": [
+     1,
+     27
+    ],
+    "27": [
+     1,
+     27
+    ],
+    "32": [
+     1,
+     27
+    ],
+    "33": [
+     1,
+     27
+    ],
+    "34": [
+     1,
+     27
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     28
+    ],
+    "26": [
+     1,
+     28
+    ],
+    "27": [
+     1,
+     28
+    ],
+    "32": [
+     1,
+     28
+    ],
+    "33": [
+     1,
+     28
+    ],
+    "34": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    26
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     26
+    ],
+    "26": [
+     1,
+     26
+    ],
+    "27": [
+     1,
+     26
+    ],
+    "32": [
+     1,
+     26
+    ],
+    "33": [
+     1,
+     26
+    ],
+    "34": [
+     1,
+     26
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DescriptionLength": {
+   "checked": 44,
+   "codec": null,
+   "default_path": [
+    1,
+    23
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     23
+    ],
+    "26": [
+     1,
+     23
+    ],
+    "27": [
+     1,
+     23
+    ],
+    "32": [
+     1,
+     23
+    ],
+    "33": [
+     1,
+     23
+    ],
+    "34": [
+     1,
+     23
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "EditType": {
+   "checked": 44,
+   "codec": {
+    "0": "InList",
+    "1": "InDialog",
+    "2": "BothWays"
+   },
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     25
+    ],
+    "26": [
+     1,
+     25
+    ],
+    "27": [
+     1,
+     25
+    ],
+    "32": [
+     1,
+     25
+    ],
+    "33": [
+     1,
+     25
+    ],
+    "34": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FoldersOnTop": {
+   "checked": 44,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     20
+    ],
+    "26": [
+     1,
+     20
+    ],
+    "27": [
+     1,
+     20
+    ],
+    "32": [
+     1,
+     20
+    ],
+    "33": [
+     1,
+     20
+    ],
+    "34": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FullTextSearch": {
+   "checked": 44,
+   "codec": {
+    "0": "DontUse",
+    "1": "Use"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     20
+    ],
+    "26": [
+     1,
+     20
+    ],
+    "27": [
+     1,
+     20
+    ],
+    "32": [
+     1,
+     20
+    ],
+    "33": [
+     1,
+     20
+    ],
+    "34": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Hierarchical": {
+   "checked": 44,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     19
+    ],
+    "26": [
+     1,
+     19
+    ],
+    "27": [
+     1,
+     19
+    ],
+    "32": [
+     1,
+     19
+    ],
+    "33": [
+     1,
+     19
+    ],
+    "34": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 44,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    16
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     16
+    ],
+    "26": [
+     1,
+     16
+    ],
+    "27": [
+     1,
+     16
+    ],
+    "32": [
+     1,
+     16
+    ],
+    "33": [
+     1,
+     16
+    ],
+    "34": [
+     1,
+     16
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 44,
+   "codec": "str",
+   "default_path": [
+    1,
+    13,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "26": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "27": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "32": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "33": [
+     1,
+     13,
+     1,
+     2
+    ],
+    "34": [
+     1,
+     13,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "PredefinedDataUpdate": {
+   "checked": 35,
+   "codec": {
+    "0": "Auto",
+    "2": "DontAutoUpdate"
+   },
+   "default_path": [
+    1,
+    53
+   ],
+   "kind": "scalar",
+   "paths": {
+    "32": [
+     1,
+     53
+    ],
+    "33": [
+     1,
+     53
+    ],
+    "34": [
+     1,
+     53
+    ]
+   },
+   "refused_versions": [
+    "11",
+    "26",
+    "27"
+   ],
+   "wrong": 0
+  },
+  "QuickChoice": {
+   "checked": 44,
+   "codec": {
+    "0": "true",
+    "1": "false"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     20
+    ],
+    "26": [
+     1,
+     20
+    ],
+    "27": [
+     1,
+     20
+    ],
+    "32": [
+     1,
+     20
+    ],
+    "33": [
+     1,
+     20
+    ],
+    "34": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 43,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    14
+   ],
+   "kind": "scalar",
+   "paths": {
+    "26": [
+     1,
+     14
+    ],
+    "27": [
+     1,
+     14
+    ],
+    "32": [
+     1,
+     14
+    ],
+    "33": [
+     1,
+     14
+    ],
+    "34": [
+     1,
+     14
+    ]
+   },
+   "refused_versions": [
+    "11"
+   ],
+   "wrong": 0
+  }
+ },
+ "CommandGroups": {
+  "Category": {
+   "checked": 34,
+   "codec": {
+    "1": "NavigationPanel",
+    "2": "FormNavigationPanel",
+    "4": "ActionsPanel",
+    "8": "FormCommandBar"
+   },
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 34,
+   "codec": "str",
+   "default_path": [
+    1,
+    6,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     6,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 34,
+   "codec": "str",
+   "default_path": [
+    1,
+    6,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     6,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Representation": {
+   "checked": 34,
+   "codec": {
+    "1": "Picture",
+    "2": "PictureAndText",
+    "3": "Auto"
+   },
+   "default_path": [
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "CommonAttributes": {
+  "AuthenticationSeparation": {
+   "checked": 12,
+   "codec": {
+    "0": "Separate",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     6
+    ],
+    "5": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "AutoUse": {
+   "checked": 12,
+   "codec": {
+    "0": "Use",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     6
+    ],
+    "5": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ConditionalSeparation": {
+   "checked": 12,
+   "codec": null,
+   "default_path": [
+    1,
+    9,
+    1
+   ],
+   "kind": "ref",
+   "paths": {
+    "3": [
+     1,
+     9,
+     1
+    ],
+    "5": [
+     1,
+     9,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ConfigurationExtensionsSeparation": {
+   "checked": 11,
+   "codec": {
+    "0": "DontUse",
+    "1": "Separate"
+   },
+   "default_path": [
+    1,
+    13
+   ],
+   "kind": "scalar",
+   "paths": {
+    "5": [
+     1,
+     13
+    ]
+   },
+   "refused_versions": [
+    "3"
+   ],
+   "wrong": 0
+  },
+  "DataSeparation": {
+   "checked": 12,
+   "codec": {
+    "0": "Separate",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     5
+    ],
+    "5": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DataSeparationUse": {
+   "checked": 12,
+   "codec": null,
+   "default_path": [
+    1,
+    8,
+    1
+   ],
+   "kind": "ref",
+   "paths": {
+    "3": [
+     1,
+     8,
+     1
+    ],
+    "5": [
+     1,
+     8,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DataSeparationValue": {
+   "checked": 12,
+   "codec": null,
+   "default_path": [
+    1,
+    7,
+    1
+   ],
+   "kind": "ref",
+   "paths": {
+    "3": [
+     1,
+     7,
+     1
+    ],
+    "5": [
+     1,
+     7,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 12,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     1,
+     1,
+     2
+    ],
+    "5": [
+     1,
+     1,
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "SeparatedDataUse": {
+   "checked": 12,
+   "codec": {
+    "0": "Independently",
+    "1": "IndependentlyAndSimultaneously"
+   },
+   "default_path": [
+    1,
+    12
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     12
+    ],
+    "5": [
+     1,
+     12
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UsersSeparation": {
+   "checked": 12,
+   "codec": {
+    "0": "Separate",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     6
+    ],
+    "5": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "CommonCommands": {
+  "Comment": {
+   "checked": 378,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2,
+    9,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     2,
+     9,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 378,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    1,
+    2,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     2,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ModifiesData": {
+   "checked": 378,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    1,
+    2,
+    10
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     2,
+     10
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 378,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2,
+    9,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     2,
+     9,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Representation": {
+   "checked": 378,
+   "codec": {
+    "0": "Text",
+    "1": "Picture",
+    "2": "PictureAndText",
+    "3": "Auto"
+   },
+   "default_path": [
+    1,
+    1,
+    2,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     2,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "CommonForms": {
+  "Comment": {
+   "checked": 593,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FormType": {
+   "checked": 593,
+   "codec": {
+    "0": "Ordinary",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 593,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 593,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 593,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "CommonModules": {
+  "ClientManagedApplication": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    7
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     7
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ClientOrdinaryApplication": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 2050,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ExternalConnection": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Global": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 2050,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Privileged": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ReturnValuesReuse": {
+   "checked": 2050,
+   "codec": {
+    "0": "DontUse",
+    "1": "DuringRequest",
+    "2": "DuringSession"
+   },
+   "default_path": [
+    1,
+    8
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     8
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Server": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ServerCall": {
+   "checked": 2050,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "CommonPictures": {
+  "AvailabilityForChoice": {
+   "checked": 1187,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [
+    "2",
+    "3"
+   ],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 3188,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     4
+    ],
+    "4": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [
+    "2"
+   ],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 3188,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     2
+    ],
+    "4": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [
+    "2"
+   ],
+   "wrong": 0
+  }
+ },
+ "CommonTemplates": {
+  "Comment": {
+   "checked": 306,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     4
+    ],
+    "4": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 306,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     2
+    ],
+    "4": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "TemplateType": {
+   "checked": 306,
+   "codec": {
+    "0": "SpreadsheetDocument",
+    "1": "BinaryData",
+    "3": "HTMLDocument",
+    "4": "TextDocument",
+    "5": "GeographicalSchema",
+    "6": "DataCompositionSchema",
+    "7": "DataCompositionAppearanceTemplate",
+    "9": "AddIn"
+   },
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     2
+    ],
+    "4": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Constants": {
+  "ChoiceFoldersAndItems": {
+   "checked": 1099,
+   "codec": {
+    "0": "Items",
+    "1": "Folders"
+   },
+   "default_path": [
+    1,
+    1,
+    10
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     10
+    ],
+    "13": [
+     1,
+     1,
+     10
+    ],
+    "14": [
+     1,
+     1,
+     10
+    ],
+    "15": [
+     1,
+     1,
+     10
+    ],
+    "16": [
+     1,
+     1,
+     10
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "ChoiceHistoryOnInput": {
+   "checked": 912,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    1,
+    22
+   ],
+   "kind": "scalar",
+   "paths": {
+    "15": [
+     1,
+     1,
+     22
+    ],
+    "16": [
+     1,
+     1,
+     22
+    ]
+   },
+   "refused_versions": [
+    "11",
+    "13",
+    "14",
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 441,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     1,
+     1,
+     4
+    ],
+    "13": [
+     1,
+     1,
+     1,
+     1,
+     4
+    ],
+    "14": [
+     1,
+     1,
+     1,
+     1,
+     4
+    ],
+    "15": [
+     1,
+     1,
+     1,
+     1,
+     4
+    ],
+    "5": [
+     1,
+     1,
+     1,
+     4
+    ],
+    "6": [
+     1,
+     1,
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [
+    "16"
+   ],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 1099,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     6
+    ],
+    "13": [
+     1,
+     6
+    ],
+    "14": [
+     1,
+     6
+    ],
+    "15": [
+     1,
+     6
+    ],
+    "16": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "DefaultForm": {
+   "checked": 1099,
+   "codec": null,
+   "default_path": [
+    1,
+    10
+   ],
+   "kind": "ref",
+   "paths": {
+    "11": [
+     1,
+     10
+    ],
+    "13": [
+     1,
+     10
+    ],
+    "14": [
+     1,
+     10
+    ],
+    "15": [
+     1,
+     10
+    ],
+    "16": [
+     1,
+     10
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "FillChecking": {
+   "checked": 1099,
+   "codec": {
+    "0": "DontCheck",
+    "1": "ShowError"
+   },
+   "default_path": [
+    1,
+    1,
+    13
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     13
+    ],
+    "13": [
+     1,
+     1,
+     13
+    ],
+    "14": [
+     1,
+     1,
+     13
+    ],
+    "15": [
+     1,
+     1,
+     13
+    ],
+    "16": [
+     1,
+     1,
+     13
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "Mask": {
+   "checked": 1099,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     6
+    ],
+    "13": [
+     1,
+     1,
+     6
+    ],
+    "14": [
+     1,
+     1,
+     6
+    ],
+    "15": [
+     1,
+     1,
+     6
+    ],
+    "16": [
+     1,
+     1,
+     6
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "MultiLine": {
+   "checked": 1099,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    1,
+    7
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     7
+    ],
+    "13": [
+     1,
+     1,
+     7
+    ],
+    "14": [
+     1,
+     1,
+     7
+    ],
+    "15": [
+     1,
+     1,
+     7
+    ],
+    "16": [
+     1,
+     1,
+     7
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "PasswordMode": {
+   "checked": 1099,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     2
+    ],
+    "13": [
+     1,
+     1,
+     2
+    ],
+    "14": [
+     1,
+     1,
+     2
+    ],
+    "15": [
+     1,
+     1,
+     2
+    ],
+    "16": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "QuickChoice": {
+   "checked": 1099,
+   "codec": {
+    "0": "DontUse",
+    "2": "Auto"
+   },
+   "default_path": [
+    1,
+    1,
+    12
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     1,
+     12
+    ],
+    "13": [
+     1,
+     1,
+     12
+    ],
+    "14": [
+     1,
+     1,
+     12
+    ],
+    "15": [
+     1,
+     1,
+     12
+    ],
+    "16": [
+     1,
+     1,
+     12
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 1099,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    7
+   ],
+   "kind": "scalar",
+   "paths": {
+    "11": [
+     1,
+     7
+    ],
+    "13": [
+     1,
+     7
+    ],
+    "14": [
+     1,
+     7
+    ],
+    "15": [
+     1,
+     7
+    ],
+    "16": [
+     1,
+     7
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "6"
+   ],
+   "wrong": 0
+  }
+ },
+ "DataProcessors": {
+  "AuxiliaryForm": {
+   "checked": 688,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "ref",
+   "paths": {
+    "16": [
+     1,
+     9
+    ],
+    "17": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "8"
+   ],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 717,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "16": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "17": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "5": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "8": [
+     1,
+     3,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultForm": {
+   "checked": 717,
+   "codec": null,
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "ref",
+   "paths": {
+    "16": [
+     1,
+     4
+    ],
+    "17": [
+     1,
+     4
+    ],
+    "5": [
+     1,
+     4
+    ],
+    "8": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 717,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "16": [
+     1,
+     6
+    ],
+    "17": [
+     1,
+     6
+    ],
+    "5": [
+     1,
+     6
+    ],
+    "8": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 717,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "16": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "17": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "5": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "8": [
+     1,
+     3,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 688,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "scalar",
+   "paths": {
+    "16": [
+     1,
+     5
+    ],
+    "17": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [
+    "5",
+    "8"
+   ],
+   "wrong": 0
+  }
+ },
+ "DefinedTypes": {
+  "Comment": {
+   "checked": 118,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "0": [
+     1,
+     3,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 118,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "0": [
+     1,
+     3,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "DocumentJournals": {
+  "Comment": {
+   "checked": 52,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "24": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "25": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "26": [
+     1,
+     3,
+     1,
+     4
+    ],
+    "7": [
+     1,
+     3,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultForm": {
+   "checked": 52,
+   "codec": null,
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "ref",
+   "paths": {
+    "10": [
+     1,
+     4
+    ],
+    "24": [
+     1,
+     4
+    ],
+    "25": [
+     1,
+     4
+    ],
+    "26": [
+     1,
+     4
+    ],
+    "7": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 52,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    7
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     7
+    ],
+    "24": [
+     1,
+     7
+    ],
+    "25": [
+     1,
+     7
+    ],
+    "26": [
+     1,
+     7
+    ],
+    "7": [
+     1,
+     7
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 52,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "24": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "25": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "26": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "7": [
+     1,
+     3,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RegisteredDocuments": {
+   "checked": 52,
+   "codec": null,
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "list",
+   "paths": {
+    "10": [
+     1,
+     6
+    ],
+    "24": [
+     1,
+     6
+    ],
+    "25": [
+     1,
+     6
+    ],
+    "26": [
+     1,
+     6
+    ],
+    "7": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 44,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "scalar",
+   "paths": {
+    "24": [
+     1,
+     5
+    ],
+    "25": [
+     1,
+     5
+    ],
+    "26": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "7"
+   ],
+   "wrong": 0
+  }
+ },
+ "DocumentNumerators": {
+  "NumberLength": {
+   "checked": 5,
+   "codec": null,
+   "default_path": [
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     3
+    ],
+    "3": [
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Documents": {
+  "Autonumbering": {
+   "checked": 702,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    14
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     14
+    ],
+    "34": [
+     1,
+     14
+    ],
+    "37": [
+     1,
+     14
+    ],
+    "39": [
+     1,
+     14
+    ],
+    "40": [
+     1,
+     14
+    ]
+   },
+   "refused_versions": [
+    "38"
+   ],
+   "wrong": 3
+  },
+  "AuxiliaryChoiceForm": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    35
+   ],
+   "kind": "ref",
+   "paths": {
+    "33": [
+     1,
+     35
+    ],
+    "34": [
+     1,
+     35
+    ],
+    "37": [
+     1,
+     35
+    ],
+    "38": [
+     1,
+     35
+    ],
+    "39": [
+     1,
+     35
+    ],
+    "40": [
+     1,
+     35
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 2
+  },
+  "AuxiliaryObjectForm": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    35
+   ],
+   "kind": "ref",
+   "paths": {
+    "33": [
+     1,
+     35
+    ],
+    "34": [
+     1,
+     35
+    ],
+    "37": [
+     1,
+     35
+    ],
+    "38": [
+     1,
+     35
+    ],
+    "39": [
+     1,
+     35
+    ],
+    "40": [
+     1,
+     35
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "BasedOn": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    22
+   ],
+   "kind": "list",
+   "paths": {
+    "33": [
+     1,
+     22
+    ],
+    "34": [
+     1,
+     22
+    ],
+    "37": [
+     1,
+     22
+    ],
+    "38": [
+     1,
+     22
+    ],
+    "39": [
+     1,
+     22
+    ],
+    "40": [
+     1,
+     22
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CheckUnique": {
+   "checked": 749,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    14
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     14
+    ],
+    "34": [
+     1,
+     14
+    ],
+    "37": [
+     1,
+     14
+    ],
+    "38": [
+     1,
+     14
+    ],
+    "39": [
+     1,
+     14
+    ],
+    "40": [
+     1,
+     14
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ChoiceHistoryOnInput": {
+   "checked": 627,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    49
+   ],
+   "kind": "scalar",
+   "paths": {
+    "37": [
+     1,
+     49
+    ],
+    "38": [
+     1,
+     49
+    ],
+    "39": [
+     1,
+     49
+    ],
+    "40": [
+     1,
+     49
+    ]
+   },
+   "refused_versions": [
+    "33",
+    "34"
+   ],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 749,
+   "codec": "str",
+   "default_path": [
+    1,
+    9,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "34": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "37": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "38": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "39": [
+     1,
+     9,
+     1,
+     4
+    ],
+    "40": [
+     1,
+     9,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CreateOnInput": {
+   "checked": 627,
+   "codec": {
+    "1": "DontUse",
+    "2": "Use"
+   },
+   "default_path": [
+    1,
+    46
+   ],
+   "kind": "scalar",
+   "paths": {
+    "37": [
+     1,
+     46
+    ],
+    "38": [
+     1,
+     46
+    ],
+    "39": [
+     1,
+     46
+    ],
+    "40": [
+     1,
+     46
+    ]
+   },
+   "refused_versions": [
+    "33",
+    "34"
+   ],
+   "wrong": 0
+  },
+  "DataHistory": {
+   "checked": 463,
+   "codec": {
+    "0": "DontUse",
+    "1": "Use"
+   },
+   "default_path": [
+    1,
+    50
+   ],
+   "kind": "scalar",
+   "paths": {
+    "38": [
+     1,
+     50
+    ],
+    "39": [
+     1,
+     50
+    ],
+    "40": [
+     1,
+     50
+    ]
+   },
+   "refused_versions": [
+    "33",
+    "34",
+    "37"
+   ],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 749,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    30
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     30
+    ],
+    "34": [
+     1,
+     30
+    ],
+    "37": [
+     1,
+     30
+    ],
+    "38": [
+     1,
+     30
+    ],
+    "39": [
+     1,
+     30
+    ],
+    "40": [
+     1,
+     30
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    18
+   ],
+   "kind": "ref",
+   "paths": {
+    "33": [
+     1,
+     18
+    ],
+    "34": [
+     1,
+     18
+    ],
+    "37": [
+     1,
+     18
+    ],
+    "38": [
+     1,
+     18
+    ],
+    "39": [
+     1,
+     18
+    ],
+    "40": [
+     1,
+     18
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "ref",
+   "paths": {
+    "33": [
+     1,
+     17
+    ],
+    "34": [
+     1,
+     17
+    ],
+    "37": [
+     1,
+     17
+    ],
+    "38": [
+     1,
+     17
+    ],
+    "39": [
+     1,
+     17
+    ],
+    "40": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    16
+   ],
+   "kind": "ref",
+   "paths": {
+    "33": [
+     1,
+     16
+    ],
+    "34": [
+     1,
+     16
+    ],
+    "37": [
+     1,
+     16
+    ],
+    "38": [
+     1,
+     16
+    ],
+    "39": [
+     1,
+     16
+    ],
+    "40": [
+     1,
+     16
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 749,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     25
+    ],
+    "34": [
+     1,
+     25
+    ],
+    "37": [
+     1,
+     25
+    ],
+    "38": [
+     1,
+     25
+    ],
+    "39": [
+     1,
+     25
+    ],
+    "40": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 749,
+   "codec": "str",
+   "default_path": [
+    1,
+    9,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "34": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "37": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "38": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "39": [
+     1,
+     9,
+     1,
+     2
+    ],
+    "40": [
+     1,
+     9,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "NumberAllowedLength": {
+   "checked": 749,
+   "codec": {
+    "0": "Fixed",
+    "1": "Variable"
+   },
+   "default_path": [
+    1,
+    44
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     44
+    ],
+    "34": [
+     1,
+     44
+    ],
+    "37": [
+     1,
+     44
+    ],
+    "38": [
+     1,
+     44
+    ],
+    "39": [
+     1,
+     44
+    ],
+    "40": [
+     1,
+     44
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "NumberLength": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    12
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     12
+    ],
+    "34": [
+     1,
+     12
+    ],
+    "37": [
+     1,
+     12
+    ],
+    "38": [
+     1,
+     12
+    ],
+    "39": [
+     1,
+     12
+    ],
+    "40": [
+     1,
+     12
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "NumberPeriodicity": {
+   "checked": 749,
+   "codec": {
+    "0": "Nonperiodical",
+    "1": "Year",
+    "3": "Month"
+   },
+   "default_path": [
+    1,
+    13
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     13
+    ],
+    "34": [
+     1,
+     13
+    ],
+    "37": [
+     1,
+     13
+    ],
+    "38": [
+     1,
+     13
+    ],
+    "39": [
+     1,
+     13
+    ],
+    "40": [
+     1,
+     13
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "NumberType": {
+   "checked": 749,
+   "codec": {
+    "0": "Number",
+    "1": "String"
+   },
+   "default_path": [
+    1,
+    11
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     11
+    ],
+    "34": [
+     1,
+     11
+    ],
+    "37": [
+     1,
+     11
+    ],
+    "38": [
+     1,
+     11
+    ],
+    "39": [
+     1,
+     11
+    ],
+    "40": [
+     1,
+     11
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Numerator": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    10
+   ],
+   "kind": "ref",
+   "paths": {
+    "33": [
+     1,
+     10
+    ],
+    "34": [
+     1,
+     10
+    ],
+    "37": [
+     1,
+     10
+    ],
+    "38": [
+     1,
+     10
+    ],
+    "39": [
+     1,
+     10
+    ],
+    "40": [
+     1,
+     10
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "PostInPrivilegedMode": {
+   "checked": 749,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    33
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     33
+    ],
+    "34": [
+     1,
+     33
+    ],
+    "37": [
+     1,
+     33
+    ],
+    "38": [
+     1,
+     33
+    ],
+    "39": [
+     1,
+     33
+    ],
+    "40": [
+     1,
+     33
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Posting": {
+   "checked": 749,
+   "codec": {
+    "0": "Allow",
+    "1": "Deny"
+   },
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     19
+    ],
+    "34": [
+     1,
+     19
+    ],
+    "37": [
+     1,
+     19
+    ],
+    "38": [
+     1,
+     19
+    ],
+    "39": [
+     1,
+     19
+    ],
+    "40": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RealTimePosting": {
+   "checked": 749,
+   "codec": {
+    "0": "Allow",
+    "1": "Deny"
+   },
+   "default_path": [
+    1,
+    21
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     21
+    ],
+    "34": [
+     1,
+     21
+    ],
+    "37": [
+     1,
+     21
+    ],
+    "38": [
+     1,
+     21
+    ],
+    "39": [
+     1,
+     21
+    ],
+    "40": [
+     1,
+     21
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RegisterRecords": {
+   "checked": 749,
+   "codec": null,
+   "default_path": [
+    1,
+    24
+   ],
+   "kind": "list",
+   "paths": {
+    "33": [
+     1,
+     24
+    ],
+    "34": [
+     1,
+     24
+    ],
+    "37": [
+     1,
+     24
+    ],
+    "38": [
+     1,
+     24
+    ],
+    "39": [
+     1,
+     24
+    ],
+    "40": [
+     1,
+     24
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RegisterRecordsDeletion": {
+   "checked": 749,
+   "codec": {
+    "0": "AutoDelete",
+    "1": "AutoDeleteOff",
+    "2": "AutoDeleteOnUnpost"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     20
+    ],
+    "34": [
+     1,
+     20
+    ],
+    "37": [
+     1,
+     20
+    ],
+    "38": [
+     1,
+     20
+    ],
+    "39": [
+     1,
+     20
+    ],
+    "40": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RegisterRecordsWritingOnPost": {
+   "checked": 749,
+   "codec": {
+    "0": "WriteSelected",
+    "1": "WriteModified"
+   },
+   "default_path": [
+    1,
+    43
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     43
+    ],
+    "34": [
+     1,
+     43
+    ],
+    "37": [
+     1,
+     43
+    ],
+    "38": [
+     1,
+     43
+    ],
+    "39": [
+     1,
+     43
+    ],
+    "40": [
+     1,
+     43
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "SequenceFilling": {
+   "checked": 749,
+   "codec": {
+    "0": "AutoFill",
+    "1": "AutoFillOff"
+   },
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     28
+    ],
+    "34": [
+     1,
+     28
+    ],
+    "37": [
+     1,
+     28
+    ],
+    "38": [
+     1,
+     28
+    ],
+    "39": [
+     1,
+     28
+    ],
+    "40": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UnpostInPrivilegedMode": {
+   "checked": 749,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    33
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     33
+    ],
+    "34": [
+     1,
+     33
+    ],
+    "37": [
+     1,
+     33
+    ],
+    "38": [
+     1,
+     33
+    ],
+    "39": [
+     1,
+     33
+    ],
+    "40": [
+     1,
+     33
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UpdateDataHistoryImmediatelyAfterWrite": {
+   "checked": 463,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    50
+   ],
+   "kind": "scalar",
+   "paths": {
+    "38": [
+     1,
+     50
+    ],
+    "39": [
+     1,
+     50
+    ],
+    "40": [
+     1,
+     50
+    ]
+   },
+   "refused_versions": [
+    "33",
+    "34",
+    "37"
+   ],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 749,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    23
+   ],
+   "kind": "scalar",
+   "paths": {
+    "33": [
+     1,
+     23
+    ],
+    "34": [
+     1,
+     23
+    ],
+    "37": [
+     1,
+     23
+    ],
+    "38": [
+     1,
+     23
+    ],
+    "39": [
+     1,
+     23
+    ],
+    "40": [
+     1,
+     23
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Enums": {
+  "ChoiceHistoryOnInput": {
+   "checked": 973,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "20": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "18",
+    "19",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "ChoiceMode": {
+   "checked": 1379,
+   "codec": {
+    "1": "QuickChoice",
+    "2": "BothWays"
+   },
+   "default_path": [
+    1,
+    11
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     11
+    ],
+    "18": [
+     1,
+     11
+    ],
+    "19": [
+     1,
+     11
+    ],
+    "20": [
+     1,
+     11
+    ],
+    "6": [
+     1,
+     11
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Comment": {
+   "checked": 1379,
+   "codec": "str",
+   "default_path": [
+    1,
+    5,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     5,
+     1,
+     4
+    ],
+    "18": [
+     1,
+     5,
+     1,
+     4
+    ],
+    "19": [
+     1,
+     5,
+     1,
+     4
+    ],
+    "20": [
+     1,
+     5,
+     1,
+     4
+    ],
+    "6": [
+     1,
+     5,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 1379,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "ref",
+   "paths": {
+    "10": [
+     1,
+     9
+    ],
+    "18": [
+     1,
+     9
+    ],
+    "19": [
+     1,
+     9
+    ],
+    "20": [
+     1,
+     9
+    ],
+    "6": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 5
+  },
+  "DefaultListForm": {
+   "checked": 1379,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "ref",
+   "paths": {
+    "10": [
+     1,
+     9
+    ],
+    "18": [
+     1,
+     9
+    ],
+    "19": [
+     1,
+     9
+    ],
+    "20": [
+     1,
+     9
+    ],
+    "6": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 1379,
+   "codec": "str",
+   "default_path": [
+    1,
+    5,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     5,
+     1,
+     2
+    ],
+    "18": [
+     1,
+     5,
+     1,
+     2
+    ],
+    "19": [
+     1,
+     5,
+     1,
+     2
+    ],
+    "20": [
+     1,
+     5,
+     1,
+     2
+    ],
+    "6": [
+     1,
+     5,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "QuickChoice": {
+   "checked": 1220,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    12
+   ],
+   "kind": "scalar",
+   "paths": {
+    "18": [
+     1,
+     12
+    ],
+    "19": [
+     1,
+     12
+    ],
+    "20": [
+     1,
+     12
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "6"
+   ],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 1220,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "18": [
+     1,
+     6
+    ],
+    "19": [
+     1,
+     6
+    ],
+    "20": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "6"
+   ],
+   "wrong": 0
+  }
+ },
+ "EventSubscriptions": {
+  "Comment": {
+   "checked": 483,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Event": {
+   "checked": 483,
+   "codec": "prefix",
+   "default_path": [
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Handler": {
+   "checked": 483,
+   "codec": null,
+   "default_path": [
+    1,
+    4,
+    -1
+   ],
+   "kind": "method",
+   "paths": {
+    "1": [
+     1,
+     4,
+     -1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 483,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "ExchangePlans": {
+  "ChoiceHistoryOnInput": {
+   "checked": 46,
+   "codec": {
+    "0": "Auto",
+    "1": "DontUse"
+   },
+   "default_path": [
+    1,
+    44
+   ],
+   "kind": "scalar",
+   "paths": {
+    "32": [
+     1,
+     44
+    ],
+    "33": [
+     1,
+     44
+    ],
+    "34": [
+     1,
+     44
+    ],
+    "35": [
+     1,
+     44
+    ],
+    "37": [
+     1,
+     44
+    ]
+   },
+   "refused_versions": [
+    "12",
+    "28"
+   ],
+   "wrong": 0
+  },
+  "CodeAllowedLength": {
+   "checked": 59,
+   "codec": {
+    "0": "Fixed",
+    "1": "Variable"
+   },
+   "default_path": [
+    1,
+    39
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     39
+    ],
+    "32": [
+     1,
+     39
+    ],
+    "33": [
+     1,
+     39
+    ],
+    "34": [
+     1,
+     39
+    ],
+    "35": [
+     1,
+     39
+    ],
+    "37": [
+     1,
+     39
+    ]
+   },
+   "refused_versions": [
+    "12"
+   ],
+   "wrong": 0
+  },
+  "CodeLength": {
+   "checked": 60,
+   "codec": null,
+   "default_path": [
+    1,
+    15
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     15
+    ],
+    "28": [
+     1,
+     15
+    ],
+    "32": [
+     1,
+     15
+    ],
+    "33": [
+     1,
+     15
+    ],
+    "34": [
+     1,
+     15
+    ],
+    "35": [
+     1,
+     15
+    ],
+    "37": [
+     1,
+     15
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 59,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    28
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     28
+    ],
+    "32": [
+     1,
+     28
+    ],
+    "33": [
+     1,
+     28
+    ],
+    "34": [
+     1,
+     28
+    ],
+    "35": [
+     1,
+     28
+    ],
+    "37": [
+     1,
+     28
+    ]
+   },
+   "refused_versions": [
+    "12"
+   ],
+   "wrong": 0
+  },
+  "DefaultChoiceForm": {
+   "checked": 60,
+   "codec": null,
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "ref",
+   "paths": {
+    "12": [
+     1,
+     20
+    ],
+    "28": [
+     1,
+     20
+    ],
+    "32": [
+     1,
+     20
+    ],
+    "33": [
+     1,
+     20
+    ],
+    "34": [
+     1,
+     20
+    ],
+    "35": [
+     1,
+     20
+    ],
+    "37": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 60,
+   "codec": null,
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "ref",
+   "paths": {
+    "12": [
+     1,
+     19
+    ],
+    "28": [
+     1,
+     19
+    ],
+    "32": [
+     1,
+     19
+    ],
+    "33": [
+     1,
+     19
+    ],
+    "34": [
+     1,
+     19
+    ],
+    "35": [
+     1,
+     19
+    ],
+    "37": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 60,
+   "codec": null,
+   "default_path": [
+    1,
+    14
+   ],
+   "kind": "ref",
+   "paths": {
+    "12": [
+     1,
+     14
+    ],
+    "28": [
+     1,
+     14
+    ],
+    "32": [
+     1,
+     14
+    ],
+    "33": [
+     1,
+     14
+    ],
+    "34": [
+     1,
+     14
+    ],
+    "35": [
+     1,
+     14
+    ],
+    "37": [
+     1,
+     14
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DescriptionLength": {
+   "checked": 60,
+   "codec": null,
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     17
+    ],
+    "28": [
+     1,
+     17
+    ],
+    "32": [
+     1,
+     17
+    ],
+    "33": [
+     1,
+     17
+    ],
+    "34": [
+     1,
+     17
+    ],
+    "35": [
+     1,
+     17
+    ],
+    "37": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DistributedInfoBase": {
+   "checked": 59,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    26
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     26
+    ],
+    "32": [
+     1,
+     26
+    ],
+    "33": [
+     1,
+     26
+    ],
+    "34": [
+     1,
+     26
+    ],
+    "35": [
+     1,
+     26
+    ],
+    "37": [
+     1,
+     26
+    ]
+   },
+   "refused_versions": [
+    "12"
+   ],
+   "wrong": 0
+  },
+  "EditType": {
+   "checked": 60,
+   "codec": {
+    "1": "InDialog",
+    "2": "BothWays"
+   },
+   "default_path": [
+    1,
+    21
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     21
+    ],
+    "28": [
+     1,
+     21
+    ],
+    "32": [
+     1,
+     21
+    ],
+    "33": [
+     1,
+     21
+    ],
+    "34": [
+     1,
+     21
+    ],
+    "35": [
+     1,
+     21
+    ],
+    "37": [
+     1,
+     21
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "FullTextSearch": {
+   "checked": 59,
+   "codec": {
+    "0": "DontUse",
+    "1": "Use"
+   },
+   "default_path": [
+    1,
+    29
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     29
+    ],
+    "32": [
+     1,
+     29
+    ],
+    "33": [
+     1,
+     29
+    ],
+    "34": [
+     1,
+     29
+    ],
+    "35": [
+     1,
+     29
+    ],
+    "37": [
+     1,
+     29
+    ]
+   },
+   "refused_versions": [
+    "12"
+   ],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 60,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    18
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     18
+    ],
+    "28": [
+     1,
+     18
+    ],
+    "32": [
+     1,
+     18
+    ],
+    "33": [
+     1,
+     18
+    ],
+    "34": [
+     1,
+     18
+    ],
+    "35": [
+     1,
+     18
+    ],
+    "37": [
+     1,
+     18
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 60,
+   "codec": "str",
+   "default_path": [
+    1,
+    12,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "12": [
+     1,
+     12,
+     2
+    ],
+    "28": [
+     1,
+     12,
+     2
+    ],
+    "32": [
+     1,
+     12,
+     2
+    ],
+    "33": [
+     1,
+     12,
+     2
+    ],
+    "34": [
+     1,
+     12,
+     2
+    ],
+    "35": [
+     1,
+     12,
+     2
+    ],
+    "37": [
+     1,
+     12,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 59,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    13
+   ],
+   "kind": "scalar",
+   "paths": {
+    "28": [
+     1,
+     13
+    ],
+    "32": [
+     1,
+     13
+    ],
+    "33": [
+     1,
+     13
+    ],
+    "34": [
+     1,
+     13
+    ],
+    "35": [
+     1,
+     13
+    ],
+    "37": [
+     1,
+     13
+    ]
+   },
+   "refused_versions": [
+    "12"
+   ],
+   "wrong": 0
+  }
+ },
+ "FilterCriteria": {
+  "Content": {
+   "checked": 30,
+   "codec": null,
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "list",
+   "paths": {
+    "14": [
+     1,
+     6
+    ],
+    "3": [
+     1,
+     6
+    ],
+    "6": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultForm": {
+   "checked": 30,
+   "codec": null,
+   "default_path": [
+    1,
+    8
+   ],
+   "kind": "ref",
+   "paths": {
+    "14": [
+     1,
+     8
+    ],
+    "3": [
+     1,
+     8
+    ],
+    "6": [
+     1,
+     8
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 30,
+   "codec": "str",
+   "default_path": [
+    1,
+    5,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     5,
+     1,
+     2
+    ],
+    "3": [
+     1,
+     5,
+     1,
+     2
+    ],
+    "6": [
+     1,
+     5,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 26,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    7
+   ],
+   "kind": "scalar",
+   "paths": {
+    "14": [
+     1,
+     7
+    ]
+   },
+   "refused_versions": [
+    "3",
+    "6"
+   ],
+   "wrong": 0
+  }
+ },
+ "FunctionalOptions": {
+  "Comment": {
+   "checked": 471,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     4
+    ],
+    "2": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Location": {
+   "checked": 471,
+   "codec": null,
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "ref",
+   "paths": {
+    "1": [
+     1,
+     2
+    ],
+    "2": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 471,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     2
+    ],
+    "2": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "FunctionalOptionsParameters": {
+  "Name": {
+   "checked": 17,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "0": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Use": {
+   "checked": 17,
+   "codec": null,
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "list",
+   "paths": {
+    "0": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "HTTPServices": {
+  "Comment": {
+   "checked": 18,
+   "codec": "str",
+   "default_path": [
+    1,
+    2,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     2,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 18,
+   "codec": "str",
+   "default_path": [
+    1,
+    2,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     2,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ReuseSessions": {
+   "checked": 18,
+   "codec": {
+    "0": "DontUse",
+    "2": "AutoUse"
+   },
+   "default_path": [
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RootURL": {
+   "checked": 18,
+   "codec": "str",
+   "default_path": [
+    1,
+    1
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "SessionMaxAge": {
+   "checked": 18,
+   "codec": null,
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "InformationRegisters": {
+  "Comment": {
+   "checked": 559,
+   "codec": "str",
+   "default_path": [
+    1,
+    15,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     15,
+     1,
+     4
+    ],
+    "15": [
+     1,
+     15,
+     1,
+     4
+    ],
+    "27": [
+     1,
+     15,
+     1,
+     4
+    ],
+    "30": [
+     1,
+     15,
+     1,
+     4
+    ],
+    "32": [
+     1,
+     15,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [
+    "29",
+    "33"
+   ],
+   "wrong": 0
+  },
+  "DataLockControlMode": {
+   "checked": 1306,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    24
+   ],
+   "kind": "scalar",
+   "paths": {
+    "15": [
+     1,
+     24
+    ],
+    "27": [
+     1,
+     24
+    ],
+    "29": [
+     1,
+     24
+    ],
+    "30": [
+     1,
+     24
+    ],
+    "32": [
+     1,
+     24
+    ],
+    "33": [
+     1,
+     24
+    ]
+   },
+   "refused_versions": [
+    "10"
+   ],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 1316,
+   "codec": null,
+   "default_path": [
+    1,
+    17
+   ],
+   "kind": "ref",
+   "paths": {
+    "10": [
+     1,
+     17
+    ],
+    "15": [
+     1,
+     17
+    ],
+    "27": [
+     1,
+     17
+    ],
+    "29": [
+     1,
+     17
+    ],
+    "30": [
+     1,
+     17
+    ],
+    "32": [
+     1,
+     17
+    ],
+    "33": [
+     1,
+     17
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultRecordForm": {
+   "checked": 1316,
+   "codec": null,
+   "default_path": [
+    1,
+    16
+   ],
+   "kind": "ref",
+   "paths": {
+    "10": [
+     1,
+     16
+    ],
+    "15": [
+     1,
+     16
+    ],
+    "27": [
+     1,
+     16
+    ],
+    "29": [
+     1,
+     16
+    ],
+    "30": [
+     1,
+     16
+    ],
+    "32": [
+     1,
+     16
+    ],
+    "33": [
+     1,
+     16
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "EditType": {
+   "checked": 1316,
+   "codec": {
+    "0": "InList",
+    "1": "InDialog",
+    "2": "BothWays"
+   },
+   "default_path": [
+    1,
+    20
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     20
+    ],
+    "15": [
+     1,
+     20
+    ],
+    "27": [
+     1,
+     20
+    ],
+    "29": [
+     1,
+     20
+    ],
+    "30": [
+     1,
+     20
+    ],
+    "32": [
+     1,
+     20
+    ],
+    "33": [
+     1,
+     20
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "EnableTotalsSliceFirst": {
+   "checked": 1095,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    35
+   ],
+   "kind": "scalar",
+   "paths": {
+    "29": [
+     1,
+     35
+    ],
+    "30": [
+     1,
+     35
+    ],
+    "32": [
+     1,
+     35
+    ],
+    "33": [
+     1,
+     35
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "15",
+    "27"
+   ],
+   "wrong": 0
+  },
+  "EnableTotalsSliceLast": {
+   "checked": 1095,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    34
+   ],
+   "kind": "scalar",
+   "paths": {
+    "29": [
+     1,
+     34
+    ],
+    "30": [
+     1,
+     34
+    ],
+    "32": [
+     1,
+     34
+    ],
+    "33": [
+     1,
+     34
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "15",
+    "27"
+   ],
+   "wrong": 0
+  },
+  "FullTextSearch": {
+   "checked": 1306,
+   "codec": {
+    "0": "DontUse",
+    "1": "Use"
+   },
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "scalar",
+   "paths": {
+    "15": [
+     1,
+     25
+    ],
+    "27": [
+     1,
+     25
+    ],
+    "29": [
+     1,
+     25
+    ],
+    "30": [
+     1,
+     25
+    ],
+    "32": [
+     1,
+     25
+    ],
+    "33": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [
+    "10"
+   ],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 1316,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    22
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     22
+    ],
+    "15": [
+     1,
+     22
+    ],
+    "27": [
+     1,
+     22
+    ],
+    "29": [
+     1,
+     22
+    ],
+    "30": [
+     1,
+     22
+    ],
+    "32": [
+     1,
+     22
+    ],
+    "33": [
+     1,
+     22
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "InformationRegisterPeriodicity": {
+   "checked": 1316,
+   "codec": {
+    "0": "Nonperiodical",
+    "1": "Year",
+    "2": "Quarter",
+    "3": "Month",
+    "4": "Day",
+    "5": "Second",
+    "6": "RecorderPosition"
+   },
+   "default_path": [
+    1,
+    18
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     18
+    ],
+    "15": [
+     1,
+     18
+    ],
+    "27": [
+     1,
+     18
+    ],
+    "29": [
+     1,
+     18
+    ],
+    "30": [
+     1,
+     18
+    ],
+    "32": [
+     1,
+     18
+    ],
+    "33": [
+     1,
+     18
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 1316,
+   "codec": "str",
+   "default_path": [
+    1,
+    15,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     15,
+     1,
+     2
+    ],
+    "15": [
+     1,
+     15,
+     1,
+     2
+    ],
+    "27": [
+     1,
+     15,
+     1,
+     2
+    ],
+    "29": [
+     1,
+     15,
+     1,
+     2
+    ],
+    "30": [
+     1,
+     15,
+     1,
+     2
+    ],
+    "32": [
+     1,
+     15,
+     1,
+     2
+    ],
+    "33": [
+     1,
+     15,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 1263,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    21
+   ],
+   "kind": "scalar",
+   "paths": {
+    "27": [
+     1,
+     21
+    ],
+    "29": [
+     1,
+     21
+    ],
+    "30": [
+     1,
+     21
+    ],
+    "32": [
+     1,
+     21
+    ],
+    "33": [
+     1,
+     21
+    ]
+   },
+   "refused_versions": [
+    "10",
+    "15"
+   ],
+   "wrong": 0
+  },
+  "WriteMode": {
+   "checked": 1316,
+   "codec": {
+    "0": "Independent",
+    "1": "RecorderSubordinate"
+   },
+   "default_path": [
+    1,
+    19
+   ],
+   "kind": "scalar",
+   "paths": {
+    "10": [
+     1,
+     19
+    ],
+    "15": [
+     1,
+     19
+    ],
+    "27": [
+     1,
+     19
+    ],
+    "29": [
+     1,
+     19
+    ],
+    "30": [
+     1,
+     19
+    ],
+    "32": [
+     1,
+     19
+    ],
+    "33": [
+     1,
+     19
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Interfaces": {
+  "Name": {
+   "checked": 47,
+   "codec": "str",
+   "default_path": [
+    1,
+    2,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "7": [
+     1,
+     2,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Switchable": {
+   "checked": 47,
+   "codec": {
+    "0": "true",
+    "1": "false"
+   },
+   "default_path": [
+    1,
+    1
+   ],
+   "kind": "scalar",
+   "paths": {
+    "7": [
+     1,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Languages": {
+  "LanguageCode": {
+   "checked": 11,
+   "codec": "str",
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "0": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Reports": {
+  "AuxiliaryForm": {
+   "checked": 1025,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "ref",
+   "paths": {
+    "19": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [
+    "9"
+   ],
+   "wrong": 5
+  },
+  "Comment": {
+   "checked": 3,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "9": [
+     1,
+     3,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [
+    "19"
+   ],
+   "wrong": 0
+  },
+  "DefaultForm": {
+   "checked": 1028,
+   "codec": null,
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "ref",
+   "paths": {
+    "19": [
+     1,
+     4
+    ],
+    "9": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultSettingsForm": {
+   "checked": 1028,
+   "codec": null,
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "ref",
+   "paths": {
+    "19": [
+     1,
+     6
+    ],
+    "9": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 1025,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    11
+   ],
+   "kind": "scalar",
+   "paths": {
+    "19": [
+     1,
+     11
+    ]
+   },
+   "refused_versions": [
+    "9"
+   ],
+   "wrong": 0
+  },
+  "MainDataCompositionSchema": {
+   "checked": 1028,
+   "codec": null,
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "ref",
+   "paths": {
+    "19": [
+     1,
+     5
+    ],
+    "9": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 1028,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "19": [
+     1,
+     3,
+     1,
+     2
+    ],
+    "9": [
+     1,
+     3,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "SettingsStorage": {
+   "checked": 1025,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "ref",
+   "paths": {
+    "19": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [
+    "9"
+   ],
+   "wrong": 0
+  },
+  "UseStandardCommands": {
+   "checked": 1025,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    7
+   ],
+   "kind": "scalar",
+   "paths": {
+    "19": [
+     1,
+     7
+    ]
+   },
+   "refused_versions": [
+    "9"
+   ],
+   "wrong": 0
+  },
+  "VariantsStorage": {
+   "checked": 1025,
+   "codec": null,
+   "default_path": [
+    1,
+    8
+   ],
+   "kind": "ref",
+   "paths": {
+    "19": [
+     1,
+     8
+    ]
+   },
+   "refused_versions": [
+    "9"
+   ],
+   "wrong": 0
+  }
+ },
+ "Roles": {
+  "Comment": {
+   "checked": 1050,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "6": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 1050,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "6": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "ScheduledJobs": {
+  "Comment": {
+   "checked": 296,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Description": {
+   "checked": 296,
+   "codec": "str",
+   "default_path": [
+    1,
+    3
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     3
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Key": {
+   "checked": 296,
+   "codec": "str",
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "MethodName": {
+   "checked": 296,
+   "codec": null,
+   "default_path": [
+    1,
+    6,
+    -1
+   ],
+   "kind": "method",
+   "paths": {
+    "2": [
+     1,
+     6,
+     -1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 296,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Predefined": {
+   "checked": 296,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RestartCountOnFailure": {
+   "checked": 296,
+   "codec": null,
+   "default_path": [
+    1,
+    8
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     8
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RestartIntervalOnFailure": {
+   "checked": 296,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Use": {
+   "checked": 296,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Sequences": {
+  "DataLockControlMode": {
+   "checked": 9,
+   "codec": {
+    "0": "Automatic",
+    "1": "Managed"
+   },
+   "default_path": [
+    1,
+    11
+   ],
+   "kind": "scalar",
+   "paths": {
+    "5": [
+     1,
+     11
+    ],
+    "6": [
+     1,
+     11
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Documents": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    8
+   ],
+   "kind": "list",
+   "paths": {
+    "5": [
+     1,
+     8
+    ],
+    "6": [
+     1,
+     8
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "MoveBoundaryOnPosting": {
+   "checked": 9,
+   "codec": {
+    "0": "Move",
+    "1": "DontMove"
+   },
+   "default_path": [
+    1,
+    10
+   ],
+   "kind": "scalar",
+   "paths": {
+    "5": [
+     1,
+     10
+    ],
+    "6": [
+     1,
+     10
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "RegisterRecords": {
+   "checked": 9,
+   "codec": null,
+   "default_path": [
+    1,
+    9
+   ],
+   "kind": "list",
+   "paths": {
+    "5": [
+     1,
+     9
+    ],
+    "6": [
+     1,
+     9
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "SessionParameters": {
+  "Comment": {
+   "checked": 222,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 222,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "SettingsStorages": {
+  "DefaultLoadForm": {
+   "checked": 6,
+   "codec": null,
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "ref",
+   "paths": {
+    "2": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultSaveForm": {
+   "checked": 6,
+   "codec": null,
+   "default_path": [
+    1,
+    5
+   ],
+   "kind": "ref",
+   "paths": {
+    "2": [
+     1,
+     5
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 6,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "2": [
+     1,
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "StyleItems": {
+  "Comment": {
+   "checked": 268,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     3,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 268,
+   "codec": "str",
+   "default_path": [
+    1,
+    3,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     3,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Type": {
+   "checked": 268,
+   "codec": {
+    "0": "Color",
+    "1": "Font",
+    "2": "Border"
+   },
+   "default_path": [
+    1,
+    1
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Styles": {
+  "Comment": {
+   "checked": 8,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 8,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Subsystems": {
+  "Comment": {
+   "checked": 134,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "20": [
+     1,
+     1,
+     4
+    ],
+    "21": [
+     1,
+     1,
+     4
+    ],
+    "22": [
+     1,
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Content": {
+   "checked": 126,
+   "codec": null,
+   "default_path": [
+    1,
+    7
+   ],
+   "kind": "list",
+   "paths": {
+    "20": [
+     1,
+     7
+    ],
+    "21": [
+     1,
+     7
+    ],
+    "22": [
+     1,
+     7
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeHelpInContents": {
+   "checked": 134,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "20": [
+     1,
+     2
+    ],
+    "21": [
+     1,
+     2
+    ],
+    "22": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "IncludeInCommandInterface": {
+   "checked": 134,
+   "codec": {
+    "0": "false",
+    "1": "true"
+   },
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "20": [
+     1,
+     4
+    ],
+    "21": [
+     1,
+     4
+    ],
+    "22": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 134,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "20": [
+     1,
+     1,
+     2
+    ],
+    "21": [
+     1,
+     1,
+     2
+    ],
+    "22": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "Tasks": {
+  "Addressing": {
+   "checked": 5,
+   "codec": null,
+   "default_path": [
+    1,
+    25
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     25
+    ],
+    "32": [
+     1,
+     25
+    ],
+    "33": [
+     1,
+     25
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "CurrentPerformer": {
+   "checked": 5,
+   "codec": null,
+   "default_path": [
+    1,
+    29
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     29
+    ],
+    "32": [
+     1,
+     29
+    ],
+    "33": [
+     1,
+     29
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultListForm": {
+   "checked": 5,
+   "codec": null,
+   "default_path": [
+    1,
+    16
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     16
+    ],
+    "32": [
+     1,
+     16
+    ],
+    "33": [
+     1,
+     16
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "DefaultObjectForm": {
+   "checked": 5,
+   "codec": null,
+   "default_path": [
+    1,
+    15
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     15
+    ],
+    "32": [
+     1,
+     15
+    ],
+    "33": [
+     1,
+     15
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "MainAddressingAttribute": {
+   "checked": 5,
+   "codec": null,
+   "default_path": [
+    1,
+    26
+   ],
+   "kind": "ref",
+   "paths": {
+    "28": [
+     1,
+     26
+    ],
+    "32": [
+     1,
+     26
+    ],
+    "33": [
+     1,
+     26
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ },
+ "WebServices": {
+  "DescriptorFileName": {
+   "checked": 29,
+   "codec": "str",
+   "default_path": [
+    1,
+    4
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     4
+    ],
+    "4": [
+     1,
+     4
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Name": {
+   "checked": 29,
+   "codec": "str",
+   "default_path": [
+    1,
+    2,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     2,
+     2
+    ],
+    "4": [
+     1,
+     2,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Namespace": {
+   "checked": 29,
+   "codec": "str",
+   "default_path": [
+    1,
+    1
+   ],
+   "kind": "scalar",
+   "paths": {
+    "3": [
+     1,
+     1
+    ],
+    "4": [
+     1,
+     1
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "ReuseSessions": {
+   "checked": 26,
+   "codec": {
+    "0": "DontUse",
+    "2": "AutoUse"
+   },
+   "default_path": [
+    1,
+    6
+   ],
+   "kind": "scalar",
+   "paths": {
+    "4": [
+     1,
+     6
+    ]
+   },
+   "refused_versions": [
+    "3"
+   ],
+   "wrong": 0
+  }
+ },
+ "XDTOPackages": {
+  "Name": {
+   "checked": 93,
+   "codec": "str",
+   "default_path": [
+    1,
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  },
+  "Namespace": {
+   "checked": 93,
+   "codec": "str",
+   "default_path": [
+    1,
+    2
+   ],
+   "kind": "scalar",
+   "paths": {
+    "1": [
+     1,
+     2
+    ]
+   },
+   "refused_versions": [],
+   "wrong": 0
+  }
+ }
+}

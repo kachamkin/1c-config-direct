@@ -15,7 +15,7 @@ import argparse, collections, difflib, os, re, subprocess, time  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from v8cfg import Source  # noqa: E402
-from v8meta import Configuration, normalize_query, show_type, export_path  # noqa: E402
+from v8meta import Configuration, normalize_query, show_type, export_path, show_value  # noqa: E402
 from onecd import Source1CD, is_1cd  # noqa: E402
 
 NO_TEXT = ('image only', 'encrypted', 'form without module', 'binary')   # plus any 'container:…'
@@ -234,6 +234,64 @@ def cmd_fields(cfg, desc, facts, a):
         print('%-45s %-12s %-45s %s' % (f.obj, f.kind, name, show_type(f.types)))
 
 
+def select_objects(cfg, flt):
+    """top-level objects for a filter: exact object name, then 'name.' prefix, then substring"""
+    objs = [(it, tree) for it, tree in cfg.trees()]
+    if not flt:
+        return objs
+    q = normalize_query(flt).lower().rstrip('.')
+    for test in (lambda it: it.path.lower() == q, lambda it: it.path.lower().startswith(q + '.'), lambda it: q in it.path.lower()):
+        hit = [(it, t) for it, t in objs if test(it)]
+        if hit:
+            return hit
+    return []
+
+
+def cmd_props(cfg, desc, facts, a):
+    objs = select_objects(cfg, a.filter)
+    if a.prop:
+        want = a.prop.lower()
+        for it, tree in objs:
+            for prop, v, how in cfg.properties(it, tree):
+                if prop.lower() == want:
+                    print('%-60s %s%s' % (it.path, show_value(v), '  (assumed)' if how == 'assumed' else ''))
+        return
+    for it, tree in objs:
+        syn = it.synonyms.get('ru') or it.synonyms.get('uk') or ''
+        print('%s%s   [format version %s]' % (it.path, ('  — ' + syn) if syn else '', tree[1][0] if isinstance(tree[1], list) else '?'))
+        for prop, v, how in cfg.properties(it, tree):
+            sv = show_value(v)
+            if sv == '' and not a.all:
+                continue
+            print('   %-34s %s%s' % (prop, sv, '  (assumed)' if how == 'assumed' else ''))
+
+
+def cmd_usedby(cfg, desc, facts, a):
+    q = normalize_query(a.name).rstrip('.')
+    ql = q.lower()
+    hits = 0
+    for it, tree in cfg.trees():
+        for prop, v, how in cfg.properties(it, tree):
+            vals = v if isinstance(v, list) else [v] if isinstance(v, str) else []
+            for x in vals:
+                xl = x.lower()
+                if xl == ql or xl.startswith(ql + '.'):
+                    print('%-60s %-28s %s' % (it.path, prop, x))
+                    hits += 1
+    if a.types:                                        # attributes whose type refers to the object
+        from v8meta import SINGULAR
+        cls, _, name = q.partition('.')
+        single = SINGULAR.get(cls, cls[:-1]).lower()
+        for f in cfg.fields():
+            for k, v in f.types:
+                if k in ('Type', 'TypeSet') and isinstance(v, str) and '.' in v:
+                    tcls, _, tname = v.partition('.')
+                    if tname.lower() == name.lower() and tcls.lower().startswith(single):
+                        print('%-60s %-28s %s' % (f.obj, 'type: ' + ((f.path + '.') if f.path else '') + f.name, v))
+                        hits += 1
+    note('%d references to %s' % (hits, q))
+
+
 def cmd_export(cfg, desc, facts, a):
     os.makedirs(a.dir, exist_ok=True)
     n = skipped = 0
@@ -253,7 +311,11 @@ def cmd_export(cfg, desc, facts, a):
         with open(os.path.join(a.dir, 'fields.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
             for fl in cfg.fields():
                 f.write('%s\t%s\t%s\t%s\t%s\n' % (fl.obj, fl.kind, (fl.path + '.' if fl.path else '') + fl.name, show_type(fl.types), fl.uuid))
-    print('exported %d modules to %s (%d without source text skipped); objects.tsv%s' % (
+    with open(os.path.join(a.dir, 'props.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
+        for it, tree in cfg.trees():
+            for prop, v, how in cfg.properties(it, tree):
+                f.write('%s\t%s\t%s\t%s\n' % (it.path, prop, show_value(v).replace('\t', ' ').replace('\n', ' '), how))
+    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv%s' % (
         n, a.dir, skipped, '' if a.no_fields else ', fields.tsv'))
 
 
@@ -277,6 +339,14 @@ def cmd_diff(cfg, desc, facts, a):
         if a.show and (a.show == '*' or normalize_query(a.show).lower() in k.lower()):
             for l in difflib.unified_diff(a_t, b_t, 'A/' + k, 'B/' + k, lineterm='', n=a.ctx):
                 print('      ' + l)
+    if a.props:
+        q = normalize_query(a.path).lower() if a.path else ''
+        p1 = {(it.path, prop): show_value(v) for it, tree in cfg.trees() if q in it.path.lower() for prop, v, how in cfg.properties(it, tree)}
+        p2 = {(it.path, prop): show_value(v) for it, tree in other.trees() if q in it.path.lower() for prop, v, how in other.properties(it, tree)}
+        changed_p = sorted(k for k in set(p1) & set(p2) if p1[k] != p2[k])
+        print('properties: %d changed' % len(changed_p))
+        for k in changed_p:
+            print('  ~ %s %s | %s -> %s' % (k[0], k[1], p1[k][:80], p2[k][:80]))
     if a.fields:
         q = normalize_query(a.path).lower() if a.path else ''
         f1 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f in cfg.fields() if q in f.obj.lower()}
@@ -393,6 +463,38 @@ def cmd_check(cfg, desc, facts, a):
     print('fields vs XML:', dict(fr), '| XML fields not found:', sum(1 for u in xf if u not in fseen))
     for b in fbad[:10]:
         print('   ', b)
+    # object properties against the XML properties of the same objects
+    from learn_props import xml_props
+    from v8meta import prop_tables
+    tabs = prop_tables()
+    pr_res, pr_bad = collections.Counter(), collections.defaultdict(list)
+    for it, tree in cfg.trees():
+        xp_path = os.path.join(conf, it.cls, it.name + '.xml')
+        if not os.path.isfile(xp_path):
+            continue
+        xp = xml_props(xp_path)
+        for prop, v, how in cfg.properties(it, tree):
+            if prop not in xp:
+                continue
+            kind = tabs[it.cls][prop]['kind']
+            xk, xv = xp[prop]
+            if kind == 'list':
+                got, want = tuple(sorted(v or [])), (() if xk == 'empty' else xv)
+            elif kind == 'method':
+                got = v or None
+                want = None if xk == 'empty' else '%s.%s' % xv if xk == 'method' else xv
+            elif kind == 'ref':
+                got, want = (v or None), (None if xk == 'empty' else xv)
+            else:
+                got, want = v, ('' if xk == 'empty' else xv)
+            if got == want:
+                pr_res['equal'] += 1
+            else:
+                pr_res['differs'] += 1
+                pr_bad[(it.cls, prop)].append((it.name, show_value(list(got) if isinstance(got, tuple) else got), show_value(list(want) if isinstance(want, tuple) else want)))
+    print('properties vs XML:', dict(pr_res), '| properties with differences:', len(pr_bad))
+    for (cls, prop), rows in sorted(pr_bad.items(), key=lambda kv: -len(kv[1]))[:10]:
+        print('    %s.%s: %d, e.g. %s: %s | XML: %s' % (cls, prop, len(rows), rows[0][0], rows[0][1][:60], rows[0][2][:60]))
 
 
 def main():
@@ -410,9 +512,11 @@ def main():
     s.add_argument('-i', '--ignore-case', action='store_true'); s.add_argument('--path'); s.add_argument('--ctx', type=int, default=0)
     s.add_argument('--files', action='store_true'); s.add_argument('--proc', action='store_true'); s.add_argument('--max', type=int, default=500)
     s = sub.add_parser('fields'); s.add_argument('filter', nargs='?')
+    s = sub.add_parser('props'); s.add_argument('filter', nargs='?'); s.add_argument('--prop'); s.add_argument('--all', action='store_true')
+    s = sub.add_parser('usedby'); s.add_argument('name'); s.add_argument('--types', action='store_true')
     s = sub.add_parser('export'); s.add_argument('dir'); s.add_argument('--path'); s.add_argument('--no-fields', action='store_true')
     s = sub.add_parser('diff'); s.add_argument('other'); s.add_argument('--path'); s.add_argument('--show')
-    s.add_argument('--ctx', type=int, default=2); s.add_argument('--fields', action='store_true')
+    s.add_argument('--ctx', type=int, default=2); s.add_argument('--fields', action='store_true'); s.add_argument('--props', action='store_true')
     s = sub.add_parser('check'); s.add_argument('conf')
     a = p.parse_args()
     t0 = time.time()
