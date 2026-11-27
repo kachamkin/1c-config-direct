@@ -478,6 +478,31 @@ def show_type(ts):
     return ', '.join(parts)
 
 
+def xml_type(t):
+    """a type of the XML dump (<Type> with <v8:Type>… inside) in the shape of Configuration.decode"""
+    V8 = '{http://v8.1c.ru/8.1/data/core}'
+    sq, nq, dq = t.find(V8 + 'StringQualifiers'), t.find(V8 + 'NumberQualifiers'), t.find(V8 + 'DateQualifiers')
+    out = []
+    for e in t:
+        tag = e.tag.replace(V8, '')
+        if tag == 'Type':
+            v = e.text
+            if v == 'xs:string':
+                out.append(('String', (sq.findtext(V8 + 'Length'), sq.findtext(V8 + 'AllowedLength')) if sq is not None else None))
+            elif v == 'xs:decimal':
+                out.append(('Number', (nq.findtext(V8 + 'Digits'), nq.findtext(V8 + 'FractionDigits'), nq.findtext(V8 + 'AllowedSign')) if nq is not None else None))
+            elif v == 'xs:dateTime':
+                out.append(('Date', dq.findtext(V8 + 'DateFractions') if dq is not None else None))
+            elif v == 'xs:boolean':
+                out.append(('Boolean', None))
+            else:
+                out.append(('Type', v.split(':')[-1]))
+        elif tag == 'TypeSet':
+            v = e.text.split(':')[-1]
+            out.append(('TypeSet', 'AnyIBRef' if v == 'AnyRef' else v))   # older dump formats say AnyRef
+    return out
+
+
 def export_path(mod):
     """module -> relative path in the layout of an XML dump (Catalogs/X/Ext/ObjectModule.bsl ...)"""
     parts = [] if mod.path == 'Configuration' else mod.path.split('.')
@@ -576,13 +601,16 @@ def _adopted(self, tree):
     return bool(nb) and len(nb) > 9 and nb[5] == '1'
 
 
-def _properties(self, it, tree):
+def _properties(self, it, tree, only=None):
     """[(property, value, how)] for a top-level object; how: 'version' (position learned for this format version)
     or 'assumed' (version not seen in learning, but every learned version keeps the property at the same place).
     An object borrowed by an extension gets ObjectBelonging Adopted and only its non-empty lists, how 'extension':
-    they name just the objects the extension holds (owners, movements); its other values are mere defaults."""
+    they name just the objects the extension holds (owners, movements); its other values are mere defaults.
+    only: names of the properties wanted (the rest is not decoded)"""
     adopted = self.adopted(tree)
     tab = prop_tables().get(it.cls, {})
+    if only is not None:
+        tab = {k: v for k, v in tab.items() if k in only}
     ver = tree[1][0] if isinstance(tree[1], list) and tree[1] and isinstance(tree[1][0], str) else 'x'
     names = self.ref_names()
     comp = None

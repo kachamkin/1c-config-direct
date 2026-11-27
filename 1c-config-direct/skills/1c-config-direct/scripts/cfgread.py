@@ -7,7 +7,8 @@
 #            <file.cf> | <file.cfe>          configuration file
 #            <1Cv8.1CD> | <file base folder> Config table of a file infobase (storage format 8.3.8), read in place
 #            <folder>                        rows already dumped one file per FileName
-# commands:  info | objects | modules | module | grep | fields | export | diff | check        (see SKILL.md)
+# commands:  info | objects | modules | module | grep | fields | props | usedby | predefined | export | diff | check
+#            (see SKILL.md)
 import sys
 sys.dont_write_bytecode = True                          # no __pycache__ inside the skill folder
 import argparse, collections, difflib, os, re, subprocess, time  # noqa: E402
@@ -390,6 +391,44 @@ def cmd_props(cfg, desc, facts, a):
             print('   %-34s %s%s' % (prop, sv, HOW.get(how, '')))
 
 
+def predefined_rows(cfg, objects=None):
+    """[(object, [(depth, item)])] of the objects with predefined items; objects: a set of paths or None for all"""
+    from v8pred import FILE, items, walk
+    out = []
+    for it in cfg.items.values():
+        if it.cls not in FILE or (objects is not None and it.path not in objects):
+            continue
+        its = items(cfg, it)
+        if its:
+            out.append((it, list(walk(its))))
+    return sorted(out, key=lambda r: r[0].path)
+
+
+def cmd_predefined(cfg, desc, facts, a):
+    from v8pred import FILE, show_item
+    objs = [it.path for it, t in select_objects(cfg, a.filter) if it.cls in FILE]
+    item_q = None
+    if not objs and a.filter and '.' in a.filter.strip('.'):           # Class.Object.Item: the items of that name
+        head, _, item_q = normalize_query(a.filter).rstrip('.').rpartition('.')
+        objs = [it.path for it, t in select_objects(cfg, head) if it.cls in FILE]
+        item_q = item_q.lower()
+    total = 0
+    found = predefined_rows(cfg, set(objs))
+    if item_q:                                  # the exact name if some object has it, else a part of the name
+        exact = any(x.name.lower() == item_q for it, rows in found for d, x in rows)
+        found = [(it, [(0, x) for d, x in rows if (x.name.lower() == item_q if exact else item_q in x.name.lower())]) for it, rows in found]
+    for it, rows in found:
+        if not rows:
+            continue
+        syn = it.synonyms.get('ru') or it.synonyms.get('uk') or ''
+        print('%s%s   (%d)' % (it.path, ('  — ' + syn) if syn else '', len(rows)))
+        for d, x in rows:
+            print('   ' + '  ' * d + show_item(x) + ('  {%s}' % x.uuid if a.ids else ''))
+        total += len(rows)
+    if not total:
+        print('no predefined items' + (' for ' + a.filter if a.filter else ''))
+
+
 def cmd_usedby(cfg, desc, facts, a):
     q = normalize_query(a.name).rstrip('.')
     ql = q.lower()
@@ -444,8 +483,24 @@ def cmd_export(cfg, desc, facts, a):
         for it, tree in cfg.trees():
             for prop, v, how in cfg.properties(it, tree):
                 f.write('%s\t%s\t%s\t%s\n' % (it.path, prop, show_value(v).replace('\t', ' ').replace('\n', ' '), how))
-    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv%s' % (
+    from v8pred import shown_code, details
+    with open(os.path.join(a.dir, 'predefined.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
+        for it, rows in predefined_rows(cfg):
+            for k, (d, x) in enumerate(rows):
+                f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (it.path, item_path(rows, k), shown_code(x), x.description.replace('\t', ' '),
+                                                    details(x), x.uuid))
+    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv, predefined.tsv%s' % (
         n, a.dir, skipped, '' if a.no_fields else ', fields.tsv'))
+
+
+def item_path(rows, k):
+    """'Parent/Child/Item' of the k-th row of predefined_rows"""
+    names, depth = [rows[k][1].name], rows[k][0]
+    for d, x in reversed(rows[:k]):
+        if d < depth:
+            names.append(x.name)
+            depth = d
+    return '/'.join(reversed(names))
 
 
 def cmd_diff(cfg, desc, facts, a):
@@ -476,6 +531,25 @@ def cmd_diff(cfg, desc, facts, a):
         print('properties: %d changed' % len(changed_p))
         for k in changed_p:
             print('  ~ %s %s | %s -> %s' % (k[0], k[1], p1[k][:80], p2[k][:80]))
+    if a.predefined:                                    # items matched by uuid: a renamed or moved item is a change
+        from v8pred import shown_code, details
+        q = normalize_query(a.path).lower() if a.path else ''
+
+        def pd(c):
+            return {(it.path, x.uuid): ('%s.%s' % (it.path, item_path(rows, k)), shown_code(x), x.description, details(x))
+                    for it, rows in predefined_rows(c) if q in it.path.lower() for k in range(len(rows)) for x in [rows[k][1]]}
+        d1, d2 = pd(cfg), pd(other)
+        only_a, only_b = sorted(set(d1) - set(d2), key=lambda k: d1[k]), sorted(set(d2) - set(d1), key=lambda k: d2[k])
+        changed_d = sorted((k for k in set(d1) & set(d2) if d1[k] != d2[k]), key=lambda k: d2[k])
+        print('predefined items: %d only in A, %d only in B, %d changed' % (len(only_a), len(only_b), len(changed_d)))
+        for k in only_a:
+            print('  - only A  ' + d1[k][0])
+        for k in only_b:
+            print('  + only B  ' + d2[k][0])
+        for k in changed_d:
+            a_, b_ = d1[k], d2[k]
+            print('  ~ %s%s | %s -> %s' % (a_[0], (' -> ' + b_[0]) if a_[0] != b_[0] else '',
+                                           ' '.join(filter(None, a_[1:]))[:90], ' '.join(filter(None, b_[1:]))[:90]))
     if a.fields:
         q = normalize_query(a.path).lower() if a.path else ''
         f1 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f, s in field_rows(cfg) if q in f.obj.lower()}
@@ -530,28 +604,7 @@ def cmd_check(cfg, desc, facts, a):
     for l in left[:10]:
         print('    XML only:', l)
     MD, V8 = '{http://v8.1c.ru/8.3/MDClasses}', '{http://v8.1c.ru/8.1/data/core}'
-
-    def xml_type(t):
-        sq, nq, dq = t.find(V8 + 'StringQualifiers'), t.find(V8 + 'NumberQualifiers'), t.find(V8 + 'DateQualifiers')
-        out = []
-        for e in t:
-            tag = e.tag.replace(V8, '')
-            if tag == 'Type':
-                v = e.text
-                if v == 'xs:string':
-                    out.append(('String', (sq.findtext(V8 + 'Length'), sq.findtext(V8 + 'AllowedLength')) if sq is not None else None))
-                elif v == 'xs:decimal':
-                    out.append(('Number', (nq.findtext(V8 + 'Digits'), nq.findtext(V8 + 'FractionDigits'), nq.findtext(V8 + 'AllowedSign')) if nq is not None else None))
-                elif v == 'xs:dateTime':
-                    out.append(('Date', dq.findtext(V8 + 'DateFractions') if dq is not None else None))
-                elif v == 'xs:boolean':
-                    out.append(('Boolean', None))
-                else:
-                    out.append(('Type', v.split(':')[-1]))
-            elif tag == 'TypeSet':
-                v = e.text.split(':')[-1]
-                out.append(('TypeSet', 'AnyIBRef' if v == 'AnyRef' else v))   # older dump formats say AnyRef
-        return out
+    from v8meta import xml_type
 
     xf = {}
     for dp, dns, fns in os.walk(conf):
@@ -714,6 +767,34 @@ def cmd_check(cfg, desc, facts, a):
     print('field properties vs XML:', dict(fpr), '| properties with differences:', len(fpbad))
     for (cls, p), rows in sorted(fpbad.items(), key=lambda kv: -len(kv[1]))[:10]:
         print('    %s.%s: %d, e.g. %s' % (cls, p, len(rows), rows[0]))
+    # predefined items against Ext/Predefined.xml: place in the tree, name, code, description, folder, class properties
+    from v8pred import FILE as PRED_FILE, items as pred_items, xml_items, flat
+    pdr, pdbad = collections.Counter(), collections.defaultdict(list)
+    for it in cfg.items.values():
+        if it.cls not in PRED_FILE or not os.path.isfile(os.path.join(conf, it.cls, it.name + '.xml')):
+            continue
+        xp = os.path.join(conf, it.cls, it.name, 'Ext', 'Predefined.xml')
+        got = flat(pred_items(cfg, it) or [])
+        want = flat(xml_items(xp)) if os.path.isfile(xp) else {}
+        for u in set(got) | set(want):
+            if u not in want or u not in got:
+                side = 'not in XML' if u not in want else 'only in XML'
+                pdr['item ' + side] += 1; pdbad[(it.cls, side)].append('%s.%s' % (it.name, (got.get(u) or want.get(u))[2].name))
+                continue
+            (gp, gi, g), (wp, wi, w) = got[u], want[u]
+            pairs = [('parent', gp, wp), ('position', gi, wi), ('Name', g.name, w.name), ('Code', g.code, w.code),
+                     ('Description', g.description, w.description), ('IsFolder', g.folder, w.folder)]
+            pairs += [(k, g.props.get(k), w.props.get(k)) for k in sorted(set(g.props) | set(w.props))]
+            for k, x, y in pairs:
+                if k == 'Type' and x is not None and y is not None:
+                    x, y = sorted(map(repr, x)), sorted(map(repr, y))
+                if x == y:
+                    pdr['equal'] += 1
+                else:
+                    pdr['differs'] += 1; pdbad[(it.cls, k)].append('%s.%s: %s | XML: %s' % (it.name, g.name, str(x)[:70], str(y)[:70]))
+    print('predefined items vs XML:', dict(pdr), '| kinds of differences:', len(pdbad))
+    for (cls, k), rows in sorted(pdbad.items(), key=lambda kv: -len(kv[1]))[:10]:
+        print('    %s %s: %d, e.g. %s' % (cls, k, len(rows), rows[0]))
 
 
 def main():
@@ -735,9 +816,12 @@ def main():
     s.add_argument('--props', action='store_true', help='every known property of each field on a line of its own')
     s = sub.add_parser('props'); s.add_argument('filter', nargs='?'); s.add_argument('--prop'); s.add_argument('--all', action='store_true')
     s = sub.add_parser('usedby'); s.add_argument('name'); s.add_argument('--types', action='store_true')
+    s = sub.add_parser('predefined'); s.add_argument('filter', nargs='?')
+    s.add_argument('--ids', action='store_true', help='item uuid too: the _PredefinedID of its row in the database (bytes in the 1C order)')
     s = sub.add_parser('export'); s.add_argument('dir'); s.add_argument('--path'); s.add_argument('--no-fields', action='store_true')
     s = sub.add_parser('diff'); s.add_argument('other'); s.add_argument('--path'); s.add_argument('--show')
     s.add_argument('--ctx', type=int, default=2); s.add_argument('--fields', action='store_true'); s.add_argument('--props', action='store_true')
+    s.add_argument('--predefined', action='store_true')
     s = sub.add_parser('check'); s.add_argument('conf')
     a = p.parse_args()
     t0 = time.time()

@@ -6,7 +6,7 @@
 #                     <type field>,<value field>,<types filter field>,<types filter value>,<key field>,<4 optional fields>}}
 #   the characteristics property  {1,{N,<characteristic>…}}
 # A standard attribute is named by its id in the class of the object the field belongs to (v8std.STD_IDS); the types
-# filter value is a predefined item {"#",5c14e26f-…,{0,<TypeId>,<item uuid>}} (names in <object uuid>.1c), a string or empty.
+# filter value is a predefined item {"#",5c14e26f-…,{0,<TypeId>,<item uuid>}} (names: v8pred), a string or empty.
 import re
 from v8meta import unq
 from v8std import STD_IDS, TS_LINE_ID
@@ -15,10 +15,6 @@ FIELD_REF = '60ea359f-3a6e-48bb-8e71-d2a457572918'
 CHARACTERISTIC = 'fe839d42-d094-40ba-b903-75bccc21ba30'
 DESIGN_TIME_REF = '5c14e26f-099b-4d37-84a6-b433d87400da'
 ZERO = '00000000-0000-0000-0000-000000000000'
-# a predefined item: {"#",<TypeId>,{1,<uuid>}}, then {"B",<folder>} (catalog, ПВХ), then the parent (catalog), then the name
-_ITEM = re.compile(r'\{"#",[0-9a-f-]{36},\s*\{1,([0-9a-f-]{36})\}\s*\},\s*(?:\{"B",[01]\},\s*)?'
-                   r'(?:\{"#",[0-9a-f-]{36},\s*\{1,[0-9a-f-]{36}\}\s*\},\s*)?\{"S","((?:[^"]|"")*)"\}')
-PREDEFINED_FILE = {'Catalogs': '.1c', 'ChartsOfCharacteristicTypes': '.7', 'ChartsOfAccounts': '.9'}
 
 
 class Context:
@@ -43,15 +39,13 @@ class Context:
     def predefined(self, obj_path):
         """{item uuid: name} of the predefined items of an object"""
         if obj_path not in self._predefined:
-            out = {}
+            from v8pred import FILE, items, walk
+            self._predefined[obj_path] = out = {}         # set first: no second entry while the names are read
             it = next((i for i in self.cfg.items.values() if i.path == obj_path), None)
-            suffix = PREDEFINED_FILE.get(it.cls) if it is not None else None
-            if suffix and self.cfg.src.has(it.uuid + suffix):
-                from v8cfg import inflate, text
+            if it is not None and it.cls in FILE:
                 try:
-                    t = text(inflate(self.cfg.src.raw(it.uuid + suffix)))
-                    out = {u: n.replace('""', '"') for u, n in _ITEM.findall(t) if u != ZERO}   # zero: the root
-                except Exception:
+                    out = {x.uuid: x.name for d, x in walk(items(self.cfg, it) or [])}
+                except Exception:          # an unknown layout of the file: names stay unknown, as for a deleted item
                     out = {}
             self._predefined[obj_path] = out
         return self._predefined[obj_path]
