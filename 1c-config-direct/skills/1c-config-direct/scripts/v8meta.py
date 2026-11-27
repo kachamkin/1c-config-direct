@@ -418,11 +418,16 @@ class Configuration:
 
     def fields(self):
         for it, tree in self.trees():
-            if it.cls == 'ChartsOfCharacteristicTypes':     # value type of the chart itself sits in the header
+            # a defined type or a chart of characteristic types borrowed by an extension keeps a default type there
+            # (a borrowed constant keeps its real one)
+            no_own_type = it.cls in ('DefinedTypes', 'ChartsOfCharacteristicTypes') and self.adopted(tree)
+            if it.cls == 'ChartsOfCharacteristicTypes' and not no_own_type:     # value type of the chart sits in the header
                 pat = next((x for x in at(tree, (1,)) or [] if isinstance(x, list) and x and x[0] == '"Pattern"'), None)
                 if pat:
                     yield Field(it.path, 'Type', '', it.name, it.uuid, self.decode(pat))
             for coll, ctx, fu, fname, pat in typed_fields(tree):
+                if no_own_type and coll is None:
+                    continue
                 kind = KIND.get(coll, 'Type' if coll is None else 'Field')
                 yield Field(it.path, kind, '.'.join(ctx), fname, fu, self.decode(pat))
 
@@ -542,15 +547,28 @@ def _ref_names(self):
     return self._names
 
 
+def _adopted(self, tree):
+    """an object an extension borrows from the configuration: the extension stores its name and the link to the
+    extended object ({3,{…},"Name",{…},"",1,…} in the name block, 0 for an own object); every other property keeps
+    its default value there"""
+    if self.root_name != 'configinfo':
+        return False
+    nb = find_name_block(tree)
+    return bool(nb) and len(nb) > 9 and nb[5] == '1'
+
+
 def _properties(self, it, tree):
     """[(property, value, how)] for a top-level object; how: 'version' (position learned for this format version)
-    or 'assumed' (version not seen in learning, but every learned version keeps the property at the same place)"""
+    or 'assumed' (version not seen in learning, but every learned version keeps the property at the same place).
+    An object borrowed by an extension gets ObjectBelonging Adopted and only its non-empty lists, how 'extension':
+    they name just the objects the extension holds (owners, movements); its other values are mere defaults."""
+    adopted = self.adopted(tree)
     tab = prop_tables().get(it.cls, {})
     ver = tree[1][0] if isinstance(tree[1], list) and tree[1] and isinstance(tree[1][0], str) else 'x'
     names = self.ref_names()
-    out = []
+    out = [('ObjectBelonging', 'Adopted', 'version')] if adopted else []
     for prop, d in sorted(tab.items()):
-        if prop in SKIP_PROPS:
+        if prop in SKIP_PROPS or (adopted and d['kind'] != 'list'):
             continue
         path, how = d['paths'].get(ver), 'version'
         if path is None:
@@ -560,12 +578,15 @@ def _properties(self, it, tree):
                 continue
             path, how = d['default_path'], 'assumed'
         value, ok = _decode(d, tree, path, names)
-        if ok:
+        if ok and not adopted:
             out.append((prop, value, how))
+        elif ok and value:
+            out.append((prop, value, 'extension'))
     return out
 
 
 Configuration.ref_names = _ref_names
+Configuration.adopted = _adopted
 Configuration.properties = _properties
 
 

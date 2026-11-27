@@ -15,7 +15,8 @@ import argparse, collections, difflib, os, re, subprocess, time  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from v8cfg import Source  # noqa: E402
-from v8meta import Configuration, normalize_query, show_type, export_path, show_value  # noqa: E402
+from v8meta import Configuration, Field, normalize_query, show_type, export_path, show_value  # noqa: E402
+from v8std import standard_attributes  # noqa: E402
 from onecd import Source1CD, is_1cd  # noqa: E402
 
 NO_TEXT = ('image only', 'encrypted', 'form without module', 'binary')   # plus any 'container:…'
@@ -225,13 +226,54 @@ def cmd_grep(cfg, desc, facts, a):
     note('%d modules, %d matching lines' % (files, hits))
 
 
+def field_rows(cfg, objects=None, standard=True):
+    """(Field, StdAttr or None) object by object: standard attributes first, LineNumber of a tabular section before
+    the section's own fields; a standard attribute has kind 'Standard', its Russian name and no uuid"""
+    own, std = collections.defaultdict(list), collections.defaultdict(list)
+    for f in cfg.fields():
+        own[f.obj].append(f)
+    if standard:
+        for s in standard_attributes(cfg, objects):
+            std[s.obj].append(s)
+    as_field = lambda s: Field(s.obj, 'Standard', s.ts, s.ru, '', s.types)
+    for it, tree in cfg.trees():
+        if objects is not None and it.path not in objects:
+            continue
+        line = {s.ts: s for s in std[it.path] if s.ts}
+        for s in std[it.path]:
+            if not s.ts:
+                yield as_field(s), s
+        for f in own[it.path]:
+            s = line.pop(f.path, None)
+            if s:
+                yield as_field(s), s
+            yield f, None
+        for s in line.values():                        # tabular sections without attributes
+            yield as_field(s), s
+
+
+def show_settings(st):
+    parts = []
+    for k in ('Synonym', 'ToolTip', 'Comment', 'Mask', 'FillChecking', 'FillFromFillingValue'):
+        v = st.get(k)
+        if isinstance(v, dict):
+            v = v.get('ru') or v.get('uk') or next(iter(v.values()), '')
+        if v:
+            parts.append('%s=%s' % (k, ' '.join(v.split())[:60]))
+    return '; '.join(parts)
+
+
 def cmd_fields(cfg, desc, facts, a):
     q = normalize_query(a.filter).lower().rstrip('.') if a.filter else ''
-    fields = list(cfg.fields())
-    exact = [f for f in fields if f.obj.lower() == q]
-    for f in exact or [f for f in fields if q in f.obj.lower()]:
-        name = (f.path + '.' if f.path else '') + f.name
-        print('%-45s %-12s %-45s %s' % (f.obj, f.kind, name, show_type(f.types)))
+    paths = [it.path for it, tree in cfg.trees()]
+    exact = [p for p in paths if p.lower() == q]
+    for f, s in field_rows(cfg, set(exact or [p for p in paths if q in p.lower()]), not a.no_standard):
+        name = (f.path + '.' if f.path else '') + f.name + (' (%s)' % s.name if s else '')
+        extra = ''
+        if s:
+            st = show_settings(s.settings)
+            extra = ('  [%s]' % st if st else '') + ('  (assumed)' if s.how else '')
+        print('%-45s %-12s %-45s %s%s' % (f.obj, f.kind, name, show_type(f.types), extra))
 
 
 def select_objects(cfg, flt):
@@ -247,6 +289,9 @@ def select_objects(cfg, flt):
     return []
 
 
+HOW = {'assumed': '  (assumed)', 'extension': '  (in extension)'}
+
+
 def cmd_props(cfg, desc, facts, a):
     objs = select_objects(cfg, a.filter)
     if a.prop:
@@ -254,7 +299,7 @@ def cmd_props(cfg, desc, facts, a):
         for it, tree in objs:
             for prop, v, how in cfg.properties(it, tree):
                 if prop.lower() == want:
-                    print('%-60s %s%s' % (it.path, show_value(v), '  (assumed)' if how == 'assumed' else ''))
+                    print('%-60s %s%s' % (it.path, show_value(v), HOW.get(how, '')))
         return
     for it, tree in objs:
         syn = it.synonyms.get('ru') or it.synonyms.get('uk') or ''
@@ -263,7 +308,7 @@ def cmd_props(cfg, desc, facts, a):
             sv = show_value(v)
             if sv == '' and not a.all:
                 continue
-            print('   %-34s %s%s' % (prop, sv, '  (assumed)' if how == 'assumed' else ''))
+            print('   %-34s %s%s' % (prop, sv, HOW.get(how, '')))
 
 
 def cmd_usedby(cfg, desc, facts, a):
@@ -309,7 +354,7 @@ def cmd_export(cfg, desc, facts, a):
             f.write('%s\t%s\t%s\t%s\n' % (it.path, it.cls, it.uuid, it.synonyms.get('ru') or it.synonyms.get('uk') or ''))
     if not a.no_fields:
         with open(os.path.join(a.dir, 'fields.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
-            for fl in cfg.fields():
+            for fl, s in field_rows(cfg):
                 f.write('%s\t%s\t%s\t%s\t%s\n' % (fl.obj, fl.kind, (fl.path + '.' if fl.path else '') + fl.name, show_type(fl.types), fl.uuid))
     with open(os.path.join(a.dir, 'props.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
         for it, tree in cfg.trees():
@@ -349,8 +394,8 @@ def cmd_diff(cfg, desc, facts, a):
             print('  ~ %s %s | %s -> %s' % (k[0], k[1], p1[k][:80], p2[k][:80]))
     if a.fields:
         q = normalize_query(a.path).lower() if a.path else ''
-        f1 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f in cfg.fields() if q in f.obj.lower()}
-        f2 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f in other.fields() if q in f.obj.lower()}
+        f1 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f, s in field_rows(cfg) if q in f.obj.lower()}
+        f2 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f, s in field_rows(other) if q in f.obj.lower()}
         print('fields: %d only in A, %d only in B, %d with another type' % (
             len(set(f1) - set(f2)), len(set(f2) - set(f1)), sum(1 for k in set(f1) & set(f2) if f1[k] != f2[k])))
         for k in sorted(set(f1) - set(f2)):
@@ -476,7 +521,7 @@ def cmd_check(cfg, desc, facts, a):
         for prop, v, how in cfg.properties(it, tree):
             if prop not in xp:
                 continue
-            kind = tabs[it.cls][prop]['kind']
+            kind = tabs.get(it.cls, {}).get(prop, {}).get('kind', 'scalar')     # ObjectBelonging is not in the tables
             xk, xv = xp[prop]
             if kind == 'list':
                 got, want = tuple(sorted(v or [])), (() if xk == 'empty' else xv)
@@ -495,6 +540,65 @@ def cmd_check(cfg, desc, facts, a):
     print('properties vs XML:', dict(pr_res), '| properties with differences:', len(pr_bad))
     for (cls, prop), rows in sorted(pr_bad.items(), key=lambda kv: -len(kv[1]))[:10]:
         print('    %s.%s: %d, e.g. %s: %s | XML: %s' % (cls, prop, len(rows), rows[0][0], rows[0][1][:60], rows[0][2][:60]))
+    # standard attributes: the settings changed in the designer against <StandardAttributes> of the same objects
+    # (the XML lists every standard attribute of the class, applicable or not; their types it does not hold)
+    XR = '{http://v8.1c.ru/8.3/xcf/readable}'
+
+    def std_of(sa):
+        """{name: settings}; None when the XML has no <StandardAttributes>: nothing was changed there"""
+        if sa is None:
+            return None
+        out = {}
+        for x in sa:
+            st = {}
+            for c in x:
+                tag, v = c.tag.replace(XR, ''), c.text or ''
+                if tag in ('Synonym', 'ToolTip'):
+                    loc = {i.findtext(V8 + 'lang'): i.findtext(V8 + 'content') or '' for i in c}
+                    loc = {k: t for k, t in loc.items() if t}
+                    if loc:
+                        st[tag] = loc
+                elif (tag in ('Comment', 'Mask') and v) or (tag == 'FillChecking' and v not in ('', 'DontCheck')) \
+                        or (tag == 'FillFromFillingValue' and v == 'true'):
+                    st[tag] = v
+            out[x.get('name')] = st
+        return out
+
+    xstd, sr, sbad = {}, collections.Counter(), collections.defaultdict(list)
+    for s in standard_attributes(cfg):
+        cls, name = s.obj.split('.', 1)
+        xp = os.path.join(conf, cls, name + '.xml')
+        if xp not in xstd:
+            xstd[xp] = None
+            if os.path.isfile(xp):
+                obj = next(iter(ET.parse(xp).getroot()))
+                pr, co = obj.find(MD + 'Properties'), obj.find(MD + 'ChildObjects')
+                xstd[xp] = {'': std_of(pr.find(MD + 'StandardAttributes') if pr is not None else None)}
+                for t in (co.findall(MD + 'TabularSection') if co is not None else []):
+                    tp = t.find(MD + 'Properties')
+                    xstd[xp][tp.findtext(MD + 'Name')] = std_of(tp.find(MD + 'StandardAttributes'))
+        if xstd[xp] is None:
+            continue
+        if s.ts not in xstd[xp]:
+            sr['no tabular section in XML'] += 1; sbad[(cls, s.ts, 'tabular section')].append(name)
+            continue
+        x = xstd[xp][s.ts]
+        want = {} if x is None else x.get(s.name)
+        eol = lambda t: t.replace('\r', '')     # the XML dump writes line ends (even a stored CR CR LF) as one LF
+        got = {k: ({l: eol(t) for l, t in v.items()} if isinstance(v, dict) else eol(v)) for k, v in s.settings.items()}
+        if want is None:
+            sr['not in XML'] += 1; sbad[(cls, s.name, 'missing')].append(name)
+        elif want == got:
+            sr['equal'] += 1
+            sr['equal, with settings'] += bool(got)
+        else:
+            sr['differs'] += 1
+            for k in sorted(set(want) | set(got)):
+                if want.get(k) != got.get(k):
+                    sbad[(cls, s.name, k)].append('%s: %s | XML: %s' % (name, str(got.get(k))[:70], str(want.get(k))[:70]))
+    print('standard attribute settings vs XML:', dict(sr), '| kinds of differences:', len(sbad))
+    for k, rows in sorted(sbad.items(), key=lambda kv: -len(kv[1]))[:10]:
+        print('    %s.%s %s: %d, e.g. %s' % (k + (len(rows), rows[0])))
 
 
 def main():
@@ -512,6 +616,7 @@ def main():
     s.add_argument('-i', '--ignore-case', action='store_true'); s.add_argument('--path'); s.add_argument('--ctx', type=int, default=0)
     s.add_argument('--files', action='store_true'); s.add_argument('--proc', action='store_true'); s.add_argument('--max', type=int, default=500)
     s = sub.add_parser('fields'); s.add_argument('filter', nargs='?')
+    s.add_argument('--no-standard', action='store_true', help='own fields only, without standard attributes')
     s = sub.add_parser('props'); s.add_argument('filter', nargs='?'); s.add_argument('--prop'); s.add_argument('--all', action='store_true')
     s = sub.add_parser('usedby'); s.add_argument('name'); s.add_argument('--types', action='store_true')
     s = sub.add_parser('export'); s.add_argument('dir'); s.add_argument('--path'); s.add_argument('--no-fields', action='store_true')
