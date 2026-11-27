@@ -411,8 +411,8 @@ class Configuration:
                 out.append(('Boolean', None))
             elif k == 'S':
                 out.append(('String', (t[1], 'Variable' if t[2] == '1' else 'Fixed') if len(t) > 2 else ('0', 'Variable')))
-            elif k == 'N':
-                out.append(('Number', (t[1], t[2], 'Nonnegative' if len(t) > 3 and t[3] == '1' else 'Any')))
+            elif k == 'N':                      # a form attribute may have a number without qualifiers
+                out.append(('Number', (t[1], t[2], 'Nonnegative' if len(t) > 3 and t[3] == '1' else 'Any') if len(t) > 2 else None))
             elif k == 'D':
                 out.append(('Date', {'"D"': 'Date', '"T"': 'Time'}.get(t[1], 'DateTime') if len(t) > 1 else 'DateTime'))
             elif k == '#':
@@ -466,7 +466,7 @@ def show_type(ts):
         if k == 'String':
             parts.append('String(%s)' % ('unlimited' if v[0] == '0' else v[0] + ('' if v[1] == 'Variable' else ',Fixed')))
         elif k == 'Number':
-            parts.append('Number(%s,%s%s)' % (v[0], v[1], ',Nonnegative' if v[2] == 'Nonnegative' else ''))
+            parts.append('Number(%s,%s%s)' % (v[0], v[1], ',Nonnegative' if v[2] == 'Nonnegative' else '') if v else 'Number')
         elif k == 'Date':
             parts.append(v)
         elif k == 'Boolean':

@@ -7,8 +7,8 @@
 #            <file.cf> | <file.cfe>          configuration file
 #            <1Cv8.1CD> | <file base folder> Config table of a file infobase (storage format 8.3.8), read in place
 #            <folder>                        rows already dumped one file per FileName
-# commands:  info | objects | modules | module | grep | fields | props | usedby | predefined | rights | export | diff |
-#            check
+# commands:  info | objects | modules | module | grep | fields | props | usedby | predefined | rights | form | export |
+#            diff | check
 #            (see SKILL.md)
 import sys
 sys.dont_write_bytecode = True                          # no __pycache__ inside the skill folder
@@ -611,6 +611,69 @@ def cmd_rights(cfg, desc, facts, a):
             print_object(top, subs, a.rls, it.name if k == 0 else '')
 
 
+def show_title(t):
+    return (t.get('ru') or t.get('uk') or next(iter(t.values()), '')).replace('\n', ' ') if t else ''
+
+
+def cmd_form(cfg, desc, facts, a):
+    import v8forms
+    from v8meta import show_type
+    q = normalize_query(a.name).lower().rstrip('.')
+    forms = [it for it in cfg.items.values() if it.cls in ('Forms', 'CommonForms')]
+    hit = [it for it in forms if it.path.lower() == q] or [it for it in forms if it.path.lower().endswith(q)] or \
+        [it for it in forms if q in it.path.lower()]
+    if not hit:
+        print('no form matches ' + a.name)
+        return
+    if len(hit) > 1 and not a.all:
+        print('%d forms match; name one of them (or --all):' % len(hit))
+        for it in sorted(hit, key=lambda i: i.path)[:40]:
+            print('   ' + it.path)
+        return
+    for it in sorted(hit, key=lambda i: i.path):
+        f = v8forms.read(cfg, it)
+        if f is None:
+            kind = 'ordinary' if cfg.src.has(it.uuid + '.0') else 'no layout'
+            print('%s — %s form: its layout is not decoded' % (it.path, kind))
+            continue
+        print('%s — managed form' % it.path)
+        if f.events:
+            print('   events: ' + '; '.join('%s → %s' % e for e in f.events))
+        if f.parameters:
+            print('   parameters: ' + ', '.join(n + (' (key)' if key else '') for n, pat, key in f.parameters))
+        print('   attributes:')
+        for at in f.attributes:
+            t = show_type(cfg.decode(at.pattern)) if isinstance(at.pattern, list) else ''
+            print('      %-40s %s%s%s' % (at.name, t, '  (main)' if at.main else '', ('  "%s"' % show_title(at.title)) if at.title else ''))
+            for cid, cname, cpat in at.columns:
+                print('         .%-37s %s' % (cname, show_type(cfg.decode(cpat)) if isinstance(cpat, list) else ''))
+        if f.commands:
+            print('   commands:')
+            for cm in f.commands:
+                print('      %-40s %s%s' % (cm.name, ('→ ' + cm.action) if cm.action else '', ('  "%s"' % show_title(cm.title)) if cm.title else ''))
+        print('   elements:')
+        by_id = {e.id: e for d, p, i, e in v8forms.walk(f.elements)}
+
+        def show(els, depth):
+            for e in els:
+                noise = e.kind == 'ExtendedTooltip' or (e.embedded and not e.children and e.kind in ('ContextMenu', 'AutoCommandBar')) \
+                    or e.kind.endswith('Addition')
+                if noise and not a.all:
+                    continue
+                extra = []
+                if e.path:
+                    extra.append(v8forms.path_display(cfg, f, e.path, by_id))
+                if e.kind == 'Button' and e.command is not None:
+                    extra.append('→ ' + (v8forms.command_text(cfg, f, e.command, by_id) or '?'))
+                if e.title:
+                    extra.append('"%s"' % show_title(e.title))
+                if e.events:
+                    extra.append('; '.join('%s → %s' % ev for ev in e.events))
+                print('      %s%-22s %-40s %s' % ('   ' * depth, e.kind, e.name, '  '.join(extra)))
+                show(e.children, depth + 1)
+        show(f.elements, 0)
+
+
 def cmd_usedby(cfg, desc, facts, a):
     q = normalize_query(a.name).rstrip('.')
     ql = q.lower()
@@ -676,13 +739,19 @@ def cmd_export(cfg, desc, facts, a):
                 eff = v8roles.effective(nm, role.flags, ob)
                 f.write('%s\t%s\t%s\t%s\t%s\n' % (it.path, nm, ', '.join(n for n, v in eff.items() if v),
                                                  ', '.join(n for n, v in eff.items() if not v), ', '.join(v8roles.conditions(cfg, ob))))
+    import v8forms
+    with open(os.path.join(a.dir, 'forms.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
+        for it in cfg.items.values():
+            if it.cls in ('Forms', 'CommonForms'):
+                for r in v8forms.rows(cfg, it):
+                    f.write('%s\t%s\n' % (it.path, '\t'.join(x.replace('\t', ' ') for x in r)))
     from v8pred import shown_code, details
     with open(os.path.join(a.dir, 'predefined.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
         for it, rows in predefined_rows(cfg):
             for k, (d, x) in enumerate(rows):
                 f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (it.path, item_path(rows, k), shown_code(x), x.description.replace('\t', ' '),
                                                     details(x), x.uuid))
-    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv, predefined.tsv, rights.tsv%s' % (
+    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv, predefined.tsv, rights.tsv, forms.tsv%s' % (
         n, a.dir, skipped, '' if a.no_fields else ', fields.tsv'))
 
 
@@ -1065,6 +1134,57 @@ def cmd_check(cfg, desc, facts, a):
     print('rights of roles vs XML:', dict(rr), '| kinds of differences:', len(rbad))
     for k, rows in sorted(rbad.items(), key=lambda kv: -len(kv[1]))[:10]:
         print('    %s: %d, e.g. %s' % (k, len(rows), rows[0]))
+    # managed forms against Ext/Form.xml: elements (kind, name, parent, order, title, data path, command, events),
+    # form events, attributes, commands, parameters
+    import v8forms
+    fr, fbad2 = collections.Counter(), collections.defaultdict(list)
+    for it in cfg.items.values():
+        if it.cls not in ('Forms', 'CommonForms'):
+            continue
+        parts = it.path.split('.')
+        xp = os.path.join(conf, 'CommonForms', parts[1], 'Ext', 'Form.xml') if parts[0] == 'CommonForms' else \
+            os.path.join(conf, parts[0], parts[1], 'Forms', parts[3], 'Ext', 'Form.xml')
+        if not os.path.isfile(xp):
+            continue
+        f = v8forms.read(cfg, it)
+        if f is None:
+            continue
+        fr['forms'] += 1
+        xe, xev, xat, xcm, xpa = v8forms.xml_form(xp)
+        got = {e.id: (e, p.id if p else None) for d, p, i, e in v8forms.walk(f.elements)}
+        by_id = {i: e for i, (e, p) in got.items()}
+        order, seen_n = {}, collections.Counter()
+        for d, p, i, e in v8forms.walk(f.elements):
+            if not e.embedded:
+                order[e.id] = seen_n[p.id if p else None]
+                seen_n[p.id if p else None] += 1
+        for i in set(got) | set(xe):
+            if i not in xe:
+                fr['element only stored'] += 1; fbad2['element only stored'].append('%s %s' % (it.path, got[i][0].name)); continue
+            if i not in got:
+                k = 'element the dump adds' if xe[i]['kind'] in ('ExtendedTooltip', 'ContextMenu', 'AutoCommandBar', 'SearchStringAddition',
+                                                                 'ViewStatusAddition', 'SearchControlAddition') else 'element only in XML'
+                fr[k] += 1; fbad2[k].append('%s %s' % (it.path, xe[i]['name'])); continue
+            e, parent = got[i]
+            x = xe[i]
+            for k, g, w in (('kind', e.kind, x['kind']), ('name', e.name, x['name']), ('parent', parent, x['parent']),
+                            ('order', None if e.embedded else order.get(i), x['order']), ('title', e.title, x['title']),
+                            ('events', sorted(e.events), sorted(x['events'])),
+                            ('data path', v8forms.data_path(cfg, f, e.path, by_id) if e.path else None, x['path']),
+                            ('command', v8forms.command_text(cfg, f, e.command, by_id) if e.kind == 'Button' else None, x['command'])):
+                if g == w:
+                    fr[k + ' equal'] += 1
+                else:
+                    fr[k + ' differs'] += 1; fbad2[(k, x['kind'])].append('%s %s: %s | XML: %s' % (it.path, x['name'], str(g)[:60], str(w)[:60]))
+        for k, g, w in (('form events', sorted(f.events), sorted(xev)), ('attributes', [(x.id, x.name) for x in f.attributes], xat),
+                        ('commands', [(x.id, x.name, x.action) for x in f.commands], xcm), ('parameters', [x[0] for x in f.parameters], xpa)):
+            if g == w:
+                fr[k + ' equal'] += 1
+            else:
+                fr[k + ' differ'] += 1; fbad2[k].append(it.path)
+    print('managed forms vs XML:', dict(fr), '| kinds of differences:', len(fbad2))
+    for k, rows in sorted(fbad2.items(), key=lambda kv: -len(kv[1]))[:10]:
+        print('    %s: %d, e.g. %s' % (k, len(rows), rows[0]))
 
 
 def main():
@@ -1088,6 +1208,7 @@ def main():
     s = sub.add_parser('usedby'); s.add_argument('name'); s.add_argument('--types', action='store_true')
     s = sub.add_parser('rights'); s.add_argument('filter', nargs='?'); s.add_argument('--right', help='one right (Read, Чтение …)')
     s.add_argument('--path', help='objects of a role: part of the name'); s.add_argument('--rls', action='store_true', help='texts of conditions and templates')
+    s = sub.add_parser('form'); s.add_argument('name'); s.add_argument('--all', action='store_true', help='every element, tooltips and additions too; every matching form')
     s = sub.add_parser('predefined'); s.add_argument('filter', nargs='?')
     s.add_argument('--ids', action='store_true', help='item uuid too: the _PredefinedID of its row in the database (bytes in the 1C order)')
     s = sub.add_parser('export'); s.add_argument('dir'); s.add_argument('--path'); s.add_argument('--no-fields', action='store_true')
