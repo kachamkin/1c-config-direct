@@ -55,14 +55,64 @@ def xml_ref(s):
     return '.'.join(out)
 
 
+FIELD_SUB = dict(SUB, StandardAttribute='StandardAttributes', AccountingFlag='AccountingFlags',
+                 ExtDimensionAccountingFlag='ExtDimensionAccountingFlags')
+XSI_TYPE = '{http://www.w3.org/2001/XMLSchema-instance}type'
+
+
+def xml_field(s):
+    """'Catalog.X.StandardAttribute.Code' -> 'Catalogs.X.StandardAttributes.Code' (None for '-1' and the like)"""
+    p = (s or '').strip().split('.')
+    if len(p) < 4 or len(p) % 2 or p[0] not in PLURAL:
+        return None
+    out = [PLURAL[p[0]], p[1]]
+    for i in range(2, len(p), 2):
+        if p[i] not in FIELD_SUB:
+            return None
+        out += [FIELD_SUB[p[i]], p[i + 1]]
+    return '.'.join(out)
+
+
+def xml_characteristic(c):
+    """<xr:Characteristic> -> the description v8comp.decode_characteristics gives"""
+    from v8comp import short
+    t, v = c.find(XR + 'CharacteristicTypes'), c.find(XR + 'CharacteristicValues')
+    tf, vf = xml_ref(t.get('from') or '') or '', xml_ref(v.get('from') or '') or ''
+    f = lambda e, name, src: short(src, xml_field(e.findtext(XR + name))) or ''
+    tv = t.find(XR + 'TypesFilterValue')
+    kind, text = (tv.get(XSI_TYPE), (tv.text or '').strip()) if tv is not None else (None, '')
+    if kind == 'xr:DesignTimeRef' and '.' in text:
+        head, rest = text.split('.', 1)
+        value = '%s.%s' % (PLURAL.get(head, head), rest)
+    elif kind == 'xs:string':
+        value = '"%s"' % text
+    else:
+        value = text
+    desc = 'types %s: key %s, filter %s = %s | values %s: object %s, type %s, value %s' % (
+        tf, f(t, 'KeyField', tf), f(t, 'TypesFilterField', tf), value, vf, f(v, 'ObjectField', vf), f(v, 'TypeField', vf),
+        f(v, 'ValueField', vf))
+    extra = [f(t, 'DataPathField', tf), f(t, 'MultipleValuesUseField', tf), f(v, 'MultipleValuesKeyField', vf),
+             f(v, 'MultipleValuesOrderField', vf)]
+    if any(extra):
+        desc += ' | optional ' + ', '.join(x or '-' for x in extra)
+    return desc
+
+
 def xml_props(path):
-    """object XML -> {prop: ('scalar', text) | ('ref', name) | ('list', tuple(names))}"""
+    """object XML -> {prop: ('scalar', text) | ('ref', name) | ('list', tuple(names)) | ('fields', tuple(fields))
+    | ('characteristics', tuple(descriptions))}"""
     obj = next(iter(ET.parse(path).getroot()))
     pr = obj.find(MD + 'Properties')
     out = {}
     for e in pr if pr is not None else []:
         tag = e.tag.replace(MD, '')
         kids = list(e)
+        if tag in ('InputByString', 'DataLockFields') and all(k.tag == XR + 'Field' for k in kids):
+            out[tag] = ('fields', tuple(xml_field(k.text) or (k.text or '').strip() for k in kids)) if kids else ('empty', '')
+            continue
+        if tag == 'Characteristics':
+            out[tag] = ('characteristics', tuple(xml_characteristic(k) for k in kids)) if kids else ('empty', '')
+            continue
         if not kids:
             t = (e.text or '').strip()
             r = xml_ref(t) if t else None
@@ -190,7 +240,7 @@ def learn(samples):
         props = sorted({p for _, objs in vers for _, _, xp in objs for p in xp})
         for prop in props:
             kind = prop_kind([xp[prop] for _, objs in vers for _, _, xp in objs if prop in xp])
-            if kind is None:
+            if kind is None or kind in ('fields', 'characteristics'):     # composite: places in props_manual.json
                 continue
             gdata = {}
             for ver, objs in vers:

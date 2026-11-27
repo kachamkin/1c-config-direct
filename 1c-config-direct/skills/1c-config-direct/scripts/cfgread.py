@@ -292,6 +292,15 @@ def select_objects(cfg, flt):
 
 
 HOW = {'assumed': '  (assumed)', 'extension': '  (in extension)'}
+FIELD_LISTS = ('InputByString', 'DataLockFields')
+
+
+def shown(it, prop, v):
+    """a property value for the screen: fields of the object itself without its name (Description, Артикул)"""
+    if prop in FIELD_LISTS and isinstance(v, list):
+        from v8comp import short
+        return ', '.join(short(it.path, x) or '' for x in v)
+    return show_value(v)
 
 
 def cmd_props(cfg, desc, facts, a):
@@ -301,14 +310,18 @@ def cmd_props(cfg, desc, facts, a):
         for it, tree in objs:
             for prop, v, how in cfg.properties(it, tree):
                 if prop.lower() == want:
-                    print('%-60s %s%s' % (it.path, show_value(v), HOW.get(how, '')))
+                    print('%-60s %s%s' % (it.path, shown(it, prop, v), HOW.get(how, '')))
         return
     for it, tree in objs:
         syn = it.synonyms.get('ru') or it.synonyms.get('uk') or ''
         print('%s%s   [format version %s]' % (it.path, ('  — ' + syn) if syn else '', tree[1][0] if isinstance(tree[1], list) else '?'))
         for prop, v, how in cfg.properties(it, tree):
-            sv = show_value(v)
+            sv = shown(it, prop, v)
             if sv == '' and not a.all:
+                continue
+            if prop == 'Characteristics' and isinstance(v, list) and len(v) > 1:     # one characteristic per line
+                for i, x in enumerate(v):
+                    print('   %-34s %s%s' % (prop if i == 0 else '', x, HOW.get(how, '') if i == 0 else ''))
                 continue
             print('   %-34s %s%s' % (prop, sv, HOW.get(how, '')))
 
@@ -319,6 +332,8 @@ def cmd_usedby(cfg, desc, facts, a):
     hits = 0
     for it, tree in cfg.trees():
         for prop, v, how in cfg.properties(it, tree):
+            if prop in FIELD_LISTS and it.path.lower() == ql:   # the object's own input-by-string fields are no usage
+                continue
             vals = v if isinstance(v, list) else [v] if isinstance(v, str) else []
             for x in vals:
                 xl = x.lower()
@@ -527,6 +542,8 @@ def cmd_check(cfg, desc, facts, a):
             xk, xv = xp[prop]
             if kind == 'list':
                 got, want = tuple(sorted(v or [])), (() if xk == 'empty' else xv)
+            elif kind in ('fields', 'characteristics'):                       # the order of fields matters
+                got, want = tuple(v or ()), (() if xk == 'empty' else tuple(xv))
             elif kind == 'method':
                 got = v or None
                 want = None if xk == 'empty' else '%s.%s' % xv if xk == 'method' else xv

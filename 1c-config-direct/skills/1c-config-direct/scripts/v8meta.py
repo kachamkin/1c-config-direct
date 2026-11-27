@@ -517,7 +517,12 @@ def _md_ref(node, names):
     return None
 
 
-def _decode(d, tree, path, names):
+def _decode(d, tree, path, names, comp=None, owner=None):
+    if d['kind'] in ('fields', 'characteristics'):      # lists of fields and characteristics: v8comp
+        from v8comp import decode_fields, decode_characteristics
+        node = at(tree, path)
+        v = (decode_fields if d['kind'] == 'fields' else decode_characteristics)(comp, owner, node) if node is not None else None
+        return (v, True) if v is not None else (None, False)
     if d['kind'] == 'method':
         base = tuple(path[:-1])
         u = at(tree, base)
@@ -579,8 +584,11 @@ def _properties(self, it, tree):
     tab = prop_tables().get(it.cls, {})
     ver = tree[1][0] if isinstance(tree[1], list) and tree[1] and isinstance(tree[1][0], str) else 'x'
     names = self.ref_names()
+    comp = None
     out = [('ObjectBelonging', 'Adopted', 'version')] if adopted else []
     for prop, d in sorted(tab.items()):
+        if d['kind'] in ('fields', 'characteristics') and comp is None:
+            comp = self.comp_context()
         if prop in SKIP_PROPS or (adopted and d['kind'] != 'list'):
             continue
         path, how = d['paths'].get(ver), 'version'
@@ -590,7 +598,7 @@ def _properties(self, it, tree):
             if ver in d.get('refused_versions', ()) or len({tuple(p) for p in d['paths'].values()}) != 1:
                 continue
             path, how = d['default_path'], 'assumed'
-        value, ok = _decode(d, tree, path, names)
+        value, ok = _decode(d, tree, path, names, comp, it.path)
         if ok and not adopted:
             out.append((prop, value, how))
         elif ok and value:
@@ -598,12 +606,21 @@ def _properties(self, it, tree):
     return out
 
 
+def _comp_context(self):
+    """names of fields, tabular sections and predefined items for composite properties (v8comp), built once"""
+    if getattr(self, '_comp', None) is None:
+        from v8comp import Context
+        self._comp = Context(self)
+    return self._comp
+
+
 Configuration.ref_names = _ref_names
 Configuration.adopted = _adopted
+Configuration.comp_context = _comp_context
 Configuration.properties = _properties
 
 
 def show_value(v):
-    if isinstance(v, list):
-        return ', '.join(v)
+    if isinstance(v, list):                  # characteristics read better one per line: joined by '; '
+        return ('; ' if any(' | ' in x for x in v if isinstance(x, str)) else ', ').join(x or '' for x in v)
     return '' if v is None else str(v)
