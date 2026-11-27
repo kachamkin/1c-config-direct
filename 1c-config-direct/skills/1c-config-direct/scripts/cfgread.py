@@ -615,6 +615,65 @@ def show_title(t):
     return (t.get('ru') or t.get('uk') or next(iter(t.values()), '')).replace('\n', ' ') if t else ''
 
 
+def show_ordinary_form(cfg, it, f, a):
+    import v8ordforms
+    from v8meta import show_type
+    print('%s — ordinary form%s%s' % (it.path, ('  "%s"' % show_title(f.title)) if f.title else '',
+                                      ('  %dx%d' % f.size) if f.size else ''))
+    if f.events:
+        print('   events: ' + '; '.join('%s → %s' % e for e in f.events))
+    print('   attributes:')
+    for aid, name, pat, main in f.attributes:
+        tp = show_type(cfg.decode(pat)) if isinstance(pat, list) else ''
+        print('      %-40s %s%s' % (name, tp or 'arbitrary', '  (main)' if main else ''))
+    print('   controls (left, top, right, bottom):')
+    ids = {c.id: c.name for d, p, c in v8ordforms.walk(f.controls)}
+
+    def raw(steps):
+        return '/'.join(':'.join(x for x in st if isinstance(x, str)) for st in steps)
+
+    def show(cs, depth, pages=None):
+        if pages and len(pages) > 1:
+            for i, (pname, ptitle) in enumerate(pages):
+                on = [c for c in cs if c.page == i]
+                print('      %spage %s%s' % ('   ' * depth, pname, ('  "%s"' % show_title(ptitle)) if ptitle and show_title(ptitle) != pname else ''))
+                show(on, depth + 1)
+            rest = [c for c in cs if c.page is None or c.page >= len(pages)]
+            if rest:
+                show(rest, depth)
+            return
+        pad = '      ' + '   ' * depth
+        for c in cs:
+            extra = []
+            steps = f.bindings.get(c.id)
+            if steps:
+                extra.append('data: ' + (v8ordforms.data_path(cfg, f, steps, True) or '(the main attribute)'))
+            if c.title:
+                extra.append('"%s"' % show_title(c.title))
+            if c.events:
+                extra.append('; '.join('%s → %s' % ev for ev in c.events))
+            rect = ('%d,%d,%d,%d' % c.rect) if c.rect else ''
+            print('%s%-24s %-36s %-18s %s' % (pad, c.kind, c.name, rect, '  '.join(extra)))
+            for col in c.columns:
+                datas = []
+                for which, label in (('steps', 'data'), ('check', 'check box'), ('picture', 'picture')):
+                    if getattr(col, which):
+                        rel, whole = v8ordforms.column_path(cfg, f, steps, col, which, True)
+                        datas.append('%s: %s' % (label, rel if rel is not None else raw(getattr(col, which))))
+                print('%s   %-24s %-36s %-18s %s' % (pad, 'column', col.name, col.kind, '  '.join(x for x in datas + [
+                    ('"%s"' % show_title(col.title)) if col.title else '',
+                    '; '.join('%s → %s' % ev for ev in col.events)] if x)))
+            for b in c.buttons:
+                if b.kind == 'separator':
+                    continue
+                how = ('→ ' + b.action) if b.action else 'standard action' + (
+                    ' of ' + ids[b.source] if b.source in ids else '') if b.kind == 'standard' else ''
+                print('%s   %s%-24s %-36s %s' % (pad, '   ' * b.depth, b.kind if b.kind in ('submenu', 'standard submenu') else 'button',
+                                                b.name, '  '.join(x for x in (('"%s"' % show_title(b.title)) if b.title else '', how) if x)))
+            show(c.children, depth + 1, c.pages)
+    show(f.controls, 0, f.pages)
+
+
 def cmd_form(cfg, desc, facts, a):
     import v8forms
     from v8meta import show_type
@@ -633,8 +692,12 @@ def cmd_form(cfg, desc, facts, a):
     for it in sorted(hit, key=lambda i: i.path):
         f = v8forms.read(cfg, it)
         if f is None:
-            kind = 'ordinary' if cfg.src.has(it.uuid + '.0') else 'no layout'
-            print('%s — %s form: its layout is not decoded' % (it.path, kind))
+            import v8ordforms
+            of = v8ordforms.read(cfg, it)
+            if of is None:
+                print('%s — no layout' % it.path)
+            else:
+                show_ordinary_form(cfg, it, of, a)
             continue
         print('%s — managed form' % it.path)
         if f.events:
@@ -739,11 +802,11 @@ def cmd_export(cfg, desc, facts, a):
                 eff = v8roles.effective(nm, role.flags, ob)
                 f.write('%s\t%s\t%s\t%s\t%s\n' % (it.path, nm, ', '.join(n for n, v in eff.items() if v),
                                                  ', '.join(n for n, v in eff.items() if not v), ', '.join(v8roles.conditions(cfg, ob))))
-    import v8forms
+    import v8forms, v8ordforms
     with open(os.path.join(a.dir, 'forms.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
         for it in cfg.items.values():
             if it.cls in ('Forms', 'CommonForms'):
-                for r in v8forms.rows(cfg, it):
+                for r in v8forms.rows(cfg, it) or v8ordforms.rows(cfg, it):
                     f.write('%s\t%s\n' % (it.path, '\t'.join(x.replace('\t', ' ') for x in r)))
     from v8pred import shown_code, details
     with open(os.path.join(a.dir, 'predefined.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
@@ -1185,6 +1248,20 @@ def cmd_check(cfg, desc, facts, a):
     print('managed forms vs XML:', dict(fr), '| kinds of differences:', len(fbad2))
     for k, rows in sorted(fbad2.items(), key=lambda kv: -len(kv[1]))[:10]:
         print('    %s: %d, e.g. %s' % (k, len(rows), rows[0]))
+    # ordinary forms: the dump keeps them binary (Form.bin), so the check is against the form module itself — the
+    # handlers are its procedures, ЭлементыФормы.X it uses are controls — and the data paths must resolve
+    import v8ordforms
+    orr = collections.Counter()
+    for it in cfg.items.values():
+        if it.cls not in ('Forms', 'CommonForms'):
+            continue
+        of = v8ordforms.read(cfg, it)
+        if of is None:
+            continue
+        orr['forms'] += 1
+        stream = text(inflate(dict(container_entries(cfg.src.raw(it.uuid + '.0'))).get('form', b'')))
+        orr.update(v8ordforms.consistency(of, stream, cfg))
+    print('ordinary forms (against their modules):', dict(orr))
 
 
 def main():
