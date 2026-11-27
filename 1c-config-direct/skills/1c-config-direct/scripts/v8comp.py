@@ -15,8 +15,10 @@ FIELD_REF = '60ea359f-3a6e-48bb-8e71-d2a457572918'
 CHARACTERISTIC = 'fe839d42-d094-40ba-b903-75bccc21ba30'
 DESIGN_TIME_REF = '5c14e26f-099b-4d37-84a6-b433d87400da'
 ZERO = '00000000-0000-0000-0000-000000000000'
-_ITEM = re.compile(r'\{"#",[0-9a-f-]{36},\s*\{1,([0-9a-f-]{36})\}\s*\},\s*\{"B",[01]\},\s*\{"#",[0-9a-f-]{36},\s*\{1,[0-9a-f-]{36}\}\s*\},'
-                   r'\s*\{"S","((?:[^"]|"")*)"\}')
+# a predefined item: {"#",<TypeId>,{1,<uuid>}}, then {"B",<folder>} (catalog, ПВХ), then the parent (catalog), then the name
+_ITEM = re.compile(r'\{"#",[0-9a-f-]{36},\s*\{1,([0-9a-f-]{36})\}\s*\},\s*(?:\{"B",[01]\},\s*)?'
+                   r'(?:\{"#",[0-9a-f-]{36},\s*\{1,[0-9a-f-]{36}\}\s*\},\s*)?\{"S","((?:[^"]|"")*)"\}')
+PREDEFINED_FILE = {'Catalogs': '.1c', 'ChartsOfCharacteristicTypes': '.7', 'ChartsOfAccounts': '.9'}
 
 
 class Context:
@@ -43,10 +45,11 @@ class Context:
         if obj_path not in self._predefined:
             out = {}
             it = next((i for i in self.cfg.items.values() if i.path == obj_path), None)
-            if it is not None and self.cfg.src.has(it.uuid + '.1c'):
+            suffix = PREDEFINED_FILE.get(it.cls) if it is not None else None
+            if suffix and self.cfg.src.has(it.uuid + suffix):
                 from v8cfg import inflate, text
                 try:
-                    t = text(inflate(self.cfg.src.raw(it.uuid + '.1c')))
+                    t = text(inflate(self.cfg.src.raw(it.uuid + suffix)))
                     out = {u: n.replace('""', '"') for u, n in _ITEM.findall(t) if u != ZERO}   # zero: the root
                 except Exception:
                     out = {}

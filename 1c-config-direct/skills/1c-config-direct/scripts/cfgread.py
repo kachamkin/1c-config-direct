@@ -265,17 +265,61 @@ def show_settings(st):
     return '; '.join(parts)
 
 
+def field_settings(owner, props):
+    """the field properties worth a look, the defaults left out: indexing, fill checking, use, dimension flags,
+    choice parameters and links (fields of the object named relative to it)"""
+    from v8comp import short
+    parts = []
+    if props.get('Indexing') not in (None, 'DontIndex'):
+        parts.append('Indexing=' + props['Indexing'])
+    if props.get('FillChecking') == 'ShowError':
+        parts.append('FillChecking=ShowError')
+    if props.get('Use') not in (None, 'ForItem'):
+        parts.append('Use=' + props['Use'])
+    parts += [p for p in ('Master', 'MainFilter', 'DenyIncompleteValues') if props.get(p) == 'true']
+    if props.get('UseInTotals') == 'false':
+        parts.append('UseInTotals=false')
+    if props.get('ChoiceParameters'):
+        parts.append('ChoiceParameters: ' + ', '.join(props['ChoiceParameters']))
+    links = []
+    for x in props.get('ChoiceParameterLinks') or []:
+        name, _, rest = x.partition(' = ')
+        path, _, change = rest.rpartition(' (')
+        links.append('%s = %s%s' % (name, short(owner, path), '' if change.startswith('Clear') else ' (' + change))
+    if links:
+        parts.append('ChoiceParameterLinks: ' + ', '.join(links))
+    return '; '.join(parts)
+
+
+def object_field_props(cfg, objects):
+    """{field uuid: properties} for the fields of the given objects"""
+    from v8fields import object_field_props as one
+    out = {}
+    for it, tree in cfg.trees():
+        if objects is None or it.path in objects:
+            out.update(one(cfg, it, tree))
+    return out
+
+
 def cmd_fields(cfg, desc, facts, a):
     q = normalize_query(a.filter).lower().rstrip('.') if a.filter else ''
     paths = [it.path for it, tree in cfg.trees()]
     exact = [p for p in paths if p.lower() == q]
-    for f, s in field_rows(cfg, set(exact or [p for p in paths if q in p.lower()]), not a.no_standard):
+    sel = set(exact or [p for p in paths if q in p.lower()])
+    fprops = object_field_props(cfg, sel)
+    for f, s in field_rows(cfg, sel, not a.no_standard):
         name = (f.path + '.' if f.path else '') + f.name + (' (%s)' % s.name if s else '')
         extra = ''
         if s:
             st = show_settings(s.settings)
             extra = ('  [%s]' % st if st else '') + ('  (assumed)' if s.how else '')
+        else:
+            st = field_settings(f.obj, fprops.get(f.uuid, {}))
+            extra = '  [%s]' % st if st else ''
         print('%-45s %-12s %-45s %s%s' % (f.obj, f.kind, name, show_type(f.types), extra))
+        if a.props and not s and fprops.get(f.uuid):
+            p = fprops[f.uuid]
+            print('%-45s %s' % ('', ', '.join('%s=%s' % (k, p[k]) for k in sorted(p) if not isinstance(p[k], list))))
 
 
 def select_objects(cfg, flt):
@@ -370,9 +414,12 @@ def cmd_export(cfg, desc, facts, a):
         for it in cfg.items.values():
             f.write('%s\t%s\t%s\t%s\n' % (it.path, it.cls, it.uuid, it.synonyms.get('ru') or it.synonyms.get('uk') or ''))
     if not a.no_fields:
+        fprops = object_field_props(cfg, None)
         with open(os.path.join(a.dir, 'fields.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
             for fl, s in field_rows(cfg):
-                f.write('%s\t%s\t%s\t%s\t%s\n' % (fl.obj, fl.kind, (fl.path + '.' if fl.path else '') + fl.name, show_type(fl.types), fl.uuid))
+                st = show_settings(s.settings) if s else field_settings(fl.obj, fprops.get(fl.uuid, {}))
+                f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (fl.obj, fl.kind, (fl.path + '.' if fl.path else '') + fl.name, show_type(fl.types),
+                                                    fl.uuid, st.replace('\t', ' ')))
     with open(os.path.join(a.dir, 'props.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
         for it, tree in cfg.trees():
             for prop, v, how in cfg.properties(it, tree):
@@ -621,6 +668,30 @@ def cmd_check(cfg, desc, facts, a):
     print('standard attribute settings vs XML:', dict(sr), '| kinds of differences:', len(sbad))
     for k, rows in sorted(sbad.items(), key=lambda kv: -len(kv[1]))[:10]:
         print('    %s.%s %s: %d, e.g. %s' % (k + (len(rows), rows[0])))
+    # field properties (indexing, fill checking, choice parameters …) against the properties of the same fields in XML
+    from learn_fields import xml_fields
+    from v8fields import object_field_props as field_props_of
+    fpr, fpbad = collections.Counter(), collections.defaultdict(list)
+    for it, tree in cfg.trees():
+        xp = os.path.join(conf, it.cls, it.name + '.xml')
+        if not os.path.isfile(xp):
+            continue
+        xf = xml_fields(xp, choice=True)
+        for u, props in field_props_of(cfg, it, tree).items():
+            x = xf.get(u)
+            if x is None:
+                continue
+            for p, v in props.items():
+                if p not in x:
+                    continue
+                if (list(v) if isinstance(v, list) else v) == x[p]:
+                    fpr['equal'] += 1
+                else:
+                    fpr['differs'] += 1
+                    fpbad[(it.cls, p)].append('%s: %s | XML: %s' % (it.name, str(v)[:70], str(x[p])[:70]))
+    print('field properties vs XML:', dict(fpr), '| properties with differences:', len(fpbad))
+    for (cls, p), rows in sorted(fpbad.items(), key=lambda kv: -len(kv[1]))[:10]:
+        print('    %s.%s: %d, e.g. %s' % (cls, p, len(rows), rows[0]))
 
 
 def main():
@@ -639,6 +710,7 @@ def main():
     s.add_argument('--files', action='store_true'); s.add_argument('--proc', action='store_true'); s.add_argument('--max', type=int, default=500)
     s = sub.add_parser('fields'); s.add_argument('filter', nargs='?')
     s.add_argument('--no-standard', action='store_true', help='own fields only, without standard attributes')
+    s.add_argument('--props', action='store_true', help='every known property of each field on a line of its own')
     s = sub.add_parser('props'); s.add_argument('filter', nargs='?'); s.add_argument('--prop'); s.add_argument('--all', action='store_true')
     s = sub.add_parser('usedby'); s.add_argument('name'); s.add_argument('--types', action='store_true')
     s = sub.add_parser('export'); s.add_argument('dir'); s.add_argument('--path'); s.add_argument('--no-fields', action='store_true')

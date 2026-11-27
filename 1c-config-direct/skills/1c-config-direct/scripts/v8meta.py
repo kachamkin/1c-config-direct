@@ -491,7 +491,8 @@ def export_path(mod):
 # of the object description (one configuration can hold objects saved by several platform generations).
 _PROPS = None
 MDREF = '157fa490-4ce9-11d4-9415-008048da11f9'      # serialized "reference to a metadata object"
-FIELD_KIND = {'Attribute': 'Attributes', 'Dimension': 'Dimensions', 'Resource': 'Resources', 'AddressingAttribute': 'AddressingAttributes'}
+FIELD_KIND = {'Attribute': 'Attributes', 'Dimension': 'Dimensions', 'Resource': 'Resources', 'AddressingAttribute': 'AddressingAttributes',
+              'AccountingFlag': 'AccountingFlags', 'ExtDimensionAccountingFlag': 'ExtDimensionAccountingFlags'}
 SKIP_PROPS = {'Name'}
 
 
