@@ -16,7 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from v8cfg import Source  # noqa: E402
 from v8meta import Configuration, Field, normalize_query, show_type, export_path, show_value  # noqa: E402
-from v8std import standard_attributes  # noqa: E402
+from v8std import standard_attributes, STD_TS_RU  # noqa: E402
 from onecd import Source1CD, is_1cd  # noqa: E402
 
 NO_TEXT = ('image only', 'encrypted', 'form without module', 'binary')   # plus any 'container:…'
@@ -239,17 +239,19 @@ def field_rows(cfg, objects=None, standard=True):
     for it, tree in cfg.trees():
         if objects is not None and it.path not in objects:
             continue
-        line = {s.ts: s for s in std[it.path] if s.ts}
+        by_ts = collections.OrderedDict()
         for s in std[it.path]:
             if not s.ts:
                 yield as_field(s), s
+            else:
+                by_ts.setdefault(s.ts, []).append(s)
         for f in own[it.path]:
-            s = line.pop(f.path, None)
-            if s:
+            for s in by_ts.pop(f.path, []):
                 yield as_field(s), s
             yield f, None
-        for s in line.values():                        # tabular sections without attributes
-            yield as_field(s), s
+        for rows in by_ts.values():                    # standard tabular sections, sections without attributes
+            for s in rows:
+                yield as_field(s), s
 
 
 def show_settings(st):
@@ -577,6 +579,9 @@ def cmd_check(cfg, desc, facts, a):
                 for t in (co.findall(MD + 'TabularSection') if co is not None else []):
                     tp = t.find(MD + 'Properties')
                     xstd[xp][tp.findtext(MD + 'Name')] = std_of(tp.find(MD + 'StandardAttributes'))
+                sts = pr.find(MD + 'StandardTabularSections') if pr is not None else None
+                for t in (list(sts) if sts is not None else []):          # ExtDimensionTypes, BaseCalculationTypes …
+                    xstd[xp][STD_TS_RU.get(t.get('name'), t.get('name'))] = std_of(t.find(XR + 'StandardAttributes'))
         if xstd[xp] is None:
             continue
         if s.ts not in xstd[xp]:

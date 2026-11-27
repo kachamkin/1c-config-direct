@@ -1,0 +1,32 @@
+{
+ "_comment": "Places of properties the learner (learn_props.py) has too few objects or too few distinct values for. Found against XML dumps of client configurations and a synthetic test configuration built to hold the opposite values (non-correspondent register, numeric codes and numbers, register without base period). Loaded over props_tables.json: an entry here replaces the learned one.",
+ "ChartsOfAccounts": {
+  "MaxExtDimensionCount": {"kind": "scalar", "codec": null, "paths": {"30": [1, 20], "31": [1, 20], "32": [1, 20]}, "default_path": [1, 20]},
+  "CodeLength": {"kind": "scalar", "codec": null, "paths": {"30": [1, 22], "31": [1, 22], "32": [1, 22]}, "default_path": [1, 22]},
+  "DescriptionLength": {"kind": "scalar", "codec": null, "paths": {"30": [1, 23], "31": [1, 23], "32": [1, 23]}, "default_path": [1, 23]},
+  "OrderLength": {"kind": "scalar", "codec": null, "paths": {"30": [1, 25], "31": [1, 25], "32": [1, 25]}, "default_path": [1, 25]}
+ },
+ "AccountingRegisters": {
+  "Correspondence": {"kind": "scalar", "codec": {"0": "false", "1": "true"}, "paths": {"21": [1, 20]}, "default_path": [1, 20]}
+ },
+ "ChartsOfCalculationTypes": {
+  "DescriptionLength": {"kind": "scalar", "codec": null, "paths": {"28": [1, 30], "33": [1, 30], "34": [1, 30], "35": [1, 30]}, "default_path": [1, 30]},
+  "CodeType": {"kind": "scalar", "codec": {"0": "Number", "1": "String"}, "paths": {"28": [1, 26], "33": [1, 26], "34": [1, 26], "35": [1, 26]}, "default_path": [1, 26]},
+  "CodeAllowedLength": {"kind": "scalar", "codec": {"0": "Fixed", "1": "Variable"}, "paths": {"28": [1, 53], "33": [1, 53], "34": [1, 53], "35": [1, 53]}, "default_path": [1, 53]},
+  "DependenceOnCalculationTypes": {"kind": "scalar", "codec": {"0": "DontUse", "1": "OnActionPeriod", "2": "OnRegistrationPeriod"}, "paths": {"28": [1, 27], "33": [1, 27], "34": [1, 27], "35": [1, 27]}, "default_path": [1, 27]}
+ },
+ "CalculationRegisters": {
+  "Periodicity": {"kind": "scalar", "codec": {"0": "Year", "1": "Quarter", "2": "Month", "3": "Day"}, "paths": {"21": [1, 16]}, "default_path": [1, 16]},
+  "BasePeriod": {"kind": "scalar", "codec": {"0": "false", "1": "true"}, "paths": {"21": [1, 18]}, "default_path": [1, 18]}
+ },
+ "BusinessProcesses": {
+  "NumberType": {"kind": "scalar", "codec": {"0": "Number", "1": "String"}, "paths": {"29": [1, 16], "30": [1, 16]}, "default_path": [1, 16]},
+  "NumberLength": {"kind": "scalar", "codec": null, "paths": {"25": [1, 18], "29": [1, 18], "30": [1, 18]}, "default_path": [1, 18]}
+ },
+ "Tasks": {
+  "NumberType": {"kind": "scalar", "codec": {"0": "Number", "1": "String"}, "paths": {"32": [1, 18], "33": [1, 18]}, "default_path": [1, 18]},
+  "NumberLength": {"kind": "scalar", "codec": null, "paths": {"28": [1, 19], "32": [1, 19], "33": [1, 19]}, "default_path": [1, 19]},
+  "DescriptionLength": {"kind": "scalar", "codec": null, "paths": {"28": [1, 22], "32": [1, 22], "33": [1, 22]}, "default_path": [1, 22]},
+  "NumberAllowedLength": {"kind": "scalar", "codec": {"0": "Fixed", "1": "Variable"}, "paths": {"28": [1, 43], "32": [1, 43], "33": [1, 43]}, "default_path": [1, 43]}
+ }
+}

@@ -60,8 +60,11 @@ MODULE = {
     ('BusinessProcesses', '6'): 'ObjectModule', ('BusinessProcesses', '8'): 'ManagerModule',
     ('Tasks', '6'): 'ObjectModule', ('Tasks', '7'): 'ManagerModule',
     ('Enums', '0'): 'ManagerModule', ('DocumentJournals', '1'): 'ManagerModule', ('SettingsStorages', '8'): 'ManagerModule',
-    ('AccountingRegisters', '6'): 'RecordSetModule', ('ChartsOfAccounts', '14'): 'ObjectModule', ('Sequences', '0'): 'RecordSetModule',
-    ('ChartsOfCalculationTypes', '0'): 'ObjectModule',
+    ('AccountingRegisters', '6'): 'RecordSetModule', ('AccountingRegisters', '7'): 'ManagerModule',
+    ('ChartsOfAccounts', '14'): 'ObjectModule', ('ChartsOfAccounts', '15'): 'ManagerModule', ('Sequences', '0'): 'RecordSetModule',
+    ('ChartsOfCalculationTypes', '0'): 'ObjectModule', ('ChartsOfCalculationTypes', '3'): 'ManagerModule',
+    ('CalculationRegisters', '1'): 'RecordSetModule', ('CalculationRegisters', '2'): 'ManagerModule',
+    ('FilterCriteria', '0'): 'ManagerModule',
     ('Constants', '0'): 'ValueManagerModule', ('CommonModules', '0'): 'Module', ('WebServices', '0'): 'Module',
     ('HTTPServices', '0'): 'Module', ('CommonCommands', '2'): 'CommandModule', ('Commands', '2'): 'CommandModule',
     ('Forms', '0'): 'FormModule', ('CommonForms', '0'): 'FormModule',
@@ -131,7 +134,7 @@ PLATFORM = {
     '4652c4ec-1d1d-4af4-b835-e33fcb43af8c': ('Type', 'Filter'), '0dda99d9-ae9f-43d2-b7ac-44f3fb0d4059': ('Type', 'ReportBuilder'),
     '4d599114-9432-447f-ab67-2d9aafbce68e': ('Type', 'CustomFields'), 'dcfc3784-a14f-4786-ac7b-c82db5ba275f': ('Type', 'ConstantsSet'),
     'b1b064f3-ae38-49bf-8c6d-390c65fd94af': ('Type', 'ComparisonType'), '8acd280e-c29c-4543-8be7-7f78cad52c06': ('Type', 'SortDirection'),
-    '5878e725-50de-4998-b589-3c56ea63e735': ('Type', 'ChartType'),
+    '5878e725-50de-4998-b589-3c56ea63e735': ('Type', 'ChartType'), 'e603103e-a318-4edc-a014-b1c6cf94d49f': ('Type', 'SpreadsheetDocument'),
     '280f5f0e-9c8a-49cc-bf6d-4d296cc17a63': ('TypeSet', 'AnyIBRef'), 'e61ef7b8-f3e1-4f4b-8ac7-676e90524997': ('TypeSet', 'CatalogRef'),
     '38bfd075-3e63-4aaa-a93e-94521380d579': ('TypeSet', 'DocumentRef'), '474c3bf6-08b5-4ddc-a2ad-989cedf11583': ('TypeSet', 'EnumRef'),
     '99892482-ed55-4fb5-a7f7-20888820a758': ('TypeSet', 'ChartOfCharacteristicTypesRef'),
@@ -150,6 +153,8 @@ PLATFORM = {
     'b64d9a40-1642-11d6-a3c7-0050bae0a776': ('TypeSet', 'AccumulationRegisterRecordSet'),
     '2deed9b8-0056-4ffe-a473-c20a6c32a0bc': ('TypeSet', 'AccountingRegisterRecordSet'),
     'f2de87a8-64e5-45eb-a22d-b3aedab050e7': ('TypeSet', 'CalculationRegisterRecordSet'),
+    'bc587f20-35d9-11d6-a3c7-0050bae0a776': ('TypeSet', 'SequenceRecordSet'),
+    '274bf899-db0e-4df6-8ab5-67bf6371ec0b': ('TypeSet', 'RecalculationRecordSet'),
 }
 # field collection GUID -> kind of its fields
 KIND = {
@@ -491,10 +496,18 @@ SKIP_PROPS = {'Name'}
 
 
 def prop_tables():
+    """learned places (props_tables.json, or $CFGREAD_PROPS) with props_manual.json over them: places the learner
+    has too few objects for, found against XML and a synthetic configuration"""
     global _PROPS
     if _PROPS is None:
-        p = os.environ.get('CFGREAD_PROPS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'props_tables.json')
+        here = os.path.dirname(os.path.abspath(__file__))
+        p = os.environ.get('CFGREAD_PROPS') or os.path.join(here, 'props_tables.json')
         _PROPS = json.load(open(p, encoding='utf-8')) if os.path.isfile(p) else {}
+        m = os.path.join(here, 'props_manual.json')
+        if os.path.isfile(m):
+            for cls, props in json.load(open(m, encoding='utf-8')).items():
+                if not cls.startswith('_'):
+                    _PROPS.setdefault(cls, {}).update(props)
     return _PROPS
 
 
