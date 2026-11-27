@@ -47,12 +47,30 @@ def xml_fields(path, choice=False):
                     cp, cl = pr.find(MD + 'ChoiceParameters'), pr.find(MD + 'ChoiceParameterLinks')
                     props['ChoiceParameters'] = [xml_parameter(i) for i in (cp if cp is not None else [])]
                     props['ChoiceParameterLinks'] = [xml_link(i) for i in (cl if cl is not None else [])]
+                    for p in ('Format', 'EditFormat', 'ToolTip'):          # strings in languages
+                        el = pr.find(MD + p)
+                        if el is not None:
+                            loc = {i.findtext(V8 + 'lang'): i.findtext(V8 + 'content') or '' for i in el}
+                            props[p] = {k: v for k, v in loc.items() if v}
+                    for p in ('MinValue', 'MaxValue', 'FillValue'):         # values; nil -> ''
+                        el = pr.find(MD + p)
+                        if el is not None:
+                            props[p] = xml_value(el)
+                    if pr.find(MD + 'ChoiceForm') is not None:
+                        from learn_props import xml_ref
+                        cf = (pr.findtext(MD + 'ChoiceForm') or '').strip()
+                        props['ChoiceForm'] = (xml_ref(cf) or cf) if cf else ''
+                    lt = pr.find(MD + 'LinkByType')
+                    if lt is not None:
+                        props['LinkByType'] = '%s (%s)' % (xml_path((lt.findtext(XR + 'DataPath') or '').strip()),
+                                                           lt.findtext(XR + 'LinkItem')) if len(lt) else ''
                 out[e.get('uuid')] = props
     return out
 
 
 APP = '{http://v8.1c.ru/8.2/managed-application/core}'
 XR = '{http://v8.1c.ru/8.3/xcf/readable}'
+V8 = '{http://v8.1c.ru/8.1/data/core}'
 XSI_TYPE = '{http://www.w3.org/2001/XMLSchema-instance}type'
 
 
@@ -75,11 +93,15 @@ def xml_parameter(item):
     return '%s = %s' % (item.get('name'), xml_value(item.find(APP + 'value')))
 
 
-def xml_link(link):
+def xml_path(d):
+    """a data path of the XML dump -> the skill's naming ('Catalog.X.Attribute.Y' -> 'Catalogs.X.Attributes.Y')"""
     from learn_props import xml_field, xml_ref
+    return xml_field(d) or (xml_ref(d) if '.' in d else None) or d
+
+
+def xml_link(link):
     d = (link.findtext(XR + 'DataPath') or '').strip()
-    path = xml_field(d) or (xml_ref(d) if '.' in d else None) or d
-    return '%s = %s (%s)' % (link.findtext(XR + 'Name'), path, link.findtext(XR + 'ValueChange'))
+    return '%s = %s (%s)' % (link.findtext(XR + 'Name'), xml_path(d), link.findtext(XR + 'ValueChange'))
 
 
 def samples(pairs):

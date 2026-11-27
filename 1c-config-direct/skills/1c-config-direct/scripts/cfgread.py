@@ -288,7 +288,26 @@ def field_settings(owner, props):
         links.append('%s = %s%s' % (name, short(owner, path), '' if change.startswith('Clear') else ' (' + change))
     if links:
         parts.append('ChoiceParameterLinks: ' + ', '.join(links))
+    fv = props.get('FillValue')                    # the empty value of the type is the usual default
+    if fv and fv not in ('""', 'false', '0', '0001-01-01T00:00:00') and not fv.endswith('.EmptyRef'):
+        parts.append('FillValue=' + fv)
+    fmt, edit = in_language(props.get('Format')), in_language(props.get('EditFormat'))
+    if fmt:
+        parts.append('Format=' + fmt)
+    if edit and edit != fmt:
+        parts.append('EditFormat=' + edit)
+    parts += ['%s=%s' % (p, props[p]) for p in ('MinValue', 'MaxValue', 'ChoiceForm') if props.get(p)]
+    if props.get('LinkByType'):
+        path, _, item = props['LinkByType'].rpartition(' (')
+        parts.append('LinkByType=%s (%s' % (short(owner, path), item))
     return '; '.join(parts)
+
+
+def in_language(v):
+    """a string in languages -> its Russian (or Ukrainian, or first) text"""
+    if not isinstance(v, dict) or not v:
+        return ''
+    return v.get('ru') or v.get('uk') or next(iter(v.values()))
 
 
 def object_field_props(cfg, objects):
@@ -319,7 +338,8 @@ def cmd_fields(cfg, desc, facts, a):
         print('%-45s %-12s %-45s %s%s' % (f.obj, f.kind, name, show_type(f.types), extra))
         if a.props and not s and fprops.get(f.uuid):
             p = fprops[f.uuid]
-            print('%-45s %s' % ('', ', '.join('%s=%s' % (k, p[k]) for k in sorted(p) if not isinstance(p[k], list))))
+            shown_v = lambda v: ' '.join(in_language(v).split()) if isinstance(v, dict) else v
+            print('%-45s %s' % ('', ', '.join('%s=%s' % (k, shown_v(p[k])) for k in sorted(p) if not isinstance(p[k], list))))
 
 
 def select_objects(cfg, flt):
@@ -684,6 +704,8 @@ def cmd_check(cfg, desc, facts, a):
             for p, v in props.items():
                 if p not in x:
                     continue
+                if isinstance(v, dict):                        # strings in languages: line ends as the XML parser leaves them
+                    v = {k: t.replace('\r', '') for k, t in v.items()}
                 if (list(v) if isinstance(v, list) else v) == x[p]:
                     fpr['equal'] += 1
                 else:

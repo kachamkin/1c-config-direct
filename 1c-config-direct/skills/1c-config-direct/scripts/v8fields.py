@@ -130,10 +130,13 @@ def value(names, v):
     k = v[0]
     if k == '"B"':
         return 'true' if len(v) > 1 and v[1] == '1' else 'false'
-    if k == '"S"':
-        return '"%s"' % (unq(v[1]) if len(v) > 1 else '')
+    if k == '"S"':                         # a fixed-length string is stored padded; the XML dump drops the padding
+        return '"%s"' % (unq(v[1]).rstrip(' ') if len(v) > 1 else '')
     if k == '"N"':
         return v[1] if len(v) > 1 else '0'
+    if k == '"D"' and len(v) > 1 and len(v[1]) == 14:       # 20240131235959 -> 2024-01-31T23:59:59, as in XML
+        d = v[1]
+        return '%s-%s-%sT%s:%s:%s' % (d[0:4], d[4:6], d[6:8], d[8:10], d[10:12], d[12:14])
     if k == '"U"':
         return ''
     if k == '"#"' and len(v) >= 3 and v[1] == DESIGN_TIME_REF and isinstance(v[2], list) and len(v[2]) >= 3:
@@ -165,6 +168,18 @@ def _part(comp, owner, cls, p):
     return '?'
 
 
+def _path(comp, owner, cls, parts):
+    """the steps of a data path -> the path the XML dump writes"""
+    if len(parts) == 1:
+        return _part(comp, owner, cls, parts[0])
+    # a tabular section of the object and its attribute: named by the attribute, as the XML dump does; otherwise raw
+    steps = [comp.names.get(p[1]) if isinstance(p, list) and len(p) >= 2 and p[0] == '0' else None for p in parts]
+    if all(steps) and steps[0].startswith(owner + '.') and \
+            all(steps[j + 1].startswith(steps[j] + '.') for j in range(len(steps) - 1)):
+        return steps[-1]
+    return '/'.join(('0:' + p[1]) if len(p) >= 2 and p[0] == '0' else p[0] for p in parts if isinstance(p, list) and p)
+
+
 def choice_links(comp, owner, cls, node):
     """{5006,N,"<name>",K,<part>…,<change>,…} -> ['<name> = <data path> (<Clear|DontChange>)']"""
     if not (isinstance(node, list) and len(node) >= 2 and node[1].isdigit()):
@@ -176,19 +191,34 @@ def choice_links(comp, owner, cls, node):
         name, k = unq(node[i]), int(node[i + 1]) if node[i + 1].isdigit() else 0
         parts = node[i + 2:i + 2 + k]
         change = node[i + 2 + k] if i + 2 + k < len(node) else '?'
-        if k == 1:
-            path = _part(comp, owner, cls, parts[0])
-        else:
-            # a tabular section and its attribute: named by the attribute, as the XML dump does; otherwise written raw
-            steps = [comp.names.get(p[1]) if isinstance(p, list) and len(p) >= 2 and p[0] == '0' else None for p in parts]
-            if all(steps) and steps[0].startswith(owner + '.') and \
-                    all(steps[j + 1].startswith(steps[j] + '.') for j in range(len(steps) - 1)):
-                path = steps[-1]
-            else:
-                path = '/'.join(('0:' + p[1]) if len(p) >= 2 and p[0] == '0' else p[0] for p in parts if isinstance(p, list) and p)
-        out.append('%s = %s (%s)' % (name, path, VALUE_CHANGE.get(change, '?' + str(change))))
+        out.append('%s = %s (%s)' % (name, _path(comp, owner, cls, parts), VALUE_CHANGE.get(change, '?' + str(change))))
         i += 3 + k
     return out
+
+
+def localized(node):
+    """{N,"ru","текст","uk","текст"} -> {'ru': 'текст', …} ({0} -> {})"""
+    if not (isinstance(node, list) and node and isinstance(node[0], str) and node[0].isdigit()):
+        return None
+    s = [unq(x) for x in node[1:] if isinstance(x, str)]
+    return {lang: t for lang, t in zip(s[::2], s[1::2]) if t}
+
+
+def link_by_type(comp, owner, cls, node):
+    """{3,K,<step>×K,<link item>} -> '<data path> (<link item>)' ('' when not set)"""
+    if not (isinstance(node, list) and len(node) >= 3 and node[1].isdigit()):
+        return None
+    k = int(node[1])
+    if k == 0:
+        return ''
+    steps = node[2:2 + k]
+    item = node[2 + k] if 2 + k < len(node) else '?'
+    return '%s (%s)' % (_path(comp, owner, cls, steps), item)
+
+
+# value properties of the common block: place -> (property, kind)
+VALUE_PLACES = {3: ('Format', 'localized'), 4: ('ToolTip', 'localized'), 8: ('MinValue', 'value'), 9: ('MaxValue', 'value'),
+                11: ('ChoiceForm', 'form'), 15: ('LinkByType', 'link'), 18: ('EditFormat', 'localized'), 19: ('FillValue', 'value')}
 
 
 def _scalar(token, codec, comp=None):
@@ -212,6 +242,21 @@ def object_field_props(cfg, it, tree):
     if names is None:
         names = cfg._field_names = Names(cfg, comp)
     out = {}
+    string_fields = getattr(cfg, '_string_fields', None)
+    if string_fields is None:              # an empty string is a fill value only for a field that can hold a string
+        fields = list(cfg.fields())
+        own = {f.obj: f.types for f in fields if f.kind == 'Type' and f.obj.startswith('DefinedTypes.')}
+
+        def has_string(types, depth=0):     # a defined type counts with its types; a characteristic does not
+            for k, v in types:
+                if k == 'String':
+                    return True
+                if k == 'TypeSet' and isinstance(v, str) and v.startswith('DefinedType.') and depth < 3:
+                    sub = own.get('DefinedTypes.' + v.split('.', 1)[1])
+                    if sub and has_string(sub, depth + 1):
+                        return True
+            return False
+        string_fields = cfg._string_fields = {f.uuid for f in fields if has_string(f.types)}
     for uuid, (kind, ts, common, field) in field_nodes(tree).items():
         props = {}
         for p, d in t['common'].get(common[0], {}).items():
@@ -225,12 +270,28 @@ def object_field_props(cfg, it, tree):
             v = _scalar(field[d['place']] if d['place'] < len(field) else None, d['codec'], comp)
             if v is not None:
                 props[p] = v
-        if common[0] == '27':
+        if common[0] in ('25', '27'):
             cp = choice_parameters(names, common[COMMON_PARAMETERS]) if len(common) > COMMON_PARAMETERS else None
             cl = choice_links(comp, it.path, it.cls, common[COMMON_LINKS]) if len(common) > COMMON_LINKS else None
             if cp is not None:
                 props['ChoiceParameters'] = cp
             if cl is not None:
                 props['ChoiceParameterLinks'] = cl
+            for place, (prop, kind) in VALUE_PLACES.items():
+                node = common[place] if place < len(common) else None
+                if node is None:
+                    continue
+                if kind == 'localized':
+                    v = localized(node)
+                elif kind == 'value':
+                    v = value(names, node) if isinstance(node, list) else None
+                    if v == '""' and uuid not in string_fields:   # old objects keep "" in a reference or number field;
+                        v = ''                                     # the XML dump writes it as no value
+                elif kind == 'form':
+                    v = ('' if node == ZERO else comp.names.get(node, node)) if isinstance(node, str) else None
+                else:
+                    v = link_by_type(comp, it.path, it.cls, node)
+                if v is not None:
+                    props[prop] = v
         out[uuid] = props
     return out
