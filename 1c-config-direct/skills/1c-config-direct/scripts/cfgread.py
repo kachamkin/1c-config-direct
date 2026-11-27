@@ -7,7 +7,8 @@
 #            <file.cf> | <file.cfe>          configuration file
 #            <1Cv8.1CD> | <file base folder> Config table of a file infobase (storage format 8.3.8), read in place
 #            <folder>                        rows already dumped one file per FileName
-# commands:  info | objects | modules | module | grep | fields | props | usedby | predefined | export | diff | check
+# commands:  info | objects | modules | module | grep | fields | props | usedby | predefined | rights | export | diff |
+#            check
 #            (see SKILL.md)
 import sys
 sys.dont_write_bytecode = True                          # no __pycache__ inside the skill folder
@@ -429,6 +430,187 @@ def cmd_predefined(cfg, desc, facts, a):
         print('no predefined items' + (' for ' + a.filter if a.filter else ''))
 
 
+RIGHT_RU = {'чтение': 'Read', 'добавление': 'Insert', 'изменение': 'Update', 'удаление': 'Delete', 'просмотр': 'View',
+            'редактирование': 'Edit', 'проведение': 'Posting', 'отменапроведения': 'UndoPosting',
+            'интерактивноедобавление': 'InteractiveInsert', 'интерактивноеудаление': 'InteractiveDelete',
+            'интерактивнаяпометкаудаления': 'InteractiveSetDeletionMark',
+            'интерактивноеснятиепометкиудаления': 'InteractiveClearDeletionMark',
+            'интерактивноеудалениепомеченных': 'InteractiveDeleteMarked', 'интерактивноепроведение': 'InteractivePosting',
+            'интерактивноепроведениенеоперативное': 'InteractivePostingRegular',
+            'интерактивнаяотменапроведения': 'InteractiveUndoPosting',
+            'интерактивноеизменениепроведенных': 'InteractiveChangeOfPosted', 'вводпостроке': 'InputByString',
+            'использование': 'Use', 'получение': 'Get', 'установка': 'Set', 'старт': 'Start', 'интерактивныйстарт': 'InteractiveStart',
+            'выполнение': 'Execute', 'интерактивноевыполнение': 'InteractiveExecute', 'интерактивнаяактивация': 'InteractiveActivate',
+            'управлениеитогами': 'TotalsControl', 'администрирование': 'Administration',
+            'администрированиеданных': 'DataAdministration', 'тонкийклиент': 'ThinClient', 'толстыйклиент': 'ThickClient',
+            'вебклиент': 'WebClient', 'внешнеесоединение': 'ExternalConnection', 'вывод': 'Output',
+            'сохранениеданныхпользователя': 'SaveUserData', 'монопольныйрежим': 'ExclusiveMode',
+            'активныепользователи': 'ActiveUsers', 'журналрегистрации': 'EventLog'}
+
+
+def right_query(q):
+    """a right asked for in English or Russian -> its English name, or None"""
+    if not q:
+        return None
+    import v8roles
+    k = q.lower().replace(' ', '')
+    known = {n.lower(): n for n in v8roles.table()['rights'].values()}
+    return known.get(k) or RIGHT_RU.get(k) or q
+
+
+def rights_line(cfg, role, ob, name, want=None):
+    """(text, conditions) of one role object for the screen, or None when it says nothing: granted rights where the
+    default is not granted, the denied ones where it is, and the rights with conditions"""
+    import v8roles
+    eff = v8roles.effective(name, role.flags, ob)
+    conds = v8roles.conditions(cfg, ob)
+    if want:
+        if want not in eff and want not in conds:
+            return None
+        eff = {want: eff.get(want, v8roles.default(name, role.flags))}
+        conds = {k: v for k, v in conds.items() if k == want}
+    d = v8roles.default(name, role.flags)
+    granted = [n for n, v in eff.items() if v]
+    denied = [n for n, v in eff.items() if not v]
+    if want:
+        txt = want if eff[want] else 'none'
+    elif d:
+        txt = ('all except ' + ', '.join(denied)) if denied else ('all' if want or conds else '')
+    else:
+        txt = ', '.join(granted) if granted else ('none' if want or conds else '')
+    if not txt and not conds:
+        return None
+    return txt + (('  | RLS: ' + ', '.join(conds)) if conds else ''), conds
+
+
+def print_conditions(conds, indent):
+    for n, lst in conds.items():
+        for fields, text_ in lst:
+            head = '%s%s%s:' % (indent, n, (' [' + ', '.join(fields) + ']') if fields else '')
+            body = text_.replace('\r', '').split('\n')
+            print(head, body[0] if len(body) == 1 else '')
+            if len(body) > 1:
+                for l in body:
+                    print(indent + '    ' + l)
+
+
+def object_query(q):
+    """a filter of role objects in the names the XML dump uses: Справочник.Валюты -> Catalog.Валюты"""
+    import v8roles
+    from v8meta import SINGULAR
+    q = normalize_query(q).rstrip('.')
+    parts = q.split('.')
+    if parts[0] in SINGULAR or parts[0] in v8roles.EXTRA_SINGULAR:          # Документ. -> Document.
+        return (v8roles.xml_name(q) if len(parts) > 1 else v8roles.singular(parts[0]) + '.').lower()
+    return q.lower()
+
+
+def grouped(rows):
+    """[(name, (text, conditions))] -> [(object, [(relative name, text, conditions)])]: each object with its fields,
+    commands … after it, in name order"""
+    import v8roles
+    by = collections.OrderedDict()
+    for nm, (txt, conds) in sorted(rows, key=lambda r: r[0]):
+        parts = nm.split('.')
+        top = '.'.join(parts[:2])
+        by.setdefault(top, []).append(('.'.join(parts[2:]), txt, conds))
+    return list(by.items())
+
+
+def print_object(top, subs, rls, lead='', width=40):
+    """an object line, then its fields: the rights most of them share on one line, the others one by one"""
+    own = [x for x in subs if not x[0]]
+    rest = [x for x in subs if x[0]]
+    pad = ' ' * (width + 4)
+    print('%-*s %-58s %s' % (width, lead, top, own[0][1] if own else '-'))
+    if rls and own:
+        print_conditions(own[0][2], pad)
+    common = collections.Counter(t for r, t, c in rest if not c).most_common(1)
+    common = common[0] if common and common[0][1] > 2 else None
+    if common:
+        print('%-*s %-58s %s' % (width, '', '   %d of %d fields and commands' % (common[1], len(rest)), common[0]))
+    for r, t, c in rest:
+        if common and t == common[0] and not c:
+            continue
+        print('%-*s %-58s %s' % (width, '', '   ' + r, t))
+        if rls:
+            print_conditions(c, pad)
+
+
+def cmd_rights(cfg, desc, facts, a):
+    import v8roles
+    want = right_query(a.right)
+    if not a.filter:                                          # the roles of the configuration, one per line
+        yn = lambda v: 'yes' if v else 'no'
+        print('%-50s %-6s %-6s %-6s %8s %9s  %s' % ('role', 'new', 'attrs', 'indep', 'objects', 'templates', 'synonym'))
+        for it in sorted((i for i in cfg.items.values() if i.cls == 'Roles'), key=lambda i: i.name):
+            role = v8roles.read(cfg, it)
+            if role is None:
+                continue
+            print('%-50s %-6s %-6s %-6s %8d %9d  %s' % (it.name, yn(role.flags[0]), yn(role.flags[1]), yn(role.flags[2]),
+                                                     len(role.objects), len(role.templates), it.synonyms.get('ru') or it.synonyms.get('uk') or ''))
+        print('new: set for new objects; attrs: for attributes by default; indep: independent rights of child objects')
+        return
+    hits = select_objects(cfg, a.filter)
+    roles = [it for it, t in hits if it.cls == 'Roles']
+    if not hits:
+        print('nothing matches ' + a.filter)
+        return
+    if roles and len(roles) == len(hits):                     # what roles give
+        q = object_query(a.path) if a.path else ''
+        for it in roles:
+            role = v8roles.read(cfg, it)
+            syn = it.synonyms.get('ru') or it.synonyms.get('uk') or ''
+            print('%s%s' % (it.path, ('  — ' + syn) if syn else ''))
+            if role is None:
+                print('   no rights stored')
+                continue
+            new, attr, ind = role.flags
+            yn = lambda v: 'yes' if v else 'no'
+            print('   set for new objects: %s | for attributes by default: %s | independent rights of child objects: %s'
+                  % (yn(new), yn(attr), yn(ind)))
+            print('   objects not listed: %s; fields and commands not listed: as their object' % ('all rights' if new else 'no rights'))
+            rows = []
+            for ob in role.objects:
+                nm = v8roles.object_name(cfg, ob.ref)
+                if nm is None or (q and q not in nm.lower()):
+                    continue                                   # gone, or not asked for
+                line = rights_line(cfg, role, ob, nm, want)
+                if line:
+                    rows.append((nm, line))
+            for top, subs in grouped(rows):
+                print_object(top, subs, a.rls, '', 2)
+            if role.templates and not want:
+                print('   restriction templates: ' + ', '.join(n for n, t in role.templates))
+                if a.rls:
+                    for n, t in role.templates:
+                        print('      #%s:' % n)
+                        for l in t.replace('\r', '').split('\n'):
+                            print('          ' + l)
+        return
+    # which roles give rights to an object, its fields and commands
+    rn = v8roles.names(cfg)
+    targets = [rn[it.uuid][0] for it, t in hits if it.cls != 'Roles' and it.uuid in rn]
+    if not targets:
+        print('no roles: %s is not an object a role gives rights to' % a.filter)
+        return
+    for it in sorted((i for i in cfg.items.values() if i.cls == 'Roles'), key=lambda i: i.name):
+        role = v8roles.read(cfg, it)
+        if role is None:
+            continue
+        rows = []
+        for ob in role.objects:
+            nm = v8roles.object_name(cfg, ob.ref)
+            if nm and any(nm == t or nm.startswith(t + '.') for t in targets):
+                line = rights_line(cfg, role, ob, nm, want)
+                if line:
+                    rows.append((nm, line))
+        if not rows and role.flags[0] and not want:
+            print('%-40s %-58s %s' % (it.name, ', '.join(targets)[:58], 'all rights (set for new objects)'))
+        for k, (top, subs) in enumerate(grouped(rows)):
+            print_object(top, subs, a.rls, it.name if k == 0 else '')
+
+
 def cmd_usedby(cfg, desc, facts, a):
     q = normalize_query(a.name).rstrip('.')
     ql = q.lower()
@@ -483,13 +665,24 @@ def cmd_export(cfg, desc, facts, a):
         for it, tree in cfg.trees():
             for prop, v, how in cfg.properties(it, tree):
                 f.write('%s\t%s\t%s\t%s\n' % (it.path, prop, show_value(v).replace('\t', ' ').replace('\n', ' '), how))
+    import v8roles
+    with open(os.path.join(a.dir, 'rights.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
+        for it in cfg.items.values():
+            role = v8roles.read(cfg, it) if it.cls == 'Roles' else None
+            for ob in role.objects if role else ():
+                nm = v8roles.object_name(cfg, ob.ref)
+                if nm is None:
+                    continue
+                eff = v8roles.effective(nm, role.flags, ob)
+                f.write('%s\t%s\t%s\t%s\t%s\n' % (it.path, nm, ', '.join(n for n, v in eff.items() if v),
+                                                 ', '.join(n for n, v in eff.items() if not v), ', '.join(v8roles.conditions(cfg, ob))))
     from v8pred import shown_code, details
     with open(os.path.join(a.dir, 'predefined.tsv'), 'w', encoding='utf-8-sig', newline='\r\n') as f:
         for it, rows in predefined_rows(cfg):
             for k, (d, x) in enumerate(rows):
                 f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (it.path, item_path(rows, k), shown_code(x), x.description.replace('\t', ' '),
                                                     details(x), x.uuid))
-    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv, predefined.tsv%s' % (
+    print('exported %d modules to %s (%d without source text skipped); objects.tsv, props.tsv, predefined.tsv, rights.tsv%s' % (
         n, a.dir, skipped, '' if a.no_fields else ', fields.tsv'))
 
 
@@ -550,6 +743,34 @@ def cmd_diff(cfg, desc, facts, a):
             a_, b_ = d1[k], d2[k]
             print('  ~ %s%s | %s -> %s' % (a_[0], (' -> ' + b_[0]) if a_[0] != b_[0] else '',
                                            ' '.join(filter(None, a_[1:]))[:90], ' '.join(filter(None, b_[1:]))[:90]))
+    if a.rights:                                        # (role, object) -> granted, denied, rights with conditions
+        import v8roles
+        q = normalize_query(a.path).lower() if a.path else ''
+
+        def rd(c):
+            out = {}
+            for it in c.items.values():
+                role = v8roles.read(c, it) if it.cls == 'Roles' else None
+                for ob in role.objects if role else ():
+                    nm = v8roles.object_name(c, ob.ref)
+                    if nm is None or (q and q not in nm.lower() and q not in it.path.lower()):
+                        continue
+                    eff = v8roles.effective(nm, role.flags, ob)
+                    conds = {k: [(f, t.replace('\r', '')) for f, t in v] for k, v in v8roles.conditions(c, ob).items()}
+                    out[(it.path, nm)] = (eff, conds, v8roles.default(nm, role.flags))
+            return out
+        r1, r2 = rd(cfg), rd(other)
+        changed_r = sorted(k for k in set(r1) & set(r2) if r1[k][:2] != r2[k][:2])
+        print('rights: %d role objects only in A, %d only in B, %d changed' % (len(set(r1) - set(r2)), len(set(r2) - set(r1)), len(changed_r)))
+        for k in sorted(set(r1) - set(r2)):
+            print('  - only A  %s %s' % k)
+        for k in sorted(set(r2) - set(r1)):
+            print('  + only B  %s %s' % k)
+        for k in changed_r:
+            (e1, c1, d1), (e2, c2, d2) = r1[k], r2[k]
+            ch = ['+' + n for n, v in e2.items() if v and not e1.get(n, d1)] + ['-' + n for n, v in e2.items() if not v and e1.get(n, d1)]
+            ch += ['RLS ' + n for n in sorted(set(c1) | set(c2)) if c1.get(n) != c2.get(n)]
+            print('  ~ %s %s: %s' % (k + (', '.join(ch) or 'stored list changed',)))
     if a.fields:
         q = normalize_query(a.path).lower() if a.path else ''
         f1 = {'%s %s' % (f.obj, (f.path + '.' if f.path else '') + f.name): show_type(f.types) for f, s in field_rows(cfg) if q in f.obj.lower()}
@@ -795,6 +1016,55 @@ def cmd_check(cfg, desc, facts, a):
     print('predefined items vs XML:', dict(pdr), '| kinds of differences:', len(pdbad))
     for (cls, k), rows in sorted(pdbad.items(), key=lambda kv: -len(kv[1]))[:10]:
         print('    %s %s: %d, e.g. %s' % (cls, k, len(rows), rows[0]))
+    # rights of roles against Ext/Rights.xml: what the dump writes (rights that differ from the default of the role or
+    # have conditions), their conditions, the role flags and the restriction templates
+    import v8roles
+    rr, rbad = collections.Counter(), collections.defaultdict(list)
+    eol = lambda t: t.replace('\r', '')
+    for it in cfg.items.values():
+        if it.cls != 'Roles':
+            continue
+        xp = os.path.join(conf, 'Roles', it.name, 'Ext', 'Rights.xml')
+        role = v8roles.read(cfg, it)
+        if role is None or not os.path.isfile(xp):
+            continue
+        xflags, xobjs, xtempl, xver = v8roles.xml_role(xp)
+        rr['role flags ' + ('equal' if xflags == role.flags else 'differ')] += 1
+        if xflags != role.flags:
+            rbad['role flags'].append(it.name)
+        same_t = [(n, eol(t)) for n, t in role.templates] == xtempl
+        rr['templates ' + ('equal' if same_t else 'differ')] += 1
+        if not same_t:
+            rbad['templates'].append(it.name)
+        seen = set()
+        for ob in role.objects:
+            nm = v8roles.object_name(cfg, ob.ref)
+            if nm is None:
+                rr['object gone'] += 1
+                continue
+            conds = v8roles.conditions(cfg, ob)
+            got = v8roles.written(nm, role.flags, v8roles.effective(nm, role.flags, ob), conds, xver)
+            want = xobjs.get(nm, {})
+            seen.add(nm)
+            for n in set(got) | set(want):
+                g, w = got.get(n), want.get(n, (None, []))[0]
+                if g == w:
+                    rr['right equal'] += 1
+                else:
+                    rr['right differs'] += 1; rbad[(v8roles.kind(nm), n)].append('%s %s: %s | XML: %s' % (it.name, nm, g, w))
+                gc = [(f, eol(t)) for f, t in conds.get(n, [])] if g is not None else []
+                wc = want.get(n, (None, []))[1]
+                if gc or wc:
+                    if gc == wc:
+                        rr['condition equal'] += 1
+                    else:
+                        rr['condition differs'] += 1; rbad[('condition', n)].append('%s %s' % (it.name, nm))
+        for nm in xobjs:
+            if nm not in seen:
+                rr['object only in XML'] += 1; rbad[('only in XML', v8roles.kind(nm))].append('%s %s' % (it.name, nm))
+    print('rights of roles vs XML:', dict(rr), '| kinds of differences:', len(rbad))
+    for k, rows in sorted(rbad.items(), key=lambda kv: -len(kv[1]))[:10]:
+        print('    %s: %d, e.g. %s' % (k, len(rows), rows[0]))
 
 
 def main():
@@ -816,12 +1086,14 @@ def main():
     s.add_argument('--props', action='store_true', help='every known property of each field on a line of its own')
     s = sub.add_parser('props'); s.add_argument('filter', nargs='?'); s.add_argument('--prop'); s.add_argument('--all', action='store_true')
     s = sub.add_parser('usedby'); s.add_argument('name'); s.add_argument('--types', action='store_true')
+    s = sub.add_parser('rights'); s.add_argument('filter', nargs='?'); s.add_argument('--right', help='one right (Read, Чтение …)')
+    s.add_argument('--path', help='objects of a role: part of the name'); s.add_argument('--rls', action='store_true', help='texts of conditions and templates')
     s = sub.add_parser('predefined'); s.add_argument('filter', nargs='?')
     s.add_argument('--ids', action='store_true', help='item uuid too: the _PredefinedID of its row in the database (bytes in the 1C order)')
     s = sub.add_parser('export'); s.add_argument('dir'); s.add_argument('--path'); s.add_argument('--no-fields', action='store_true')
     s = sub.add_parser('diff'); s.add_argument('other'); s.add_argument('--path'); s.add_argument('--show')
     s.add_argument('--ctx', type=int, default=2); s.add_argument('--fields', action='store_true'); s.add_argument('--props', action='store_true')
-    s.add_argument('--predefined', action='store_true')
+    s.add_argument('--predefined', action='store_true'); s.add_argument('--rights', action='store_true')
     s = sub.add_parser('check'); s.add_argument('conf')
     a = p.parse_args()
     t0 = time.time()
